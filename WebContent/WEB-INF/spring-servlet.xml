@@ -45,4 +45,7 @@
 	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
 	<bean id="userDao" class="es.uji.ei1027.easyrent.dao.UserDao" />
 	
+	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
+	<bean id="administratorDao" class="es.uji.ei1027.easyrent.dao.AdministratorDao" />
+	
 </beans>

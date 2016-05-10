@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3 col-sm-6" style="float: none;margin: 0 auto;">
-	            <div class="card hovercard">
+	            <div class="card hovercard" style="background-color:#ccffff">
 	                <div class="cardheader">
 	
 	                </div>
@@ -28,20 +28,8 @@
 	                    <div class="desc">${user.phoneNumber}</div>
 	                </div>
 	                <div class="bottom">
-	                    <a class="btn btnCircle btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac">
-	                        <i class="fa fa-twitter"></i>
-	                    </a>
-	                    <a class="btn btnCircle btn-danger btn-sm" rel="publisher"
-	                       href="https://plus.google.com/+ahmshahnuralam">
-	                        <i class="fa fa-google-plus"></i>
-	                    </a>
-	                    <a class="btn btnCircle btn-primary btn-sm" rel="publisher"
-	                       href="https://plus.google.com/shahnuralam">
-	                        <i class="fa fa-facebook"></i>
-	                    </a>
-	                    <a class="btn btnCircle btn-warning btn-sm" rel="publisher" href="https://plus.google.com/shahnuralam">
-	                        <i class="fa fa-behance"></i>
-	                    </a>
+	                    <a class="btn btn-warning" href="${pageContext.request.contextPath}/user/update.html">Editar</a>
+	                    <a class="btn btn-danger" href="${pageContext.request.contextPath}/user/delete.html">Eliminar</a>
 	                </div>
 	            </div>
 	        </div>
