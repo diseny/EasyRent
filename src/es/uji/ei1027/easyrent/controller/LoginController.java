@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.uji.ei1027.easyrent.dao.AdministratorDao;
 import es.uji.ei1027.easyrent.dao.OwnerDao;
 import es.uji.ei1027.easyrent.dao.TenantDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
@@ -49,6 +50,9 @@ public class LoginController {
 	@Autowired
 	private TenantDao tenantDao;
 	
+	@Autowired
+	private AdministratorDao administratorDao;
+	
    @Autowired 
    public void setUserDao(UserDao userDao) {
        this.userDao = userDao;
@@ -62,6 +66,11 @@ public class LoginController {
    @Autowired 
    public void setTenantDao(TenantDao tenantDao) {
        this.tenantDao = tenantDao;
+   }
+   
+   @Autowired 
+   public void setAdministratorDao(AdministratorDao administratorDao) {
+       this.administratorDao = administratorDao;
    }
    
 	@RequestMapping("/login")
@@ -88,6 +97,8 @@ public class LoginController {
 				s = tenantDao.getTenant(user.getUsername());
 			} else if(user.getRole().equals("Owner")){
 				s = ownerDao.getOwner(user.getUsername());
+			} else {
+				s = administratorDao.getAdministrator(user.getUsername());
 			}
 			userSession = createUser(s);
 			userSession.setPassword(user.getPassword());
