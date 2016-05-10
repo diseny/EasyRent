@@ -1,29 +1,48 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>EasyRent - Gestionar credenciales</title>
-</head>
-<body>
-	<h1>Lista de credenciales</h1>
-	<table>
-		<tr>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:paginabasica title="Lista de credenciales">
+<jsp:body>
+	<h2>Credenciales de los usuarios</h2>
+	<table class="table table-striped"> 
+		<tr> 
+			<th>#</th>
 			<th>Usuario</th>
 			<th>Contraseña</th>
 			<th>Rol</th>
+			<th>DNI</th>
+			<th>Nombre</th>
+			<th>Apellidos</th>
+			<th>Email</th>
+			<th>CP</th>
+			<th>Registro</th>
+			<th>Teléfono</th>
+			<th>Activo</th>
 		</tr>
-		<c:forEach items="${credentials}" var="cred">
-			<tr>
+		<c:forEach items="${credentials}" var="cred" varStatus="loop">
+			<tr class="fons">
+				<td>${loop.index + 1}</td>
 				<td>${cred.username}</td>
 				<td>${cred.password}</td>
 				<td>${cred.role}</td>
-				<td><a href="update/${cred.username}.html">Edita</a>
-				<td><a href="delete/${cred.username}.html">Borra</a>
+				<td>${cred.nationalId}</td>
+				<td>${cred.name}</td>
+				<td>${cred.surname}</td>
+				<td>${cred.email}</td>
+				<td>${cred.postalAddress}</td>
+				<td>${cred.registrationDate}</td>
+				<td>${cred.phoneNumber}</td>
+				<c:choose>
+					<c:when test="${cred.isActive == 'true'}">
+						<td>Sí</td>
+					</c:when>
+					<c:otherwise>
+						<td>No</td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
-		</c:forEach>
+		</c:forEach> 
 	</table>
-	<a href="add.html">Añade credenciales</a>
-</body>
-</html>
+</jsp:body>
+</t:paginabasica>
