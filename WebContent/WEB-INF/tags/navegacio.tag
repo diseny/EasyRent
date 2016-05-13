@@ -8,7 +8,7 @@
 <img src="${pageContext.request.contextPath}/images/easyrent.jpg" alt="EasyRent logo" style="width:100px;height:70px;float:left">
 </div>
 <div class="col-md-11">
-
+<!--  comentario de prueba -->
 <nav class="navbar navbar-default" role="navigation">
                   <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
