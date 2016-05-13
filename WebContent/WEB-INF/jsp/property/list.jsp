@@ -4,7 +4,7 @@
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
-	<h2>Últimas propiedades registradas</h2>
+	<h2>Propiedades registradas</h2>
 	<table class="table table-striped navProperty"> 
 		<tr> 
 			<th></th>
