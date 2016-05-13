@@ -1,3 +1,10 @@
+
+@import url('../css/bootstrap.css');
+@import url('../css/bootstrap-theme.min.css');
+@import url('../css/bienvenida.css');
+@import url('../css/bootflat/css/bootflat.css');
+@import url('../css/bootflat/css/bootflat.css.map');
+@import url('../css/bootflat/css/bootflat.min.css');
 .loggeduser { 
 	color: gray;				
 	text-align: right;
