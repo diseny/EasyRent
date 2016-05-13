@@ -10,7 +10,7 @@
 		<h1>RESERVA TU ALOJAMIENTO ONLINE</h1>
 		<h2>Rápido de reservar. 100% seguro</h2>
 	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3" >
-	
+	<!--Hola-->
 	</div>
 </div>
 
