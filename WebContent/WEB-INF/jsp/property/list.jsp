@@ -5,7 +5,19 @@
 <t:paginabasica title="EasyRent">
 <jsp:body>
 	<h2>Últimas propiedades registradas</h2>
-	<table class="table table-striped"> 
+	<table class="table table-striped navProperty"> 
+		<tr> 
+			<th></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th></th>
+		</tr>
 		<tr> 
 			<th>#</th>
 			<th>Imagen</th>
