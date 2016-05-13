@@ -27,8 +27,10 @@
 	</header>
 	<t:navegacio />
 	<div class="loggeduser"><t:logininfo /></div>
+	<div class="container">
 	<div class="row">
 		<jsp:doBody />
+	</div>
 	</div>
 	<footer>
 	<t:footer></t:footer>
