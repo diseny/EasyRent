@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69185953-ba3d-4ab7-9059-7f8c8d434b09" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/WEB-INF/tags/navegacio.tag" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/tags/navegacio.tag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/WEB-INF/tags/paginabasica.tag" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/tags/paginabasica.tag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/css/easyrent.css" afterPath="$PROJECT_DIR$/WebContent/css/easyrent.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/index.jsp" afterPath="$PROJECT_DIR$/WebContent/index.jsp" />
-    </list>
+    <list default="true" id="69185953-ba3d-4ab7-9059-7f8c8d434b09" name="Default" comment="" />
     <ignored path="EasyRent.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -91,12 +86,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1463131007292</updated>
-      <workItem from="1463131008429" duration="53000" />
+      <workItem from="1463131008429" duration="475000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53000" />
+    <option name="totallyTimeSpent" value="475000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="961" extended-state="6" />
