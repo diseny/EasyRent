@@ -37,12 +37,9 @@ public class InvoiceController {
 
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String processAddSubmit(@ModelAttribute("invoice") Invoice invoice, BindingResult bindingResult) {
-		//InvoiceValidator invoiceValidator = new InvoiceValidator();
-		//InvoiceValidator.validate(invoice, bindingResult);
 		if (bindingResult.hasErrors())
 			return "invoice/add";
 		try {
-			invoice.setIsActive(true);
 			invoiceDao.addInvoice(invoice);
 		} catch (Exception e) {
 			if(e.getMessage()==null){
