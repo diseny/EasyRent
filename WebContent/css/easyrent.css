@@ -1,11 +1,13 @@
 
 @import url('../css/bootstrap.css');
-@import url('../css/bootstrap-theme.min.css');
+
 @import url('../css/bienvenida.css');
 @import url('../css/bootflat/css/bootflat.css');
 @import url('../css/bootflat/css/bootflat.css.map');
 @import url('../css/bootflat/css/bootflat.min.css');
 @import url('../css/propertyList.css');
+@import url('../css/navegacio.css');
+
 
 .loggeduser { 
 	color: gray;				
