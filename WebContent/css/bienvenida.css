@@ -1,16 +1,35 @@
+.welcome-image{
+	position: fixed;
+	opacity:0.8;
+    height: 100%;
+    width: 100%;
+	background-image:url(../images/indexSearchBack.jpg) ;
+	background-size: cover;
+}
+.welcomeSearch{
+	position: absolute;
+    background-color: rgba(0, 0, 0, 0.498039);
+    border-radius: 8px;
+    height: 77px;
+    display:flex;
+}
+.welcomeSearch div{
+	align-self:center;
+}
 .indexSearch{
 	min-height:700px;
-	background-position:50%;
-	background-size:cover;
-	opacity:0.8;
+	background-color:transparent;
+	
 	text-align:center;
 }
-.indexSearch h1{font-weight:800;text-transform:uppercase;color:#fff;margin-top:150px}
+
+.indexSearch h1{font-weight:800;text-transform:uppercase;color:#fff;margin-top:200px}
 .indexSearch h2{text-transform:uppercase;color:#fff;font-weight: 700}
 .headerNav{
 	position: fixed;
     width: 100%;
     z-index: 100;
+    background-color: #fff;
 }
 .sponsors{
 	height:200px;
@@ -18,12 +37,19 @@
 	text-align:center;
 }
 .sp1 img{
-    height: 100%;
-   	width: 80%;
+   height: 69%;
+    width: 80%;
+    margin-top: 52px;
 }.sp2 img{
-	height: 100%;
+	    height: 87%;
     width: 110%;
+    margin-top: 18px;
 }.sp3 img {
-	height: 100%;
-    width: 55%;
+	    height: 100%;
+    margin-top: 13px;
+    width: 76%;
+}
+.index .container{
+	width:100%;
+	background-color:black;
 }
