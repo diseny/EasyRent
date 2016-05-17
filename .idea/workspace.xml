@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="69185953-ba3d-4ab7-9059-7f8c8d434b09" name="Default" comment="" />
+=======
     <list default="true" id="69185953-ba3d-4ab7-9059-7f8c8d434b09" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -11,6 +14,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/css/navegacio.css" afterPath="$PROJECT_DIR$/WebContent/css/navegacio.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebContent/index.jsp" afterPath="$PROJECT_DIR$/WebContent/index.jsp" />
     </list>
+>>>>>>> develop
     <ignored path="EasyRent.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -210,14 +214,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1463131007292</updated>
+<<<<<<< HEAD
+      <workItem from="1463131008429" duration="475000" />
+=======
       <workItem from="1463131008429" duration="53000" />
       <workItem from="1463251225191" duration="1144000" />
       <workItem from="1463392750665" duration="325000" />
+>>>>>>> develop
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="475000" />
+=======
     <option name="totallyTimeSpent" value="1522000" />
+>>>>>>> develop
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="811" extended-state="6" />
