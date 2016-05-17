@@ -6,7 +6,7 @@
 
 <t:paginabasica title="Perfil">
 <jsp:body>
-
+	<br><br><br>
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3 col-sm-6" style="float: none;margin: 0 auto;">
