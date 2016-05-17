@@ -6,7 +6,7 @@ public class Invoice {
 
 	private int trackingNumber;
 	private int invoiceNumber;
-	private Date invoiceDate;
+	private String invoiceDate;
 	private double vat;
 
 	public int getTrackingNumber() { 
@@ -25,11 +25,11 @@ public class Invoice {
 		this.invoiceNumber = invoiceNumber;
 	}
 	
-	public Date getInvoiceDate() { 
+	public String getInvoiceDate() { 
 		return invoiceDate; 
 	}
 	
-	public void setInvoiceDate(Date invoiceDate) { 
+	public void setInvoiceDate(String invoiceDate) { 
 		this.invoiceDate = invoiceDate; 
 	}
 		
