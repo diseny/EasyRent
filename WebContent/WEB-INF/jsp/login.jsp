@@ -3,9 +3,10 @@
 
 <t:paginabasica title="Login">
 <jsp:body>
+	
 	<h2>Acceso</h2>
 	<form:form method="post" modelAttribute="user"
-		action="${pageContext.request.contextPath}/login.html">
+		action="${pageContext.request.contextPath}/login.html" style="min-height: 330px;margin-top: 70px;">
 		<div class="form-group">
 		<p>
 			<form:label path="username">Usuario:</form:label>
@@ -24,5 +25,7 @@
 		<input type="submit" class="btn btn-info" value="Acceder" />
 		</div>
 	</form:form>
+	
+	
 </jsp:body>
 </t:paginabasica>

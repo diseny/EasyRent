@@ -5,11 +5,11 @@
 <c:set var="user" scope="request" value='${session.getAttribute("user")}'/>
 <div class="col-md-12 headerNav">
 <div class="col-md-1 logo-header">
-<img src="${pageContext.request.contextPath}/images/easyrent.jpg" alt="EasyRent logo" style="width:100px;height:70px;float:left">
+<img src="${pageContext.request.contextPath}/images/easyrent.jpg" alt="EasyRent logo" onclick="window.location.href='${pageContext.request.contextPath}/index.jsp'"style="">
 </div>
 <div class="col-md-11">
 <!--  comentario de prueba -->
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-custom" role="navigation">
                   <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -19,39 +19,99 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                       </button>
-                      <a class="navbar-brand" href="#">Bootflat</a>
+                     
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                      <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link</a></li>
-                        <!-- <li class="disabled"><a href="#">Link</a></li> -->
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li class="dropdown-header">Setting</li>
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li class="active"><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li class="disabled"><a href="#">One more separated link</a></li>
-                          </ul>
-                        </li>
+                      <ul class="nav navbar-nav navbar-right">
+                      	<li> <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
+                      
+                       
+            			<li><a href="${pageContext.request.contextPath}/property/list.html">Últimas propiedades</a></li>
+                     
+                      <c:choose>
+							<c:when test='${user.role == "Administrator"}'>
+	                      
+	                		<li><a href="${pageContext.request.contextPath}/owner/list.html">Gestión de propietarios</a></li>
+	                    
+	                		<li><a href="${pageContext.request.contextPath}/tenant/list.html">Gestión de clientes</a></li>
+	                    
+							<li><a href="${pageContext.request.contextPath}/credentials/list.html">Gestión de credentials</a></li>
+	                     
+	                      </c:when>
+	                  </c:choose>
+                  		<c:choose>
+							<c:when test='${user == null}'>
+		                     
+		               			 <button class="btn btn-primary register" onclick="showRegister()" >Registrate
+		               			 </button>
+		                     
+                      		</c:when>
+                      		<c:otherwise>
+	                      			<li>
+	                      			<button style="margin-top: 23px;"class="btn btn-warning" onclick="window.location.href='${pageContext.request.contextPath}/logout.html'">Cerrar Sesión</button>
+	                      		</li>
+	                      			<li><img src="${pageContext.request.contextPath}/images/user.png">
+	                      			<p>${user.username}</p>
+	                      		</li>
+	                      	</c:otherwise>
+                      	</c:choose>
                       </ul>
-                      <div >
-                      </div>
-                      <form class="navbar-form navbar-right" role="search">
-                        <div class="form-search search-only">
-                          <i class="search-icon glyphicon glyphicon-search"></i>
-                          <input type="text" class="form-control search-query">
-                        </div>
-                      </form>
-                    </div><!-- /.navbar-collapse -->
+              	    	<div >
+                	  </div>
+                    
                   </div><!-- /.container-fluid -->
                 </nav>
+                <div >
+               
+                </div>
 
 </div>
 </div>
-
+<div class="registerPop">
+	<div class="registerForm">
+	<img src="${pageContext.request.contextPath}/images/closeIcon.png" onclick="closeRegister()">
+		<div class="row">
+	<form method="post"  action="${pageContext.request.contextPath}/login.html">
+		<div class="form-group">
+			<div class="col-md-12 campos">
+			<div class="col-md-2 col-sm-2 col-xs-12">
+			<label >Usuario:</label>
+			</div>
+			<div class="col-md-10 col-sm-10 col-xs-12">
+				<input class="form-control col-md-9"  placeholder="Introduce tu usuario" name="username" required="required"/>
+			</div>
+			</div>
+			<div class="col-md-12 campos">
+				<div class="col-md-2 col-sm-2 col-xs-12">
+					<label>Contraseña:</label>
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-12">
+					<input type="password" class="form-control"  placeholder="Contraseña" name="password" required="required"/>
+				</div>
+			</div>
+			<div class="col-md-12 campos" >
+				<input type="submit" class="btn btn-info col-md-8 col-md-offset-2 " value="Registrarse" />
+			</div>
+			<div class="col-md-12 campos">
+				<p>¿Aún no tienes cuenta?<a href="${pageContext.request.contextPath}/user/checkin.html"> Registrate</a></p>
+				<a href="${pageContext.request.contextPath}/user/checkin.html">¿Has olvidado tu contraseña?</a>
+			</div>
+		</div>
+		</form>
+	
+	
+	
+		</div>
+	
+	</div>
+</div>
+<script>
+function showRegister(){
+	$('.registerPop').addClass('show');
+	
+}
+function closeRegister(){
+	$('.registerPop').removeClass('show');
+}
+</script>
