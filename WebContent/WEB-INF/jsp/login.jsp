@@ -3,7 +3,7 @@
 
 <t:paginabasica title="Login">
 <jsp:body>
-	
+	<br><br><br>
 	<h2>Acceso</h2>
 	<form:form method="post" modelAttribute="user"
 		action="${pageContext.request.contextPath}/login.html" style="min-height: 330px;margin-top: 70px;">

@@ -4,6 +4,7 @@
 
 <t:paginabasica title="Lista de credenciales">
 <jsp:body>
+	<br><br><br>
 	<h2>Credenciales de los usuarios</h2>
 	<table class="table table-striped"> 
 		<tr> 
