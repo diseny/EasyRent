@@ -5,17 +5,20 @@
 <t:paginabasica title="EasyRent">
 <jsp:body>
 	<h2>Propiedades registradas</h2>
-	<table class="table table-striped navProperty"> 
+	<table class="table table-striped navProperty" style="text-align:center;"> 
 		<tr> 
-			<th><!--COMENTARIO VIDEO --></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
-			<th><img src="${pageContext.request.contextPath}/images/sortDown.png" style="width:20px;height:20px;"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></th>
+			<th></th>
+			<th></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderOwnerDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderOwnerUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderTitleDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderTitleUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderCapacityDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderCapacityUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderRoomsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderRoomsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderBathroomsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderBathroomsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderBedsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderBedsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th style="width:80px"><a href="${pageContext.request.contextPath}/property/listOrderMetersDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderMetersUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderStreetDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderStreetUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderCityDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderCityUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
+			<th><a href="${pageContext.request.contextPath}/property/listOrderPriceDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderPriceUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>			
 			<th></th>
 		</tr>
 		<tr> 
@@ -25,6 +28,9 @@
 			<th>Título</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
+			<th>Baños</th>
+			<th>Camas</th>
+			<th>m<sup>2</sup></th>
 			<th>Calle</th>
 			<th>Ciudad</th>
 			<th>Precio(€/día)</th>
@@ -42,6 +48,9 @@
 				<td>${property.title}</td>
 				<td>${property.capacity}</td>
 				<td>${property.numRooms}</td>
+				<td>${property.numBathrooms}</td>
+				<td>${property.numBeds}</td>
+				<td>${property.squareMeters}</td>
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
