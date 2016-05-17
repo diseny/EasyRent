@@ -31,7 +31,7 @@ public class InvoiceDao {
 			Invoice invoice = new Invoice();
 			invoice.setTrackingNumber(rs.getInt("tracking_number"));
 			invoice.setInvoiceNumber(rs.getInt("invoice_number"));
-			invoice.setInvoiceDate(rs.getDate("invoice_date"));
+			invoice.setInvoiceDate(rs.getString("invoice_date"));
 			invoice.setVat(rs.getDouble("vat"));
 	    	return invoice;
 	    }
@@ -46,8 +46,8 @@ public class InvoiceDao {
 	}
 	
 	public void addInvoice(Invoice invoice) throws PSQLException{
-		//String []fecha = invoice.getInvoiceDate().split("-");
-		this.jdbcTemplate.update("INSERT INTO Invoice(tracking_number, invoice_number, invoice_date, vat) VALUES(?, ?, ?, ?);", invoice.getTrackingNumber(), invoice.getInvoiceNumber(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1), invoice.getVat());
+		String []fecha = invoice.getInvoiceDate().split("-");
+		this.jdbcTemplate.update("INSERT INTO Invoice(tracking_number, invoice_number, invoice_date, vat) VALUES(?, ?, ?, ?);", invoice.getTrackingNumber(), invoice.getInvoiceNumber(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), invoice.getVat());
 	}
 		
 	public void updateInvoice(Invoice invoice) {
