@@ -51,8 +51,13 @@ public class PropertyDao {
 		 return this.jdbcTemplate.query("SELECT * FROM Property;", new PropertyMapper());
 	}	
 	
+	public List<Property> getOrderedProperties(String field, String order) {
+		String query = "SELECT * FROM Property ORDER BY " + field + " " + order + ";";
+		return this.jdbcTemplate.query(query, new PropertyMapper());
+	}
+	
 	public Property getProperty(int id) {
-		return this.jdbcTemplate.queryForObject("SELECT * FROM Property WHERE id=?;",  new Object[] {id}, new PropertyMapper());
+		return this.jdbcTemplate.queryForObject("SELECT * FROM Property WHERE id=?;", new Object[] {id}, new PropertyMapper());
 	}
 	
 	public void addProperty(Property property) throws PSQLException{
