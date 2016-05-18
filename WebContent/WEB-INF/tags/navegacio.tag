@@ -39,9 +39,13 @@
 		               			 <button class="btn btn-primary register" onclick="showRegister()">Iniciar sesión</button>
                       		</c:when>
                       		<c:otherwise>
-                      			<li>
-                      				<p><a  href="${pageContext.request.contextPath}/user/profile.html"><img src="${pageContext.request.contextPath}/images/user.png"></a><br>
-                      				<a style="" href="${pageContext.request.contextPath}/logout.html">Cerrar sesión</a> ${user.username}</p>
+                      		<li>
+                      		<a style="" href="${pageContext.request.contextPath}/logout.html">Cerrar sesión</a> 
+                      		</li>
+                      			<li >
+                      				<a id="nav-profile" href="${pageContext.request.contextPath}/user/profile.html">
+                      				<img src="${pageContext.request.contextPath}/images/user.png"><br><p>${user.username}</p></a>
+                      				
 	                      		</li>
 	                      	</c:otherwise>
                       	</c:choose>

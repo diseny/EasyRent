@@ -28,7 +28,7 @@
 		<p>
 			<form:radiobutton path="role" value="Owner" checked="checked"/> Propietario
 			<form:radiobutton path="role" value="Tenant"/> Inquilino
-			<form:radiobutton path="role" value="Administrator"/> Administrador
+			<!--<form:radiobutton path="role" value="Administrator"/> Administrador-->
 		</p>
 		<p>
 			<form:label path="nationalId">DNI:</form:label>
