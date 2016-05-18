@@ -4,6 +4,7 @@
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
+	<br><br><br>
 	<h2>Propiedades registradas</h2>
 	<table class="table table-striped navProperty" style="text-align:center;"> 
 		<tr> 

@@ -31,28 +31,17 @@
                      
                       <c:choose>
 							<c:when test='${user.role == "Administrator"}'>
-	                      
-	                		<li><a href="${pageContext.request.contextPath}/owner/list.html">Gestión de propietarios</a></li>
-	                    
-	                		<li><a href="${pageContext.request.contextPath}/tenant/list.html">Gestión de clientes</a></li>
-	                    
 							<li><a href="${pageContext.request.contextPath}/credentials/list.html">Gestión de credentials</a></li>
-	                     
 	                      </c:when>
 	                  </c:choose>
                   		<c:choose>
 							<c:when test='${user == null}'>
-		                     
-		               			 <button class="btn btn-primary register" onclick="showRegister()" >Registrate
-		               			 </button>
-		                     
+		               			 <button class="btn btn-primary register" onclick="showRegister()">Iniciar sesión</button>
                       		</c:when>
                       		<c:otherwise>
-	                      			<li>
-	                      			<button style="margin-top: 23px;"class="btn btn-warning" onclick="window.location.href='${pageContext.request.contextPath}/logout.html'">Cerrar Sesión</button>
-	                      		</li>
-	                      			<li><img src="${pageContext.request.contextPath}/images/user.png">
-	                      			<p>${user.username}</p>
+                      			<li>
+                      				<p><a  href="${pageContext.request.contextPath}/user/profile.html"><img src="${pageContext.request.contextPath}/images/user.png"></a><br>
+                      				<a style="" href="${pageContext.request.contextPath}/logout.html">Cerrar sesión</a> ${user.username}</p>
 	                      		</li>
 	                      	</c:otherwise>
                       	</c:choose>
@@ -70,9 +59,9 @@
 </div>
 <div class="registerPop">
 	<div class="registerForm">
-	<img src="${pageContext.request.contextPath}/images/closeIcon.png" onclick="closeRegister()">
+		<img src="${pageContext.request.contextPath}/images/closeIcon.png" onclick="closeRegister()">
 		<div class="row">
-	<form method="post"  action="${pageContext.request.contextPath}/login.html">
+		<form method="post"  action="${pageContext.request.contextPath}/login.html">
 		<div class="form-group">
 			<div class="col-md-12 campos">
 			<div class="col-md-2 col-sm-2 col-xs-12">
@@ -94,16 +83,12 @@
 				<input type="submit" class="btn btn-info col-md-8 col-md-offset-2 " value="Registrarse" />
 			</div>
 			<div class="col-md-12 campos">
-				<p>¿Aún no tienes cuenta?<a href="${pageContext.request.contextPath}/user/checkin.html"> Registrate</a></p>
+				<p>¿Aún no tienes cuenta?<a href="${pageContext.request.contextPath}/user/checkin.html"> Regístrate</a></p>
 				<a href="${pageContext.request.contextPath}/user/checkin.html">¿Has olvidado tu contraseña?</a>
 			</div>
 		</div>
 		</form>
-	
-	
-	
 		</div>
-	
 	</div>
 </div>
 <script>
