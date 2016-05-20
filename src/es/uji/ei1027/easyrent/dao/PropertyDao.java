@@ -3,7 +3,6 @@ package es.uji.ei1027.easyrent.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -63,21 +62,17 @@ public class PropertyDao {
 		return this.jdbcTemplate.queryForObject("SELECT * FROM Property WHERE id=?;", new Object[] {id}, new PropertyMapper());
 	}
 	
-	public List<Property> getPropertyFilter(HashMap<String, Object> filters) {
+	public List<Property> getPropertyFilter(List<String> filters) {
 		String query;
-		List<String> keySet = new ArrayList<String>(filters.keySet());
-		if(keySet.size()>0){
+		if(filters.size()>0){
 			query = "SELECT * FROM Property WHERE";
-			if(keySet.size()==1){
-				query = query + " " + keySet.get(0) + "='" + filters.get(keySet.get(0)) + "';";
+			if(filters.size()==1){
+				query = query + " " + filters.get(0) + ";";
 			} else {
-				String key;
-				for(int i = 0; i<keySet.size()-1; i++){
-					key = keySet.get(i);
-					query = query + " " + key + "='" + filters.get(key) + "' AND";
+				for(int i = 0; i<filters.size()-1; i++){
+					query = query + " " + filters.get(i) + " AND";
 				}
-				key = keySet.get(keySet.size()-1);
-				query = query + " " + key + "='" + filters.get(key) + "';";
+				query = query + " " + filters.get(filters.size()-1) + ";";
 			}
 		} 
 		else {

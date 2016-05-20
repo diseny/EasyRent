@@ -10,24 +10,24 @@
 		<table style="width:350px">
 			<tr>
 				<td><form:label path="capacity">Capacidad:</form:label></td>
-				<td><form:input type="number" path="capacity" placeholder="Capacidad"/></td>
+				<td><form:input type="number" min="0" path="capacity" placeholder="Capacidad"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="numRooms">Habitaciones:</form:label></td>
-				<td><form:input type="number" path="numRooms" placeholder="Habitaciones"/></td>
+				<td><form:input type="number" min="0" path="numRooms" placeholder="Habitaciones"/></td>
 			</tr>
 			<tr>
 			<tr>
 				<td><form:label path="numBathrooms">Baños:</form:label></td>
-				<td><form:input type="number" path="numBathrooms" placeholder="Baños"/></td>
+				<td><form:input type="number" min="0" path="numBathrooms" placeholder="Baños"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="numBeds">Camas:</form:label></td>
-				<td><form:input type="number" path="numBeds" placeholder="Camas"/></td>
+				<td><form:input type="number" min="0" path="numBeds" placeholder="Camas"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="squareMeters">m<sup>2</sup>:</form:label></td>
-				<td><form:input type="number" path="squareMeters" placeholder="m2"/></td>
+				<td><form:input type="number" min="0" path="squareMeters" placeholder="m2"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="street">Calle:</form:label></td>
@@ -39,7 +39,7 @@
 			</tr>
 			<tr>
 				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label></td>
-				<td><form:input type="number" path="dailyPrice" placeholder="Precio por día"/></td>
+				<td><form:input type="number" min="0" path="dailyPrice" placeholder="Precio por día"/></td>
 			</tr>
 		</table>
 		<input type="submit" value="Buscar" />
