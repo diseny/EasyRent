@@ -10,11 +10,12 @@
 	position: absolute;
     background-color: rgba(0, 0, 0, 0.498039);
     border-radius: 8px;
-    height: 77px;
-    display:flex;
+    height: 100px;
+    
 }
 .welcomeSearch div{
 	align-self:center;
+	margin-top: 10px;
 }
 .indexSearch{
 	min-height:700px;
@@ -52,4 +53,18 @@
 .index .container{
 	width:100%;
 	background-color:black;
+}
+
+.busquedaAvanzada{
+	display:none;
+}
+.busquedaAvanzada .show{
+	display:block;
+}
+
+.busquedaNormalIcon ,.busquedaAvanzadaIcon{
+	display:none;
+} 
+.busquedaNormalIcon show,.busquedaAvanzadaIcon show{
+	display:block;	
 }
