@@ -2,7 +2,10 @@ package es.uji.ei1027.easyrent.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -58,6 +61,29 @@ public class PropertyDao {
 	
 	public Property getProperty(int id) {
 		return this.jdbcTemplate.queryForObject("SELECT * FROM Property WHERE id=?;", new Object[] {id}, new PropertyMapper());
+	}
+	
+	public List<Property> getPropertyFilter(HashMap<String, Object> filters) {
+		String query;
+		List<String> keySet = new ArrayList<String>(filters.keySet());
+		if(keySet.size()>0){
+			query = "SELECT * FROM Property WHERE";
+			if(keySet.size()==1){
+				query = query + " " + keySet.get(0) + "='" + filters.get(keySet.get(0)) + "';";
+			} else {
+				String key;
+				for(int i = 0; i<keySet.size()-1; i++){
+					key = keySet.get(i);
+					query = query + " " + key + "='" + filters.get(key) + "' AND";
+				}
+				key = keySet.get(keySet.size()-1);
+				query = query + " " + key + "='" + filters.get(key) + "';";
+			}
+		} 
+		else {
+			query = "SELECT * FROM Property;";
+		}
+		return this.jdbcTemplate.query(query, new PropertyMapper());
 	}
 	
 	public void addProperty(Property property) throws PSQLException{
