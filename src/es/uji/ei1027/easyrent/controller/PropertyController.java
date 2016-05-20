@@ -1,20 +1,28 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
 import es.uji.ei1027.easyrent.domain.Image;
+import es.uji.ei1027.easyrent.domain.Property;
 
 @Controller
 @RequestMapping("/property")
 public class PropertyController {
+	
+	private HashMap<String, Object> filters;
 	
 	@Autowired
 	private PropertyDao propertyDao;
@@ -35,6 +43,7 @@ public class PropertyController {
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
 		model.addAttribute("properties", propertyDao.getProperties());
+		model.addAttribute("property", new Property());
 		List<Image> list = imageDao.getImages();
 		List<Image> images = new LinkedList<Image>();
 		List<Integer> ids = new LinkedList<Integer>();
@@ -48,103 +57,147 @@ public class PropertyController {
 		return "property/list";
 	}
 	
+	@RequestMapping(value="/list", method=RequestMethod.POST)
+	public String listProperties(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
+		stablishFilters(property);
+		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
+		model.addAttribute("property", property);
+		List<Image> list = imageDao.getImages();
+		List<Image> images = new LinkedList<Image>();
+		List<Integer> ids = new LinkedList<Integer>();
+		for(Image i: list){
+			if(!ids.contains(i.getID())){
+				ids.add(i.getID());
+				images.add(i);
+			}
+		}
+		model.addAttribute("images", images);
+		return "property/list";
+	}
+
+	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
+	public String infoProperty(Model model, @PathVariable int id) {
+		model.addAttribute("property", propertyDao.getProperty(id));
+		return "property/info"; 
+	}
+	
 	@RequestMapping(value="/listOrderOwnerDown")
-	public String listPropertiesOwnerDown(Model model) {
+	public String listPropertiesOwnerDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "owner_username","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderOwnerUp")
-	public String listPropertiesOwnerUp(Model model) {
+	public String listPropertiesOwnerUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "owner_username","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderTitleDown")
-	public String listPropertiesTitleDown(Model model) {
+	public String listPropertiesTitleDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "title","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderTitleUp")
-	public String listPropertiesTitleUp(Model model) {
+	public String listPropertiesTitleUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "title","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderCapacityDown")
-	public String listPropertiesCapacityDown(Model model) {
+	public String listPropertiesCapacityDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "capacity","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderCapacityUp")
-	public String listPropertiesCapacityUp(Model model) {
+	public String listPropertiesCapacityUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "capacity","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderRoomsDown")
-	public String listPropertiesRoomsDown(Model model) {
+	public String listPropertiesRoomsDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_rooms","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderRoomsUp")
-	public String listPropertiesRoomsUp(Model model) {
+	public String listPropertiesRoomsUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_rooms","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderBathroomsDown")
-	public String listPropertiesBathroomsDown(Model model) {
+	public String listPropertiesBathroomsDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_bathrooms","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderBathroomsUp")
-	public String listPropertiesBathroomsUp(Model model) {
+	public String listPropertiesBathroomsUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_bathrooms","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderBedsDown")
-	public String listPropertiesBedsDown(Model model) {
+	public String listPropertiesBedsDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_beds","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderBedsUp")
-	public String listPropertiesBedsUp(Model model) {
+	public String listPropertiesBedsUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "num_beds","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderMetersDown")
-	public String listPropertiesMetersDown(Model model) {
+	public String listPropertiesMetersDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "square_meters","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderMetersUp")
-	public String listPropertiesMetersUp(Model model) {
+	public String listPropertiesMetersUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "square_meters","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderStreetDown")
-	public String listPropertiesStreetDown(Model model) {
+	public String listPropertiesStreetDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "street","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderStreetUp")
-	public String listPropertiesStreetUp(Model model) {
+	public String listPropertiesStreetUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "street","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderCityDown")
-	public String listPropertiesCityDown(Model model) {
+	public String listPropertiesCityDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "city","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderCityUp")
-	public String listPropertiesCityUp(Model model) {
+	public String listPropertiesCityUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "city","ASC");
 	}
 	
 	@RequestMapping(value="/listOrderPriceDown")
-	public String listPropertiesPriceDown(Model model) {
+	public String listPropertiesPriceDown(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "daily_price","DESC");
 	}
 	
 	@RequestMapping(value="/listOrderPriceUp")
-	public String listPropertiesPriceUp(Model model) {
+	public String listPropertiesPriceUp(@ModelAttribute("property") Property property, Model model) {
+		model.addAttribute("property", property);
 		return generalList(model, "daily_price","ASC");
 	}
 	
@@ -161,6 +214,26 @@ public class PropertyController {
 		}
 		model.addAttribute("images", images);
 		return "property/list";
+	}
+	
+	private void stablishFilters(Property requirements) {
+		filters = new HashMap<String, Object>(); 
+		if(requirements.getCapacity()!=0)
+			filters.put("capacity", requirements.getCapacity());
+		if(requirements.getNumRooms()!=0)
+			filters.put("num_rooms", requirements.getNumRooms());
+		if(requirements.getNumBathrooms()!=0)
+			filters.put("num_bathrooms", requirements.getNumBathrooms());
+		if(requirements.getNumBeds()!=0)
+			filters.put("num_beds", requirements.getNumBeds());
+		if(requirements.getSquareMeters()!=0)
+			filters.put("square_meters", requirements.getSquareMeters());
+		if(!requirements.getStreet().equals(""))
+			filters.put("street", requirements.getStreet());
+		if(!requirements.getCity().equals(""))
+			filters.put("city", requirements.getCity());
+		if(requirements.getDailyPrice()!=0)
+			filters.put("daily_price", requirements.getDailyPrice());
 	}
 	
 }
