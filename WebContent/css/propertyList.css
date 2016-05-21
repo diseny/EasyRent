@@ -9,3 +9,15 @@
 .navProperty img:hover{
 	cursor:pointer;
 }
+
+.camposBusqueda{
+	text-align:center;
+	background-color: currentColor;
+	min-height: 215px;
+}
+.sm{
+	margin-top:10px;
+}
+.camposBusqueda label{
+	color:#fff;
+}

@@ -18,7 +18,7 @@
 }
 .welcomeSearch div{
 	align-self:center;
-	margin-top: 10px;
+	
 }
 .indexSearch{
 	min-height:700px;
@@ -71,3 +71,6 @@
 .busquedaNormalIcon show,.busquedaAvanzadaIcon show{
 	display:block;	
 }
+.nm{
+	margin-top:10px;
+}}

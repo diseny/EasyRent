@@ -4,47 +4,78 @@
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
-	<br><br><br>
-	<h2>Propiedades registradas</h2><br>
+	</div></div>
+	<div class="col-md-12 camposBusqueda" >
 	<form:form method="post" modelAttribute="property">
-		<table style="width:350px">
-			<tr>
-				<td><form:label path="capacity">Capacidad:</form:label></td>
-				<td><form:input id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="numRooms">Habitaciones:</form:label></td>
-				<td><form:input id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/></td>
-			</tr>
-			<tr>
-			<tr>
-				<td><form:label path="numBathrooms">Baños:</form:label></td>
-				<td><form:input id="numBathrooms" type="number" min="0"  path="numBathrooms" placeholder="Baños"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="numBeds">Camas:</form:label></td>
-				<td><form:input id="numBeds" type="number"  min="0"  path="numBeds" placeholder="Camas"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="squareMeters">m<sup>2</sup>:</form:label></td>
-				<td><form:input id="squareMeters" type="number"  min="0" path="squareMeters" placeholder="m2"/></td>
-
-			</tr>
-			<tr>
-				<td><form:label path="street">Calle:</form:label></td>
-				<td><form:input id="street" type="street" path="street" placeholder="Calle"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="city">Ciudad:</form:label></td>
-				<td><form:input id="city" type="city" path="city" placeholder="Ciudad"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label></td>
-				<td><form:input id="dailyPrice" type="number"  min="0" path="dailyPrice" placeholder="Precio por día"/></td>
-			</tr>
-		</table>
-		<input type="submit" value="Buscar" />
+		<div class="col-md-12 sm" style="height:50px">
+			<div class="col-md-7 col-md-offset-1"  style=" height: 100%;margin-top:0px">
+				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" placeholder="Castellón de la Plana"/>
+			</div>
+			<button type="submit" class="col-md-2 btn btn-primary" style="height:50px" >Buscar</button>
+		</div>
+		<div class="col-md-12">
+		<div class="col-md-2 col-md-offset-2 sm ">
+			<div class="col-md-12">
+				<form:label path="capacity">Capacidad:</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input class="form-control " id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
+			</div>
+		</div>
+		<div class="col-md-2 sm">
+			<div class="col-md-12">
+				<form:label path="numRooms">Habitaciones:</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input class="form-control" id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/>
+			</div>
+		</div>
+		
+		<div class="col-md-2 sm">
+			<div class="col-md-12">
+				<form:label path="numBathrooms">Baños:</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Baños"/>
+			</div>
+		</div>
+		</div>
+		<div class="col-md-12">
+		<div class="col-md-2 col-md-offset-1 sm">
+			<div class="col-md-12">
+				<form:label path="numBeds">Camas:</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input id="numBeds" type="number"  min="0"  class="form-control " path="numBeds" placeholder="Camas"/>
+			</div>
+		</div>
+		<div class="col-md-2 sm">
+			<div class="col-md-12">
+				<form:label path="squareMeters">m<sup>2</sup>:</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input id="squareMeters" type="number" class="form-control " min="0" path="squareMeters" placeholder="m2"/>
+			</div>
+		</div>
+		<div class="col-md-2 sm">
+			<form:label path="street">Calle:</form:label>
+			<form:input id="street" class="form-control" type="street" path="street" placeholder="Calle"/>
+		</div>
+		
+		<div class="col-md-2 sm">
+			<div class="col-md-12">
+				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label>
+			</div>
+			<div class="col-md-12">
+				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por día"/>
+			</div>
+		</div>
+		</div>
+		
 	</form:form>
+	</div></div>
+	<div class="container">
+	<div class="row">
 	<table class="table table-striped navProperty" style="text-align:center;"> 
 		<tr> 
 			<th></th>
@@ -93,6 +124,7 @@
 			</th>
 		</tr>
 		<script>
+		
 		function post(path){
 			method="post";
 			//pillo todos los valores de los input del formulario que busca 
