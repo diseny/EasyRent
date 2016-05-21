@@ -58,20 +58,8 @@ public class PropertyController {
 	
 	@RequestMapping(value="/list", method=RequestMethod.POST)
 	public String listProperties(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
-		stablishFilters(property);
-		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
-		model.addAttribute("property", property);
-		List<Image> list = imageDao.getImages();
-		List<Image> images = new LinkedList<Image>();
-		List<Integer> ids = new LinkedList<Integer>();
-		for(Image i: list){
-			if(!ids.contains(i.getID())){
-				ids.add(i.getID());
-				images.add(i);
-			}
-		}
-		model.addAttribute("images", images);
-		return "property/list";
+		stablishFilters(property, "daily_price", "ASC");
+		return generalList(model, property);
 	}
 
 	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
@@ -82,126 +70,128 @@ public class PropertyController {
 	
 	@RequestMapping(value="/listOrderOwnerDown")
 	public String listPropertiesOwnerDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "owner_username","DESC");
+		stablishFilters(property, "owner_username","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderOwnerUp")
 	public String listPropertiesOwnerUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "owner_username","ASC");
+		stablishFilters(property, "owner_username","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderTitleDown")
 	public String listPropertiesTitleDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "title","DESC");
+		stablishFilters(property, "title","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderTitleUp")
 	public String listPropertiesTitleUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "title","ASC");
+		stablishFilters(property, "title","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderCapacityDown")
 	public String listPropertiesCapacityDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "capacity","DESC");
+		stablishFilters(property, "capacity","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderCapacityUp")
 	public String listPropertiesCapacityUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "capacity","ASC");
+		stablishFilters(property, "capacity","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderRoomsDown")
 	public String listPropertiesRoomsDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_rooms","DESC");
+		stablishFilters(property, "num_rooms","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderRoomsUp")
 	public String listPropertiesRoomsUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_rooms","ASC");
+		stablishFilters(property, "num_rooms","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderBathroomsDown")
 	public String listPropertiesBathroomsDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_bathrooms","DESC");
+		stablishFilters(property, "num_bathrooms","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderBathroomsUp")
 	public String listPropertiesBathroomsUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_bathrooms","ASC");
+		stablishFilters(property, "num_bathrooms","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderBedsDown")
 	public String listPropertiesBedsDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_beds","DESC");
+		stablishFilters(property, "num_beds","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderBedsUp")
 	public String listPropertiesBedsUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "num_beds","ASC");
+		stablishFilters(property, "num_beds","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderMetersDown")
 	public String listPropertiesMetersDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "square_meters","DESC");
+		stablishFilters(property, "square_meters","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderMetersUp")
 	public String listPropertiesMetersUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "square_meters","ASC");
+		stablishFilters(property, "square_meters","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderStreetDown")
 	public String listPropertiesStreetDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "street","DESC");
+		stablishFilters(property, "street","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderStreetUp")
 	public String listPropertiesStreetUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "street","ASC");
+		stablishFilters(property, "street","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderCityDown")
 	public String listPropertiesCityDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "city","DESC");
+		stablishFilters(property, "city","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderCityUp")
 	public String listPropertiesCityUp(@ModelAttribute("property") Property property, Model model) {
 		model.addAttribute("property", property);
-		return generalList(model, "city","ASC");
+		stablishFilters(property, "city","ASC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderPriceDown")
 	public String listPropertiesPriceDown(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "daily_price","DESC");
+		stablishFilters(property, "daily_price","DESC");
+		return generalList(model, property);
 	}
 	
 	@RequestMapping(value="/listOrderPriceUp")
 	public String listPropertiesPriceUp(@ModelAttribute("property") Property property, Model model) {
-		model.addAttribute("property", property);
-		return generalList(model, "daily_price","ASC");
+		stablishFilters(property, "daily_price","ASC");
+		return generalList(model, property);
 	}
 	
-	private String generalList(Model model, String field, String order){
-		model.addAttribute("properties", propertyDao.getOrderedProperties(field,order));
+	private String generalList(Model model, Property property){
+		model.addAttribute("property", property);
+		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
 		List<Image> list = imageDao.getImages();
 		List<Image> images = new LinkedList<Image>();
 		List<Integer> ids = new LinkedList<Integer>();
@@ -215,7 +205,7 @@ public class PropertyController {
 		return "property/list";
 	}
 	
-	private void stablishFilters(Property requirements) {
+	private void stablishFilters(Property requirements, String field, String order) {
 		filters = new LinkedList<String>(); 
 		if(requirements.getCapacity()!=0)
 			filters.add("capacity>=" + requirements.getCapacity());
@@ -233,6 +223,7 @@ public class PropertyController {
 			filters.add("city='" + requirements.getCity() + "'");
 		if(requirements.getDailyPrice()!=0)
 			filters.add("daily_price<=" + requirements.getDailyPrice());
+		filters.add("ORDER BY " + field + " " + order);
 	}
 	
 }

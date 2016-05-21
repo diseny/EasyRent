@@ -51,11 +51,6 @@ public class PropertyDao {
 
 	public List<Property> getProperties() {
 		 return this.jdbcTemplate.query("SELECT * FROM Property;", new PropertyMapper());
-	}	
-	
-	public List<Property> getOrderedProperties(String field, String order) {
-		String query = "SELECT * FROM Property ORDER BY " + field + " " + order + ";";
-		return this.jdbcTemplate.query(query, new PropertyMapper());
 	}
 	
 	public Property getProperty(int id) {
@@ -64,19 +59,21 @@ public class PropertyDao {
 	
 	public List<Property> getPropertyFilter(List<String> filters) {
 		String query;
+		String order = filters.get(filters.size()-1);
+		filters.remove(filters.size()-1);
 		if(filters.size()>0){
 			query = "SELECT * FROM Property WHERE";
 			if(filters.size()==1){
-				query = query + " " + filters.get(0) + ";";
+				query = query + " " + filters.get(0) + " " + order + ";";
 			} else {
 				for(int i = 0; i<filters.size()-1; i++){
 					query = query + " " + filters.get(i) + " AND";
 				}
-				query = query + " " + filters.get(filters.size()-1) + ";";
+				query = query + " " + filters.get(filters.size()-1) + " " + order + ";";
 			}
 		} 
 		else {
-			query = "SELECT * FROM Property;";
+			query = "SELECT * FROM Property " + order + ";";
 		}
 		return this.jdbcTemplate.query(query, new PropertyMapper());
 	}

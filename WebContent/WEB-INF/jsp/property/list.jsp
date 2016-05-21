@@ -18,8 +18,8 @@
 			</tr>
 			<tr>
 			<tr>
-				<td><form:label path="numBathrooms">BaÃ±os:</form:label></td>
-				<td><form:input id="numBathrooms" type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/></td>
+				<td><form:label path="numBathrooms">Baños:</form:label></td>
+				<td><form:input id="numBathrooms" type="number" min="0"  path="numBathrooms" placeholder="Baños"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="numBeds">Camas:</form:label></td>
@@ -39,8 +39,8 @@
 				<td><form:input id="city" type="city" path="city" placeholder="Ciudad"/></td>
 			</tr>
 			<tr>
-				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÃ­a):</form:label></td>
-				<td><form:input id="dailyPrice" type="number"  min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/></td>
+				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label></td>
+				<td><form:input id="dailyPrice" type="number"  min="0" path="dailyPrice" placeholder="Precio por día"/></td>
 			</tr>
 		</table>
 		<input type="submit" value="Buscar" />
@@ -62,7 +62,7 @@
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
 			<th>
-				<img src="${pageContext.request.contextPath}/images/sortDown.png" onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
 			<th>
@@ -85,7 +85,7 @@
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
-			<th >
+			<th>
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >			
 			</th>
@@ -129,15 +129,15 @@
 			<th>#</th>
 			<th>Imagen</th>
 			<th>Propietario</th>
-			<th>TÃ­tulo</th>
+			<th>Título</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
-			<th>BaÃ±os</th>
+			<th>Baños</th>
 			<th>Camas</th>
 			<th>m<sup>2</sup></th>
 			<th>Calle</th>
 			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÃ­a)</th>
+			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
 			<th></th>
 		</tr>
 		<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -158,7 +158,7 @@
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver mÃ¡s</a>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
 			</tr>
 		</c:forEach> 
 	</table>
