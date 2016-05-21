@@ -1,6 +1,5 @@
 package es.uji.ei1027.easyrent.controller;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import es.uji.ei1027.easyrent.domain.Property;
 @RequestMapping("/property")
 public class PropertyController {
 	
-	private HashMap<String, Object> filters;
+	private List<String> filters;
 	
 	@Autowired
 	private PropertyDao propertyDao;
@@ -217,23 +216,23 @@ public class PropertyController {
 	}
 	
 	private void stablishFilters(Property requirements) {
-		filters = new HashMap<String, Object>(); 
+		filters = new LinkedList<String>(); 
 		if(requirements.getCapacity()!=0)
-			filters.put("capacity", requirements.getCapacity());
+			filters.add("capacity>=" + requirements.getCapacity());
 		if(requirements.getNumRooms()!=0)
-			filters.put("num_rooms", requirements.getNumRooms());
+			filters.add("num_rooms>=" + requirements.getNumRooms());
 		if(requirements.getNumBathrooms()!=0)
-			filters.put("num_bathrooms", requirements.getNumBathrooms());
+			filters.add("num_bathrooms>=" + requirements.getNumBathrooms());
 		if(requirements.getNumBeds()!=0)
-			filters.put("num_beds", requirements.getNumBeds());
+			filters.add("num_beds>=" + requirements.getNumBeds());
 		if(requirements.getSquareMeters()!=0)
-			filters.put("square_meters", requirements.getSquareMeters());
+			filters.add("square_meters>=" + requirements.getSquareMeters());
 		if(!requirements.getStreet().equals(""))
-			filters.put("street", requirements.getStreet());
+			filters.add("street='" + requirements.getStreet() + "'");
 		if(!requirements.getCity().equals(""))
-			filters.put("city", requirements.getCity());
+			filters.add("city='" + requirements.getCity() + "'");
 		if(requirements.getDailyPrice()!=0)
-			filters.put("daily_price", requirements.getDailyPrice());
+			filters.add("daily_price<=" + requirements.getDailyPrice());
 	}
 	
 }
