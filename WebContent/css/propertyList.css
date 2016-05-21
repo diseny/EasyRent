@@ -1,4 +1,8 @@
 
 .navProperty th {
 	text-align: center;
+	min-width:70px;
+}
+.navProperty img{
+	width:20px;
 }

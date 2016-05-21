@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%> 
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -10,68 +10,47 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12 indexSearch">
 		<h1>RESERVA TU ALOJAMIENTO ONLINE</h1>
-		<h2>R谩pido de reservar. 100% seguro</h2>
+		<h2>R醦ido de reservar. 100% seguro</h2>
 	<form  method="post"  action="${pageContext.request.contextPath}/property/list.html">	
 	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 welcomeSearch" >
 		<div class="row">
 		<div class="col-md-4">
-		 <input id="pac-input" name="" class="form-control" type="text" placeholder="Enter a location" autocomplete="on">
+			<label>Ciudad</label>
+		 <input id="pac-input" name="city" class="form-control" type="text" placeholder="Enter a location" autocomplete="on">
 		</div>
 		<div class="col-md-3">
-		  <select class="form-control" name="" id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
-		</div>
+			<label>Capacidad</label>
+		   <input type="number" min="0" id="pac-input" name="capacity" class="form-control" type="text" placeholder="" autocomplete="on">		
+		   </div>
 		<div class="col-md-3">
-		  <select class="form-control " id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
+		   <label>Habitaciones</label>
+		   <input type="number" min="0" id="pac-input" name="numRooms" class="form-control" type="text" placeholder="" autocomplete="on">
 		</div>
 		<div class="col-md-2 busquedaAvanzadaIcon show">
+			<label>Ver m醩</label>
 			<img src="${pageContext.request.contextPath}/images/plusIcon.png" onclick="busqAvanzada()" style="cursor:pointer">
 		</div>
 		<div class="col-md-2 busquedaNormalIcon">
+			<label>Ver menos</label>
 			<img src="${pageContext.request.contextPath}/images/minusIcon.png" onclick="closeBusqueda()" style="cursor:pointer">
 		</div>
 		</div>
 		<div class="row busquedaAvanzada" >
 			<div class="col-md-3">
-		  <select class="form-control" name="" id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
+			<label>Ba駉s</label>
+		   <input type="number"  min="0" id="pac-input" name="numBathrooms" class="form-control" type="text" placeholder="" autocomplete="on"> 
 		</div>
 		<div class="col-md-3">
-		  <select class="form-control " id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
+		<label>Camas</label>
+		  <input type="number"  min="0" id="pac-input" name="numBeds" class="form-control" type="text" placeholder="" autocomplete="on">
 		</div>
 		<div class="col-md-3">
-		  <select class="form-control" name="" id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
+		<label>m<sup>2</sup>: </label>
+		  <input type="number" min="0" id="pac-input" name="squareMeters" class="form-control" type="text" placeholder="" autocomplete="on">
 		</div>
 		<div class="col-md-3">
-		  <select class="form-control " id="sel1">
-		    <option>Castell贸n</option>
-		    <option>Burriana</option>
-		    <option>Villareal</option>
-		    <option>Almazora</option>
-		  </select>
+		<label>Calle</label>
+		   <input type="street" id="pac-input" name="street" class="form-control" type="text" placeholder="" autocomplete="on">
 		</div>
 		</div>
 		
@@ -82,7 +61,7 @@
 </div>
 <script>
 	function busqAvanzada(){
-		jQuery('.welcomeSearch').css('height','175');
+		jQuery('.welcomeSearch').css('height','235');
 		jQuery('.busquedaAvanzada').addClass("show");
 		jQuery('.busquedaAvanzadaIcon').removeClass("show");
 		jQuery('.busquedaNormalIcon').addClass("show");
