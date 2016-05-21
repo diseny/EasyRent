@@ -16,14 +16,14 @@
 		<div class="row">
 		<div class="col-md-4 nm">
 			<label>Ciudad</label>
-		 <input id="pac-input" name="city" class="form-control" type="text" placeholder="Enter a location" autocomplete="on">
+		 <input id="city" name="city" class="form-control" type="text" placeholder="Enter a location" autocomplete="on">
 		</div>
 		<div class="col-md-3  nm">
 			<div class="col-md-12">
 				<label>Capacidad</label>
 			</div>		 
 			<div class="col-md-12">
-		  	 <input type="number" min="0" id="pac-input" name="capacity" class="form-control" type="text" placeholder="" autocomplete="on">
+		  	 <input id="capacity" type="number" min="0"  name="capacity" class="form-control" type="text" placeholder="" autocomplete="on">
 		   </div>
 		 </div>
 		<div class="col-md-3 nm">
@@ -31,7 +31,7 @@
 				<label>Habitaciones</label>
 			</div>	
 		  	<div class="col-md-12">
-		   <input type="number" min="0" id="pac-input" name="numRooms" class="form-control" type="text" placeholder="" autocomplete="on">
+		   <input id="numRooms" type="number" min="0"  name="numRooms" class="form-control" type="text" placeholder="" autocomplete="on">
 			</div>
 		</div>
 		<div class="col-md-2 nm busquedaAvanzadaIcon show">
@@ -50,7 +50,7 @@
 					<label>Baños</label>
 				</div>
 				<div class="col-md-12">
-		   			<input type="number"  min="0" id="pac-input" name="numBathrooms" class="form-control" type="text" placeholder="" autocomplete="on"> 
+		   			<input id="numBathrooms" type="number"  min="0"  name="numBathrooms" class="form-control" type="text" placeholder="" autocomplete="on"> 
 				</div>
 			</div>		
 			<div class="col-md-3 nm">
@@ -58,7 +58,7 @@
 					<label>Camas</label>
 				</div>
 				<div class="col-md-12">
-				  <input type="number"  min="0" id="pac-input" name="numBeds" class="form-control" type="text" placeholder="" autocomplete="on">
+				  <input id="numBeds" type="number"  min="0"  name="numBeds" class="form-control" type="text" placeholder="" autocomplete="on">
 				</div>
 			</div>
 			<div class="col-md-3 nm">
@@ -66,7 +66,7 @@
 					<label>m<sup>2</sup>: </label>
 				</div>
 				<div class="col-md-12">
-				  <input type="number" min="0" id="pac-input" name="squareMeters" class="form-control" type="text" placeholder="" autocomplete="on">
+				  <input id ="squareMeters" type="number" min="0"  name="squareMeters" class="form-control" type="text" placeholder="" autocomplete="on">
 				</div>
 			</div>
 			<div class="col-md-3 nm">
@@ -74,7 +74,7 @@
 					<label>Calle</label>
 				</div>
 				<div class="col-md-12">
-				   <input type="street" id="pac-input" name="street" class="form-control" type="text" placeholder="" autocomplete="on">
+				   <input type="street" id="street" name="street" class="form-control" type="text" placeholder="" autocomplete="on">
 				</div>
 			</div>
 		</div>
@@ -85,6 +85,14 @@
 	</form>
 </div>
 <script>
+	//if(!jQuery('#city').val()){ jQuery('#city').attr('value',"")}
+	if(!jQuery('#capacity').val()){ jQuery('#capacity').attr('value',"0")}
+	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
+	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
+	if(!jQuery('#numBeds').val()){ jQuery('#numBeds').attr('value',"0")}
+	if(!jQuery('#squareMeters').val()){ jQuery('#squareMeters').attr('value',"0")}
+	//if(!jQuery('#street').val()){ jQuery('#street').attr('value'," ")}
+	
 	function busqAvanzada(){
 		jQuery('.welcomeSearch').css('height','235');
 		jQuery('.busquedaAvanzada').addClass("show");

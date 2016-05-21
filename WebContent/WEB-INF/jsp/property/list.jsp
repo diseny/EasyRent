@@ -124,9 +124,11 @@
 			</th>
 		</tr>
 		<script>
-		
+		console.log(jQuery("#capacity").val());
+		console.log(jQuery("#numRooms").val());
 		function post(path){
 			method="post";
+			
 			//pillo todos los valores de los input del formulario que busca 
 			cap=jQuery("#capacity").val();
 			nR=	jQuery("#numRooms").val()
