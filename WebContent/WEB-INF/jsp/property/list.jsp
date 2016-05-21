@@ -10,36 +10,37 @@
 		<table style="width:350px">
 			<tr>
 				<td><form:label path="capacity">Capacidad:</form:label></td>
-				<td><form:input type="number" min="0" path="capacity" placeholder="Capacidad"/></td>
+				<td><form:input id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="numRooms">Habitaciones:</form:label></td>
-				<td><form:input type="number" min="0" path="numRooms" placeholder="Habitaciones"/></td>
+				<td><form:input id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/></td>
 			</tr>
 			<tr>
 			<tr>
-				<td><form:label path="numBathrooms">Baños:</form:label></td>
-				<td><form:input type="number" min="0" path="numBathrooms" placeholder="Baños"/></td>
+				<td><form:label path="numBathrooms">BaÃ±os:</form:label></td>
+				<td><form:input id="numBathrooms" type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="numBeds">Camas:</form:label></td>
-				<td><form:input type="number" min="0" path="numBeds" placeholder="Camas"/></td>
+				<td><form:input id="numBeds" type="number"  min="0"  path="numBeds" placeholder="Camas"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="squareMeters">m<sup>2</sup>:</form:label></td>
-				<td><form:input type="number" min="0" path="squareMeters" placeholder="m2"/></td>
+				<td><form:input id="squareMeters" type="number"  min="0" path="squareMeters" placeholder="m2"/></td>
+
 			</tr>
 			<tr>
 				<td><form:label path="street">Calle:</form:label></td>
-				<td><form:input type="street" path="street" placeholder="Calle"/></td>
+				<td><form:input id="street" type="street" path="street" placeholder="Calle"/></td>
 			</tr>
 			<tr>
 				<td><form:label path="city">Ciudad:</form:label></td>
-				<td><form:input type="city" path="city" placeholder="Ciudad"/></td>
+				<td><form:input id="city" type="city" path="city" placeholder="Ciudad"/></td>
 			</tr>
 			<tr>
-				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label></td>
-				<td><form:input type="number" min="0" path="dailyPrice" placeholder="Precio por día"/></td>
+				<td><form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÃ­a):</form:label></td>
+				<td><form:input id="dailyPrice" type="number"  min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/></td>
 			</tr>
 		</table>
 		<input type="submit" value="Buscar" />
@@ -48,31 +49,95 @@
 		<tr> 
 			<th></th>
 			<th></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderOwnerDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderOwnerUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderTitleDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderTitleUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderCapacityDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderCapacityUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderRoomsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderRoomsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderBathroomsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderBathroomsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderBedsDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderBedsUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th style="width:70px"><a href="${pageContext.request.contextPath}/property/listOrderMetersDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderMetersUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderStreetDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderStreetUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th><a href="${pageContext.request.contextPath}/property/listOrderCityDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderCityUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>
-			<th style="width:125px"><a href="${pageContext.request.contextPath}/property/listOrderPriceDown.html"><img src="${pageContext.request.contextPath}/images/sortDown.png" style="text-align:center;width:20px;height:20px;"></a><a href="${pageContext.request.contextPath}/property/listOrderPriceUp.html"><img src="${pageContext.request.contextPath}/images/sortUp.png" style="width:20px;height:20px;"></a></th>			
-			<th></th>
+			<th>
+				<img  onclick="post('${pageContext.request.contextPath}/property/listOrderOwnerDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderOwnerUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderTitleDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderTitleUp.html')"src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img src="${pageContext.request.contextPath}/images/sortDown.png" onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBathroomsDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png">
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBathroomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBedsDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBedsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th style="width:70px">
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderMetersDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderMetersUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderStreetDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderStreetUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th>
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
+			</th>
+			<th >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >			
+			</th>
+			<th>
+			</th>
 		</tr>
+		<script>
+		function post(path){
+			method="post";
+			//pillo todos los valores de los input del formulario que busca 
+			cap=jQuery("#capacity").val();
+			nR=	jQuery("#numRooms").val()
+			nBR=jQuery("#numBathrooms").val()
+			nB=jQuery("#numBeds").val()
+			sM=jQuery("#squareMeters").val()
+			st=jQuery("#street").val()
+			ct=jQuery("#city").val()
+			dP=jQuery("#dailyPrice").val()
+			var	params={capacity:cap,numRooms:nR,numBathrooms:nBR,numBeds:nB,squareMeters:sM,street:st,city:ct,dailyPrice:dP};
+			//creo el formulario y le pongo todos los valores anteriores  y por ultimo le hago un submit
+			var form = document.createElement("form");
+			form.setAttribute("method",method);
+			form.setAttribute("action",path);
+			for(var key in params){
+				if(  params.hasOwnProperty(key)){
+					var hiddenField= document.createElement("input");
+					hiddenField.setAttribute("type","hidden");
+					hiddenField.setAttribute("name",key);
+					hiddenField.setAttribute("value",params[key]);
+					form.appendChild(hiddenField);	
+				}
+				
+			}
+			
+			document.body.appendChild(form);
+			form.submit();
+		}
+					
+		</script>
 		<tr> 
 			<th>#</th>
 			<th>Imagen</th>
 			<th>Propietario</th>
-			<th>Título</th>
+			<th>TÃ­tulo</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
-			<th>Baños</th>
+			<th>BaÃ±os</th>
 			<th>Camas</th>
 			<th>m<sup>2</sup></th>
 			<th>Calle</th>
 			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
+			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÃ­a)</th>
 			<th></th>
 		</tr>
 		<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -93,7 +158,7 @@
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver mÃ¡s</a>
 			</tr>
 		</c:forEach> 
 	</table>
