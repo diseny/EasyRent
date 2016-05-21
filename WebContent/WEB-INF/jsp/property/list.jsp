@@ -28,6 +28,7 @@
 			<tr>
 				<td><form:label path="squareMeters">m<sup>2</sup>:</form:label></td>
 				<td><form:input id="squareMeters" type="number"  min="0" path="squareMeters" placeholder="m2"/></td>
+
 			</tr>
 			<tr>
 				<td><form:label path="street">Calle:</form:label></td>
