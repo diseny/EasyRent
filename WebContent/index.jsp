@@ -9,8 +9,8 @@
 <jsp:body>
 
 <div class="col-md-12 col-sm-12 col-xs-12 indexSearch">
-		<h1>RESERVA TU ALOJAMIENTO ONLINE</h1>
-		<h2>Rápido de reservar. 100% seguro</h2>
+	<h1>RESERVA TU ALOJAMIENTO ONLINE</h1>
+	<h2>Rápido de reservar. 100% seguro</h2>
 	<form  method="post"  action="${pageContext.request.contextPath}/property/list.html">	
 	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 welcomeSearch" >
 		<div class="row">

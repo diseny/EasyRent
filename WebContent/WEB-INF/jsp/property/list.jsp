@@ -93,7 +93,7 @@
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
 			<th>
-				<img src="${pageContext.request.contextPath}/images/sortDown.png" onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" >
+				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
 			<th>
@@ -116,7 +116,7 @@
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
 			</th>
-			<th >
+			<th>
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
 				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >			
 			</th>
@@ -161,15 +161,15 @@
 			<th>#</th>
 			<th>Imagen</th>
 			<th>Propietario</th>
-			<th>T√≠tulo</th>
+			<th>TÌtulo</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
-			<th>Ba√±os</th>
+			<th>BaÒos</th>
 			<th>Camas</th>
 			<th>m<sup>2</sup></th>
 			<th>Calle</th>
 			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/d√≠a)</th>
+			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÌa)</th>
 			<th></th>
 		</tr>
 		<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -190,7 +190,7 @@
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m√°s</a>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m·s</a>
 			</tr>
 		</c:forEach> 
 	</table>
