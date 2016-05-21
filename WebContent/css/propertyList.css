@@ -6,3 +6,6 @@
 .navProperty img{
 	width:20px;
 }
+.navProperty img:hover{
+	cursor:pointer;
+}
