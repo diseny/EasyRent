@@ -16,20 +16,29 @@
 	href="${pageContext.request.contextPath}/css/easyrent.css"
 	rel="stylesheet">
 	<!-- Bootflat -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
+    <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/css/bootflat/js/site.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+		
+		
+    
 </head>
 
 <body style="font-family:Verdana">
-	<!-- <header class="container page-header">
-		
-		<c:if test='${not empty user.username}'>
-			<a style="float:right" href="${pageContext.request.contextPath}/user/profile.html"><img src="${pageContext.request.contextPath}/images/user.png" alt="User image" style="width:70px;height:70px;float:left"></a>
-		</c:if>
-	</header> -->
+	
 	<t:navegacio />
 	
 	<div class="container">
-	<div class="row">
+	<div class="row" style="margin-top:83px">
 		<jsp:doBody />
 	</div>
 	</div>
