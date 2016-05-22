@@ -85,13 +85,13 @@
 	</form>
 </div>
 <script>
-	//if(!jQuery('#city').val()){ jQuery('#city').attr('value',"")}
+	
 	if(!jQuery('#capacity').val()){ jQuery('#capacity').attr('value',"0")}
 	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
 	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
 	if(!jQuery('#numBeds').val()){ jQuery('#numBeds').attr('value',"0")}
 	if(!jQuery('#squareMeters').val()){ jQuery('#squareMeters').attr('value',"0")}
-	//if(!jQuery('#street').val()){ jQuery('#street').attr('value'," ")}
+	
 	
 	function busqAvanzada(){
 		jQuery('.welcomeSearch').css('height','235');

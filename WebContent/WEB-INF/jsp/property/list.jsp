@@ -13,8 +13,39 @@
 			</div>
 			<button type="submit" class="col-md-2 btn btn-primary" style="height:50px" >Buscar</button>
 		</div>
-		<div class="col-md-12">
-		<div class="col-md-2 col-md-offset-2 sm ">
+		<div class="col-md-11 col-md-offset-1">
+		<div class="col-md-2  sm">
+			<div class="col-md-12">
+        		
+        		<label>Fecha Inicio</label>
+        	</div>
+        <div class="col-md-12">
+         <div class="form-group">
+       		 <div class="date">
+           		 <div class="input-group input-append date" id="datePickerInit">
+            	    <input type="text" class="form-control" name="date" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+       	 </div>
+        </div>
+    </div>
+		</div><div class="col-md-2  sm">
+			<div class="col-md-12">
+        		
+        		<label>Fecha final</label>
+        	</div>
+        <div class="col-md-12">
+         <div class="form-group">
+       		 <div class="date">
+           		 <div class="input-group input-append date" id="datePickerEnd">
+            	    <input type="text" class="form-control" name="date" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+       	 </div>
+        </div>
+    </div>
+		</div>
+		<div class="col-md-2 sm ">
 			<div class="col-md-12">
 				<form:label path="capacity">Capacidad:</form:label>
 			</div>
@@ -30,7 +61,6 @@
 				<form:input class="form-control" id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/>
 			</div>
 		</div>
-		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
 				<form:label path="numBathrooms">Baños:</form:label>
@@ -39,9 +69,10 @@
 				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Baños"/>
 			</div>
 		</div>
+		
 		</div>
-		<div class="col-md-12">
-		<div class="col-md-2 col-md-offset-1 sm">
+		<div class="col-md-10 col-md-offset-2">
+		<div class="col-md-2  sm">
 			<div class="col-md-12">
 				<form:label path="numBeds">Camas:</form:label>
 			</div>
@@ -49,6 +80,7 @@
 				<form:input id="numBeds" type="number"  min="0"  class="form-control " path="numBeds" placeholder="Camas"/>
 			</div>
 		</div>
+		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
 				<form:label path="squareMeters">m<sup>2</sup>:</form:label>
@@ -64,7 +96,7 @@
 		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label>
+				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/d�a):</form:label>
 			</div>
 			<div class="col-md-12">
 				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por día"/>
@@ -123,9 +155,41 @@
 			<th>
 			</th>
 		</tr>
+		
+   
+
+    
 		<script>
-		console.log(jQuery("#capacity").val());
-		console.log(jQuery("#numRooms").val());
+		
+		
+		$(document).ready(function() {
+		    $('#datePickerInit')
+		        .datepicker({
+		        	  autoclose: true,    // It is false, by default
+		              format: 'dd/mm/yyyy',
+		              
+	                   
+		        })
+		        .on('changeDate', function(e) {
+		            // Revalidate the date field
+		         	
+		         	console.log(jQuery('#datePickerInit').val());
+
+		        });
+
+		    $('#datePickerEnd')
+	        .datepicker({
+	            format: 'mm/dd/yyyy'
+	        })
+	        .on('changeDate', function(e) {
+	            // Revalidate the date field
+	            if($('#dataPickerEnd').val()<$('#dataPickerInit').val()){
+	            	alert('')
+	            }
+	        
+	        });
+		});
+		
 		function post(path){
 			method="post";
 			
@@ -159,6 +223,7 @@
 		}
 					
 		</script>
+		
 		<tr> 
 			<th>#</th>
 			<th>Imagen</th>
@@ -196,5 +261,6 @@
 			</tr>
 		</c:forEach> 
 	</table>
+	
 </jsp:body>
 </t:paginabasica>
