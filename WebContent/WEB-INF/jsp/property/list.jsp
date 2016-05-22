@@ -9,9 +9,9 @@
 	<form:form method="post" modelAttribute="property">
 		<div class="col-md-12 sm" style="height:50px">
 			<div class="col-md-7 col-md-offset-1"  style=" height: 100%;margin-top:0px">
-				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" placeholder="CastellÃ³n de la Plana"/>
+				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" placeholder="Ciudad"/>
 			</div>
-			<button type="submit" class="col-md-2 btn btn-primary" style="height:50px" >Buscar</button>
+			<button type="submit" class="col-md-2 btn btn-primary" style="height:50px">Buscar</button>
 		</div>
 		<div class="col-md-11 col-md-offset-1">
 		<div class="col-md-2  sm">
@@ -63,7 +63,7 @@
 		</div>
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="numBathrooms">BaÃ±os:</form:label>
+				<form:label path="numBathrooms">Baños:</form:label>
 			</div>
 			<div class="col-md-12">
 				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/>
@@ -96,7 +96,7 @@
 		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día):</form:label>
+				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/día):</form:label>
 			</div>
 			<div class="col-md-12">
 				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/>
