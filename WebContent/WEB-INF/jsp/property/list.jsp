@@ -6,7 +6,7 @@
 <jsp:body>
 	</div></div>
 	<div class="col-md-12 camposBusqueda" >
-	<form:form method="post" modelAttribute="property">
+	<form:form id="searchList" method="post" modelAttribute="property">
 		<div class="col-md-12 sm" style="height:50px">
 			<div class="col-md-7 col-md-offset-1"  style=" height: 100%;margin-top:0px">
 				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" placeholder="Ciudad"/>
@@ -38,7 +38,7 @@
          <div class="form-group">
        		 <div class="date">
            		 <div class="input-group input-append date" id="datePickerEnd">
-            	    <input type="text" class="form-control" name="date" />
+            	    <input type="text" class="form-control" name="date" disabled/>
                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
        	 </div>
@@ -161,33 +161,35 @@
     
 		<script>
 		
-		
 		$(document).ready(function() {
+			
+			var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
 		    $('#datePickerInit')
 		        .datepicker({
-		        	  autoclose: true,    // It is false, by default
+		        	  autoclose: false,    // It is false, by default
 		              format: 'dd/mm/yyyy',
 		              
 	                   
 		        })
 		        .on('changeDate', function(e) {
 		            // Revalidate the date field
-		         	
-		         	console.log(jQuery('#datePickerInit').val());
-
+		        	 dateInit = new Date($('#datePickerInit').datepicker("getDate")); 
+		            
+		        	 $('#datePickerEnd input').prop('disabled', false);
+		          $('#datePickerEnd').datepicker({
+		 	            format: 'dd/mm/yyyy',
+		 	            startDate: dateInit, 
+		 	        })
+					
 		        });
-
-		    $('#datePickerEnd')
-	        .datepicker({
-	            format: 'mm/dd/yyyy'
-	        })
-	        .on('changeDate', function(e) {
-	            // Revalidate the date field
-	            if($('#dataPickerEnd').val()<$('#dataPickerInit').val()){
-	            	alert('')
-	            }
+		    
+			
+		    
 	        
-	        });
+		   
+		    
+			
+		   
 		});
 		
 		function post(path){
