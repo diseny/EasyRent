@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.uji.ei1027.easyrent.dao.PropertyDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.User;
@@ -18,12 +19,18 @@ import es.uji.ei1027.easyrent.domain.User;
 public class UserController {
    
 	private UserDao userDao;
+	private PropertyDao propertyDao;
 
    @Autowired 
    public void setUserDao(UserDao userDao) {
        this.userDao = userDao;
    }
   
+   @Autowired 
+   public void setPropertyDao(PropertyDao propertyDao) {
+       this.propertyDao = propertyDao;
+   }
+   
    @RequestMapping("/list.html") 
    public String listSocis(HttpSession session, Model model) {
        if (session.getAttribute("user") == null) 
@@ -69,6 +76,19 @@ public class UserController {
    public String confirmDeleteUser(HttpSession session, Model model) {
 	   session.invalidate();
 	   return "redirect:../index.jsp";
+   }
+   
+   @RequestMapping("/profile") 
+   public String getProfileInfo(HttpSession session, Model model) {
+	   User user = (User)session.getAttribute("user");	
+	   model.addAttribute("user", user);
+	   if(user.getRole().equals("Owner")){
+		   model.addAttribute("propertiesOwner", propertyDao.getPropertyOwner(user.getUsername()));
+	   }
+	   else{
+		   
+	   }
+	   return "user/profile";
    }
    
 }

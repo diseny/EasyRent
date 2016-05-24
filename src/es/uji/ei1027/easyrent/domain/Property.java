@@ -17,6 +17,8 @@ public class Property {
 	private String city;
 	private double dailyPrice;
 	private boolean isActive;
+	private String startDate;
+	private String finishDate;
 
 	public int getId() { 
 		return id; 
@@ -138,6 +140,22 @@ public class Property {
 		this.isActive = isActive;
 	}
 	
+	public String getStartDate() {
+		return startDate;
+	}
+	
+	public void setStartDate(String startDate) {	
+		this.startDate = startDate;
+	}
+	
+	public String getFinishDate() {
+		return finishDate;
+	}
+	
+	public void setFinishDate(String finishDate) {	
+		this.finishDate = finishDate;
+	}
+	
 	@Override
 	public String toString() {
 		return "Property: id '" + id + "', ownerUsername '" + ownerUsername + "', title '"
@@ -145,7 +163,7 @@ public class Property {
 				+ capacity + "', numRooms '" + numRooms + "', numBathrooms '" + numBathrooms + "', numBeds '"
 				+ numBeds + "', squareMeters '" + squareMeters + "', street '" + street + "', number '"
 				+ number + "', floor '" + floor + "', city '" + city + "', dailyPrice '" + dailyPrice + "', isActive '"
-				+ isActive + "'.";
+				+ isActive + "', start '" + startDate + "', finish '" + finishDate + "'.";
 	}
 	
 }
