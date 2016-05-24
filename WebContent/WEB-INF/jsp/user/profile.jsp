@@ -6,7 +6,6 @@
 
 <t:paginabasica title="Perfil">
 <jsp:body>
-	<br><br><br>
 	<div class="container">
 		<div class="row">
 			<c:choose>
@@ -36,28 +35,32 @@
 		            </div>
 		        </div>
 		        <div class="col-lg-9 col-sm-6">
-		        	<div class="card hovercard" style="background-color:#ccffff">
-		                <div class="cardheader">
-		
-		                </div>
-		                <div class="avatar">
-		                    <img alt="" src="${pageContext.request.contextPath}/images/user.png">
-		                </div>
-		                <div class="info">
-		                    <div class="title">
-		                        ${user.name} ${user.surname}
-		                    </div>
-		                    <div>${user.username}</div>
-		                    <div class="desc">${user.email}</div>
-		                    <div class="desc">${user.role}</div>
-		                    <div class="desc">DNI: ${user.nationalId}</div> 
-		                    <div class="desc">${user.phoneNumber}</div>
-		                </div>
-		                <div class="bottom">
-		                    <a class="btn btn-warning" href="${pageContext.request.contextPath}/user/update.html">Editar</a>
-		                    <a class="btn btn-danger" href="${pageContext.request.contextPath}/user/delete.html">Eliminar</a>
-		                </div>
-		            </div>
+					<div class="row">
+						<div class="table-responsive" style="height:370px;overflow:auto;">
+						<table class="table table-striped navProperty" style="text-align:center;">
+		        			<tr> 
+								<th>#</th>
+								<th>Título</th>
+								<th>m<sup>2</sup></th>
+								<th>Calle</th>
+								<th>Ciudad</th>
+								<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
+								<th></th>
+							</tr>
+							<c:forEach items="${propertiesOwner}" var="propertyOwner" varStatus="loop">
+								<tr class="fons">
+									<td>${loop.index + 1}</td>
+									<td>${propertyOwner.title}</td>
+									<td>${propertyOwner.squareMeters}</td>
+									<td>${propertyOwner.street}</td>
+									<td>${propertyOwner.city}</td>
+									<td>${propertyOwner.dailyPrice}</td>
+									<td><a href="info/${propertyOwner.id}.html" class="btn btn-info">Ir a la propiedad</a>
+								</tr>
+							</c:forEach> 
+						</table>
+						</div>
+					</div>
 		        </div>
             </c:when>
             <c:otherwise>

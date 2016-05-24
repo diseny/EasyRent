@@ -1,5 +1,6 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.easyrent.dao.ImageDao;
+import es.uji.ei1027.easyrent.dao.PeriodDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
 import es.uji.ei1027.easyrent.domain.Image;
 import es.uji.ei1027.easyrent.domain.Property;
@@ -29,6 +31,9 @@ public class PropertyController {
 	@Autowired
 	private ImageDao imageDao;
 	
+	@Autowired
+	private PeriodDao periodDao;
+	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
        this.propertyDao = propertyDao;
@@ -37,6 +42,11 @@ public class PropertyController {
    @Autowired 
    public void setImageDao(ImageDao imageDao) {
        this.imageDao = imageDao;
+   }
+   
+   @Autowired 
+   public void setPeriodDao(PeriodDao periodDao) {
+       this.periodDao = periodDao;
    }
    
 	@RequestMapping(value="/list")
@@ -206,7 +216,26 @@ public class PropertyController {
 	}
 	
 	private void stablishFilters(Property requirements, String field, String order) {
-		filters = new LinkedList<String>(); 
+		List<Integer> propertiesIds = null;
+		if(requirements.getStartDate()!=null && !requirements.getStartDate().equals("") && requirements.getFinishDate()!=null && !requirements.getFinishDate().equals("")){
+			String []startDate = requirements.getStartDate().split("/");
+			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
+			String []finishDate = requirements.getFinishDate().split("/");
+			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[0])-1,Integer.parseInt(finishDate[1]));
+			if(finish.compareTo(start)>0){
+				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
+			}
+		}
+		
+		filters = new LinkedList<String>();
+		if(propertiesIds!=null){
+			String idsQuery = "(";
+			for(int id: propertiesIds){
+				idsQuery += id + ",";
+			}
+			idsQuery = idsQuery.substring(0, idsQuery.length()-1) + ")";
+			filters.add("id IN " + idsQuery);
+		}
 		if(requirements.getCapacity()!=0)
 			filters.add("capacity>=" + requirements.getCapacity());
 		if(requirements.getNumRooms()!=0)

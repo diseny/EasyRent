@@ -15,42 +15,41 @@
 		</div>
 		<div class="col-md-11 col-md-offset-1">
 		<div class="col-md-2  sm">
-			<div class="col-md-12">
-        		
-        		<label>Fecha Inicio</label>
-        	</div>
-        <div class="col-md-12">
-         <div class="form-group">
-       		 <div class="date">
-           		 <div class="input-group input-append date" id="datePickerInit">
-            	    <input type="text" class="form-control" name="date" />
-                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-       	 </div>
+		<div class="col-md-12">
+        	<label>Fecha Inicio</label>
         </div>
-    </div>
-		</div><div class="col-md-2  sm">
-			<div class="col-md-12">
-        		
-        		<label>Fecha final</label>
-        	</div>
         <div class="col-md-12">
-         <div class="form-group">
-       		 <div class="date">
-           		 <div class="input-group input-append date" id="datePickerEnd">
-            	    <input type="text" class="form-control" name="date" />
-                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-       	 </div>
+	        <div class="form-group">
+	       		<div class="date">
+	           		<div class="input-group input-append date" id="datePickerInit">
+	            	    <form:input class="form-control" type="startDate" path="startDate" style="width:120px"/>
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+	       	 	</div>
+	        </div>
+	    </div>
+		</div>
+		<div class="col-md-2  sm">
+		<div class="col-md-12">
+        	<label>Fecha Final</label>
         </div>
-    </div>
+        <div class="col-md-12">
+	        <div class="form-group">
+	       		<div class="date">
+	           		<div class="input-group input-append date" id="datePickerEnd">
+	            	    <form:input class="form-control" type="finishDate" path="finishDate" style="width:120px"/>
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+	       	 	</div>
+	        </div>
+	    </div>
 		</div>
 		<div class="col-md-2 sm ">
 			<div class="col-md-12">
 				<form:label path="capacity">Capacidad:</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input class="form-control " id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
+				<form:input class="form-control" id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
 			</div>
 		</div>
 		<div class="col-md-2 sm">

@@ -57,12 +57,27 @@ public class PropertyDao {
 		return this.jdbcTemplate.queryForObject("SELECT * FROM Property WHERE id=?;", new Object[] {id}, new PropertyMapper());
 	}
 	
+	public List<Property> getPropertyOwner(String owner) {
+		String query = "SELECT * FROM Property WHERE owner_username='" + owner + "';";
+		return this.jdbcTemplate.query(query, new PropertyMapper());
+	}
+	
 	public List<Property> getPropertyFilter(List<String> filters) {
 		String query;
 		String order = filters.get(filters.size()-1);
+		String dateFilter = "";
 		filters.remove(filters.size()-1);
+		if(!filters.isEmpty() && filters.get(0).contains("id IN")){
+			dateFilter = " " + filters.get(0);
+			filters.remove(0);
+		}
 		if(filters.size()>0){
-			query = "SELECT * FROM Property WHERE";
+			if(dateFilter.equals("")){
+				query = "SELECT * FROM Property WHERE";
+			}
+			else{
+				query = "SELECT * FROM Property WHERE" + dateFilter + " AND";
+			}
 			if(filters.size()==1){
 				query = query + " " + filters.get(0) + " " + order + ";";
 			} else {
@@ -73,7 +88,12 @@ public class PropertyDao {
 			}
 		} 
 		else {
-			query = "SELECT * FROM Property " + order + ";";
+			if(dateFilter.equals("")){
+				query = "SELECT * FROM Property " + order + ";";
+			}
+			else{
+				query = "SELECT * FROM Property WHERE" + dateFilter + " " + order + ";";
+			}
 		}
 		return this.jdbcTemplate.query(query, new PropertyMapper());
 	}
