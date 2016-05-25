@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,6 +71,8 @@ public class UserController {
    @RequestMapping(value="/update", method=RequestMethod.POST)
    public String updateUserPost(@ModelAttribute("user") User user, HttpSession session, Model model) {
 	   try{
+		   BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+		   user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 		   userDao.updateCredentials(user);
 		   if(user.getRole().equals("Tenant")){
 			   userDao.updateTenant(user);
