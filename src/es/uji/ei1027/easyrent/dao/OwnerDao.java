@@ -36,7 +36,6 @@ public class OwnerDao {
 	    	owner.setPostalAddress(rs.getString("postal_address"));
 	    	owner.setRegistrationDate(rs.getString("registration_date"));
 	    	owner.setPhoneNumber(rs.getString("phone_number"));
-	    	owner.setIsActive(rs.getBoolean("is_active"));
 	    	return owner;
 	    }
 	}
@@ -51,12 +50,12 @@ public class OwnerDao {
 	
 	public void addOwner(Owner owner) throws PSQLException{
 		String []fecha = owner.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("INSERT INTO owner(username, national_id, name, surname, email, postal_address, registration_date, phone_number, is_active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", owner.getUsername(), owner.getNationalId(), owner.getName(), owner.getSurname(), owner.getEmail(), owner.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), owner.getPhoneNumber(), owner.getIsActive());
+		this.jdbcTemplate.update("INSERT INTO owner(username, national_id, name, surname, email, postal_address, registration_date, phone_number) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", owner.getUsername(), owner.getNationalId(), owner.getName(), owner.getSurname(), owner.getEmail(), owner.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), owner.getPhoneNumber());
 	}
 		
 	public void updateOwner(Owner owner) {
 		String []fecha = owner.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("UPDATE Owner SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", owner.getNationalId(), owner.getName(), owner.getSurname(), owner.getEmail(), owner.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), owner.getPhoneNumber(), owner.getIsActive(), owner.getUsername());
+		this.jdbcTemplate.update("UPDATE Owner SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ? WHERE username = ?;", owner.getNationalId(), owner.getName(), owner.getSurname(), owner.getEmail(), owner.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), owner.getPhoneNumber(), owner.getUsername());
 	}
 		
 	public void deleteOwner(Owner owner) {

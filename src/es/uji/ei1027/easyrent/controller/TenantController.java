@@ -42,7 +42,6 @@ public class TenantController {
 		if (bindingResult.hasErrors())
 			return "tenant/add";
 		try {
-			tenant.setIsActive(true);
 			tenantDao.addTenant(tenant);
 		} catch (Exception e) {
 			if(e.getMessage()==null){

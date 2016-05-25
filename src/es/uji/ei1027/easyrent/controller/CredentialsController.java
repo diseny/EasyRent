@@ -73,6 +73,7 @@ public class CredentialsController {
 			user = createUser(s);
 			user.setPassword(c.getPassword());
 			user.setRole(c.getRole());
+			user.setIsActive(c.getIsActive());
 			users.add(user);
 		}
 		model.addAttribute("credentials", users);
@@ -145,7 +146,6 @@ public class CredentialsController {
 		user.setPostalAddress(s.getPostalAddress());
 		user.setRegistrationDate(s.getRegistrationDate());
 		user.setPhoneNumber(s.getPhoneNumber());
-		user.setIsActive(s.getIsActive());
 		return user;
 	}
 	

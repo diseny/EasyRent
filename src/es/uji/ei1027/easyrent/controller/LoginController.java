@@ -3,6 +3,7 @@ package es.uji.ei1027.easyrent.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -86,9 +87,14 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "login";
 		}
-		user = userDao.loadUserByUsername(user.getUsername(),user.getPassword()); 
+		try{
+			user = userDao.loadUserByUsername(user.getUsername(),user.getPassword()); 
+		} catch(EmptyResultDataAccessException e){
+			bindingResult.rejectValue("username", "badusn", "El usuario no está registrado"); 
+			return "login";
+		}
 		if (user == null) {
-			bindingResult.rejectValue("password", "badpw", "ContraseÃ±a incorrecta"); 
+			bindingResult.rejectValue("password", "badpw", "Contraseña incorrecta"); 
 			return "login";
 		} else{
 			User userSession;
@@ -103,6 +109,7 @@ public class LoginController {
 			userSession = createUser(s);
 			userSession.setPassword(user.getPassword());
 			userSession.setRole(user.getRole());
+			userSession.setIsActive(user.getIsActive());
 			session.setAttribute("user", userSession);
 			return "redirect:index.jsp";
 		}
@@ -124,7 +131,6 @@ public class LoginController {
 		user.setPostalAddress(s.getPostalAddress());
 		user.setRegistrationDate(s.getRegistrationDate());
 		user.setPhoneNumber(s.getPhoneNumber());
-		user.setIsActive(s.getIsActive());
 		return user;
 	}
 	

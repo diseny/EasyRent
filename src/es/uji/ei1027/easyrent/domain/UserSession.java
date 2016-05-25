@@ -18,7 +18,5 @@ public interface UserSession {
 	public void setRegistrationDate(String registrationDate);
 	public String getPhoneNumber();
 	public void setPhoneNumber(String phoneNumber);
-	public boolean getIsActive();
-	public void setIsActive(boolean isActive); 
 
 }

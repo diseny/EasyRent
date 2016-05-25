@@ -10,7 +10,6 @@ public class Administrator implements UserSession {
 	private String postalAddress;
 	private String registrationDate;
 	private String phoneNumber;
-	private boolean isActive;
 		
 	public String getUsername() { 
 		return username; 
@@ -75,20 +74,12 @@ public class Administrator implements UserSession {
 	public void setPhoneNumber(String phoneNumber) { 
 		this.phoneNumber = phoneNumber; 
 	}
-
-	public boolean getIsActive() { 
-		return isActive; 
-	}
-	
-	public void setIsActive(boolean isActive) { 
-		this.isActive = isActive; 
-	}
 	
 	@Override
 	public String toString() {
 		return "Administrator: username '" + username + "', nationalId '" + nationalId + "', name '" + name + "', surname '" + surname
 				 + "', email '" + email + "', postalAddress '" + postalAddress + "', registrationDate '" + registrationDate
-				 + "', phoneNumber '" + phoneNumber + "', isActive '" + isActive + "'.";
+				 + "', phoneNumber '" + phoneNumber + "'.";
 	}
 	
 }

@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.User;
@@ -42,8 +42,10 @@ public class CheckinController {
 		if (bindingResult.hasErrors()) {
 			return "user/checkin";
 		}
+		BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date today = new Date();
+		user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
 		user.setRegistrationDate(dateFormat.format(today));
 		user.setIsActive(true);
 		try{
