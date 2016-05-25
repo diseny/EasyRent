@@ -1,5 +1,7 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.uji.ei1027.easyrent.dao.CredentialsDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
+import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Credentials;
+import es.uji.ei1027.easyrent.domain.Property;
+import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.User;
 
 @Controller 
@@ -20,6 +26,8 @@ public class UserController {
    
 	private UserDao userDao;
 	private PropertyDao propertyDao;
+	private ReservationDao reservationDao;
+	private CredentialsDao credentialsDao;
 
    @Autowired 
    public void setUserDao(UserDao userDao) {
@@ -29,6 +37,16 @@ public class UserController {
    @Autowired 
    public void setPropertyDao(PropertyDao propertyDao) {
        this.propertyDao = propertyDao;
+   }
+   
+   @Autowired 
+   public void setReservationDao(ReservationDao reservationDao) {
+       this.reservationDao = reservationDao;
+   }
+   
+   @Autowired 
+   public void setCredentialsDao(CredentialsDao credentialsDao) {
+       this.credentialsDao = credentialsDao;
    }
    
    @RequestMapping("/list.html") 
@@ -74,6 +92,9 @@ public class UserController {
    
    @RequestMapping(value="/delete", method=RequestMethod.POST) 
    public String confirmDeleteUser(HttpSession session, Model model) {
+	   User user = (User)session.getAttribute("user");
+	   user.setIsActive(false);
+	   credentialsDao.updateCredentials(user);
 	   session.invalidate();
 	   return "redirect:../index.jsp";
    }
@@ -85,8 +106,23 @@ public class UserController {
 	   if(user.getRole().equals("Owner")){
 		   model.addAttribute("propertiesOwner", propertyDao.getPropertyOwner(user.getUsername()));
 	   }
-	   else{
-		   
+	   else if(user.getRole().equals("Tenant")){
+		   List<Reservation> reservations = reservationDao.getReservationsTenant(user.getUsername());
+		   for(Reservation res: reservations){
+			   Property p = propertyDao.getProperty(res.getIdProperty());
+			   res.setOwnerUsername(p.getOwnerUsername());
+			   res.setPropertyTitle(p.getTitle());
+		   }
+		   model.addAttribute("reservations", reservations);
+	   }
+	   else {
+		   List<Reservation> reservations = reservationDao.getReservations();
+		   for(Reservation res: reservations){
+			   Property p = propertyDao.getProperty(res.getIdProperty());
+			   res.setOwnerUsername(p.getOwnerUsername());
+			   res.setPropertyTitle(p.getTitle());
+		   }
+		   model.addAttribute("reservations", reservations);
 	   }
 	   return "user/profile";
    }

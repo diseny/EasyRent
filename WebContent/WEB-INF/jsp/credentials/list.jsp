@@ -10,7 +10,6 @@
 		<tr> 
 			<th>#</th>
 			<th>Usuario</th>
-			<th>Contraseña</th>
 			<th>Rol</th>
 			<th>DNI</th>
 			<th>Nombre</th>
@@ -25,7 +24,6 @@
 			<tr class="fons">
 				<td>${loop.index + 1}</td>
 				<td>${cred.username}</td>
-				<td>${cred.password}</td>
 				<td>${cred.role}</td>
 				<td>${cred.nationalId}</td>
 				<td>${cred.name}</td>

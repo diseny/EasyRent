@@ -42,7 +42,6 @@ public class OwnerController {
 		if (bindingResult.hasErrors())
 			return "owner/add";
 		try {
-			owner.setIsActive(true);
 			ownerDao.addOwner(owner);
 		} catch (Exception e) {
 			if(e.getMessage()==null){

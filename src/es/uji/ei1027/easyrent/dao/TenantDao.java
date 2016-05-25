@@ -36,7 +36,6 @@ public class TenantDao {
 	    	tenant.setPostalAddress(rs.getString("postal_address"));
 	    	tenant.setRegistrationDate(rs.getString("registration_date"));
 	    	tenant.setPhoneNumber(rs.getString("phone_number"));
-	    	tenant.setIsActive(rs.getBoolean("is_active"));
 	    	return tenant;
 	    }
 	}
@@ -45,18 +44,18 @@ public class TenantDao {
 		 return this.jdbcTemplate.query("SELECT * FROM Tenant;", new TenantMapper());
 	}	 
 		
-	public Tenant getTenant(String username) {
+	public Tenant getTenant(String username){
 		return this.jdbcTemplate.queryForObject("SELECT * FROM Tenant WHERE username=?;",  new Object[] {username}, new TenantMapper());
 	}
 	
 	public void addTenant(Tenant tenant) throws PSQLException{
 		String []fecha = tenant.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("INSERT INTO Tenant(username, national_id, name, surname, email, postal_address, registration_date, phone_number, is_active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", tenant.getUsername(), tenant.getNationalId(), tenant.getName(), tenant.getSurname(), tenant.getEmail(), tenant.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), tenant.getPhoneNumber(), tenant.getIsActive());
+		this.jdbcTemplate.update("INSERT INTO Tenant(username, national_id, name, surname, email, postal_address, registration_date, phone_number) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", tenant.getUsername(), tenant.getNationalId(), tenant.getName(), tenant.getSurname(), tenant.getEmail(), tenant.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), tenant.getPhoneNumber());
 	}
 		
 	public void updateTenant(Tenant tenant) {
 		String []fecha = tenant.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("UPDATE Tenant SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", tenant.getNationalId(), tenant.getName(), tenant.getSurname(), tenant.getEmail(), tenant.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), tenant.getPhoneNumber(), tenant.getIsActive(), tenant.getUsername());
+		this.jdbcTemplate.update("UPDATE Tenant SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ? WHERE username = ?;", tenant.getNationalId(), tenant.getName(), tenant.getSurname(), tenant.getEmail(), tenant.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), tenant.getPhoneNumber(), tenant.getUsername());
 	}
 		
 	public void deleteTenant(Tenant tenant) {

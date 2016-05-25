@@ -5,6 +5,7 @@ public class Credentials {
 	private String username;
 	private String password;
 	private String role;
+	private boolean isActive;
 		
 	public String getUsername() { 
 		return username; 
@@ -30,9 +31,17 @@ public class Credentials {
 		this.role = role; 
 	}
 	
+	public boolean getIsActive() { 
+		return isActive; 
+	}
+	
+	public void setIsActive(boolean isActive) { 
+		this.isActive = isActive; 
+	}
+	
 	@Override
 	public String toString() {
-		return "Credentials: username '" + username + "', password '" + password + "', role '" + role + "'.";
+		return "Credentials: username '" + username + "', password '" + password + "', role '" + role + "', isActive '" + isActive + "'.";
 	}
 	
 }

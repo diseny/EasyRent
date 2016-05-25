@@ -51,4 +51,7 @@
 	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
 	<bean id="periodDao" class="es.uji.ei1027.easyrent.dao.PeriodDao" />
 	
+	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
+	<bean id="reservationDao" class="es.uji.ei1027.easyrent.dao.ReservationDao" />
+	
 </beans>

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import es.uji.ei1027.easyrent.domain.Credentials;
+import es.uji.ei1027.easyrent.domain.User;
 
 @Repository
 public class CredentialsDao {
@@ -31,6 +32,7 @@ public class CredentialsDao {
 			credentials.setUsername(rs.getString("username"));
 			credentials.setPassword(rs.getString("pwd"));
 			credentials.setRole(rs.getString("role"));
+			credentials.setIsActive(rs.getBoolean("is_active"));
 	    	return credentials;
 	    }
 	}
@@ -44,11 +46,11 @@ public class CredentialsDao {
 	}
 	
 	public void addCredentials(Credentials credentials) throws PSQLException{
-		this.jdbcTemplate.update("INSERT INTO Credentials(username, pwd, role) VALUES(?, ?, ?);", credentials.getUsername(), credentials.getPassword(), credentials.getRole());
+		this.jdbcTemplate.update("INSERT INTO Credentials(username, pwd, role, is_active) VALUES(?, ?, ?, ?);", credentials.getUsername(), credentials.getPassword(), credentials.getRole(), credentials.getIsActive());
 	}
 		
-	public void updateCredentials(Credentials credentials) {
-		this.jdbcTemplate.update("UPDATE Credentials SET pwd = ?, role = ? WHERE username = ?;", credentials.getPassword(), credentials.getRole(), credentials.getUsername());
+	public void updateCredentials(User credentials) {
+		this.jdbcTemplate.update("UPDATE Credentials SET pwd = ?, role = ?, is_active = ? WHERE username = ?;", credentials.getPassword(), credentials.getRole(), credentials.getIsActive(), credentials.getUsername());
 	}
 		
 	public void deleteCredentials(Credentials credentials) {

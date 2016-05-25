@@ -7,13 +7,15 @@ public class Reservation {
 	private int trackingNumber;
 	private String userNameTenant;
 	private int idProperty;
-	private Date applicationTimestamp;
-	private Date confirmationTimestamp;
+	private String applicationTimestamp;
+	private String confirmationTimestamp;
 	private int numPeople;
-	private Date startDate;
-	private Date finishDate;
+	private String startDate;
+	private String finishDate;
 	private double totalAmount;
 	private String status;
+	private String ownerUsername;
+	private String propertyTitle;
 			
 	public int getTrackingNumber() { 
 		return trackingNumber; 
@@ -23,19 +25,19 @@ public class Reservation {
 		this.trackingNumber = trackingNumber; 
 	}
 	
-	public Date getApplicationTimestamp() { 
+	public String getApplicationTimestamp() { 
 		return applicationTimestamp; 
 	}
 	
-	public void setApplicationTimestamp(Date applicationTimestamp) {
+	public void setApplicationTimestamp(String applicationTimestamp) {
 		this.applicationTimestamp = applicationTimestamp; 
 	}
 	
-	public Date getConfirmationTimestamp() { 
+	public String getConfirmationTimestamp() { 
 		return confirmationTimestamp; 
 	}
 	
-	public void setConfirmationTimestamp(Date confirmationTimestamp) { 
+	public void setConfirmationTimestamp(String confirmationTimestamp) { 
 		this.confirmationTimestamp = confirmationTimestamp; 
 	}
 	
@@ -47,19 +49,19 @@ public class Reservation {
 		this.numPeople = numPeople; 
 	}
 	
-	public Date getStartDate() { 
+	public String getStartDate() { 
 		return startDate; 
 	}
 	
-	public void setStartDate(Date startDate) { 
+	public void setStartDate(String startDate) { 
 		this.startDate = startDate; 
 	}
 	
-	public Date getFinishDate() { 
+	public String getFinishDate() { 
 		return finishDate; 
 	}
 	
-	public void setFinishDate(Date finishDate) { 
+	public void setFinishDate(String finishDate) { 
 		this.finishDate = finishDate; 
 	}
 	
@@ -94,12 +96,28 @@ public class Reservation {
 	public void setIdProperty(int idProperty) { 
 		this.idProperty = idProperty; 
 	}
-		
+	
+	public String getOwnerUsername() { 
+		return ownerUsername; 
+	}
+	
+	public void setOwnerUsername(String ownerUsername) { 
+		this.ownerUsername = ownerUsername; 
+	}
+	
+	public String getPropertyTitle() { 
+		return propertyTitle; 
+	}
+	
+	public void setPropertyTitle(String propertyTitle) { 
+		this.propertyTitle = propertyTitle; 
+	}
+	
 	@Override
 	public String toString() {
 		return "Reservation: trackingNumber '" + trackingNumber + "', applicationTimestamp '" + applicationTimestamp + "', confirmationTimestamp '" + confirmationTimestamp +
 				"', numPeople '" + numPeople + "', startDate '" + startDate + "', finishDate '" + finishDate + "', totalAmount '" + totalAmount + "', status '" + status + 
-				"', userNameTenant '" + userNameTenant + "', idProperty '" + idProperty + "'.";
+				"', userNameTenant '" + userNameTenant + "', idProperty '" + idProperty + "', owner '" + ownerUsername + "', propertyTitle '" + propertyTitle + "'.";
 	} 
 	
 }
