@@ -20,19 +20,11 @@
         	<label>Fecha Inicio</label>
         </div>
         <div class="col-md-12">
-<<<<<<< HEAD
-         <div class="form-group">
-       		 <div class="date">
-           		 <div class="input-group input-append date" id="datePickerEnd">
-            	    <input type="text" class="form-control" name="date" disabled/>
-                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-       	 </div>
-=======
+
 	        <div class="form-group">
 	       		<div class="date">
 	           		<div class="input-group input-append date" id="datePickerInit">
-	            	    <form:input class="form-control" type="startDate" path="startDate" style="width:120px"/>
+	            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" />
 	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 	            	</div>
 	       	 	</div>
@@ -42,13 +34,13 @@
 		<div class="col-md-2  sm">
 		<div class="col-md-12">
         	<label>Fecha Final</label>
->>>>>>> master
+
         </div>
         <div class="col-md-12">
 	        <div class="form-group">
 	       		<div class="date">
 	           		<div class="input-group input-append date" id="datePickerEnd">
-	            	    <form:input class="form-control" type="finishDate" path="finishDate" style="width:120px"/>
+	            	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" />
 	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 	            	</div>
 	       	 	</div>
@@ -177,7 +169,7 @@
 		    $('#datePickerInit')
 		        .datepicker({
 		        	  autoclose: false,    // It is false, by default
-		              format: 'dd/mm/yyyy',
+		        	  format: 'dd/mm/yyyy',
 		              
 	                   
 		        })
@@ -187,7 +179,7 @@
 		            
 		        	 $('#datePickerEnd input').prop('disabled', false);
 		          $('#datePickerEnd').datepicker({
-		 	            format: 'dd/mm/yyyy',
+		 	            format: 'mm/dd/yyyy',
 		 	            startDate: dateInit, 
 		 	        })
 					
