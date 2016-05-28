@@ -1,0 +1,59 @@
+#slider-left:hover{
+	cursor:url('../images/arrowLeft.gif'),pointer;
+	
+}
+#slider-right:hover{
+	cursor:url('../images/arrowRight.gif'),pointer;
+}
+.fotosInfo{
+	opacity:0.8;
+	text-align:center;
+	
+}
+.fotosInfo h1{
+	margin-top:25%;
+	background-color:#fff;
+	width:100%;
+}
+.fotosInfo:hover{
+	opacity:0.6;
+	cursor:pointer;
+}
+
+.carousel-imagenes{
+	display:none;
+}
+
+.carousel-imagenes.show{
+	display:block;
+	position:fixed;
+	z-index:200;
+	height:100%;
+	width:100%;
+	background-color: rgba(0, 0, 0, 0.498039);
+}
+
+#close-icon{
+	position: fixed;
+    top: 7%;
+    left: 80%;
+    width: 50px;
+}
+#close-icon:hover{
+	cursor:pointer;	
+	
+}
+
+#thumbcarousel{
+position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 200px;
+    width: 100%;
+    top: 80%;
+}
+
+#carousel{
+	height: 80%;
+}
