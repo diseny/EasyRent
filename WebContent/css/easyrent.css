@@ -7,7 +7,7 @@
 @import url('../css/bootflat/bootflat/css/bootflat.min.css');
 @import url('../css/propertyList.css');
 @import url('../css/navegacio.css');
-
+@import url('../css/info.css');
 
 .loggeduser { 
 	color: gray;				

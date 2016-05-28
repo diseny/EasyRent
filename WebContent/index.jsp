@@ -20,6 +20,42 @@
 		</div>
 		
 		<div class="col-md-3  nm">
+        	<label>Fecha Inicio</label>
+     
+	        <div class="form-group">
+	       		<div class="date">
+	           		<div class="input-group input-append date" id="datePickerInit">
+	            	    <input class="form-control" type="text" path="startDate"  style="width:120px" >
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+	       	 	</div>
+	        </div>
+	   
+		</div>
+		<div class="col-md-3  nm">
+		
+        	<label>Fecha Final</label>
+	      <div class="form-group">
+	       		<div class="date">
+	           		<div class="input-group input-append date" id="datePickerEnd">
+	            	    <input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" >
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+	       	 	</div>
+	        </div>
+		</div>
+		<div class="col-md-2 nm busquedaAvanzadaIcon show">
+			
+			<label>Ver más</label>
+			<img src="${pageContext.request.contextPath}/images/plusIcon.png" onclick="busqAvanzada()" style="cursor:pointer">
+		</div>
+		<div class="col-md-2 nm busquedaNormalIcon">
+			<label>Ver menos</label>
+			<img src="${pageContext.request.contextPath}/images/minusIcon.png" onclick="closeBusqueda()" style="cursor:pointer">
+		</div>
+		</div>
+		<div class="row busquedaAvanzada" >
+		<div class="col-md-3  nm">
 			<div class="col-md-12">
 				<label>Capacidad</label>
 			</div>		 
@@ -35,17 +71,8 @@
 		   <input id="numRooms" type="number" min="0"  name="numRooms" class="form-control" type="text" placeholder="" autocomplete="on">
 			</div>
 		</div>
-		<div class="col-md-2 nm busquedaAvanzadaIcon show">
-			
-			<label>Ver más</label>
-			<img src="${pageContext.request.contextPath}/images/plusIcon.png" onclick="busqAvanzada()" style="cursor:pointer">
-		</div>
-		<div class="col-md-2 nm busquedaNormalIcon">
-			<label>Ver menos</label>
-			<img src="${pageContext.request.contextPath}/images/minusIcon.png" onclick="closeBusqueda()" style="cursor:pointer">
-		</div>
-		</div>
-		<div class="row busquedaAvanzada" >
+		
+		
 			<div class="col-md-3 nm">
 				<div class="col-md-12">
 					<label>Baños</label>
@@ -62,22 +89,7 @@
 				  <input id="numBeds" type="number"  min="0"  name="numBeds" class="form-control" type="text" placeholder="" autocomplete="on">
 				</div>
 			</div>
-			<div class="col-md-3 nm">
-				<div class="col-md-12">
-					<label>m<sup>2</sup>: </label>
-				</div>
-				<div class="col-md-12">
-				  <input id ="squareMeters" type="number" min="0"  name="squareMeters" class="form-control" type="text" placeholder="" autocomplete="on">
-				</div>
-			</div>
-			<div class="col-md-3 nm">
-				<div class="col-md-12">
-					<label>Calle</label>
-				</div>
-				<div class="col-md-12">
-				   <input type="street" id="street" name="street" class="form-control" type="text" placeholder="" autocomplete="on">
-				</div>
-			</div>
+			
 		</div>
 		
 		<div ><button class=" nm col-md-4 col-md-offset-4 btn btn-success">OK</button></div>
@@ -85,8 +97,71 @@
 	</div>
 	</form>
 </div>
-<script>
+<div class="col-md-12" style="text-align:center;min-height:200px;background-color:currentColor">
+	<div class="col-md-offset-2 col-md-2">
+
+		<div style="border-radius:100%;margin-bottom:40px;margin-top:20px;height:200px;background-image: url('https://4.bp.blogspot.com/-n7iFUF_ISrg/Vw-OthjOD4I/AAAAAAAAFpE/79leu2mbuDskh1yIoz8uAs2VPuKFm39sgCLcB/s1600/post.2.jpg');background-size: cover;background-position: 50%;     background-position-x: 41%;background-repeat: no-repeat;">
+		</div>
+		<h3 style="color:#fff">Fácil</h3>
+	</div>
+	<div style="color:#fff" class="col-md-offset-1 col-md-2">
 	
+	<div style="border-radius:100%;margin-bottom:40px;margin-top:20px;height:200px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+		</div>
+		<h3>Rápido</h3>
+	</div>
+	<div style="color:#fff" class="col-md-offset-1 col-md-2">
+	
+	<div style="border-radius:100%;margin-top:20px;margin-bottom:40px;height:200px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+		</div>
+		<h3>Seguro</h3>
+	</div>
+</div>
+<div class="col-md-12" style="min-height:200px;background-color:#fff">
+	<div class="col-md-12" style="text-align:center">
+		<h3>Todos las localidades de la provincia</h3>
+	</div>
+	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+		<h3>Benicassim</h3>
+	</div> 
+	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.turismodecastellon.com/cmsupload/fotogaleria/Vilafames_Vista-panoramica.jpg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+		<h3>Vilafames</h3>
+	</div>
+	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.casesdelsgasulla.com/wp-content/uploads/2013/05/glob_morella.jpg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+		<h3>Morella</h3>
+	</div>
+	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.oropesadelmar.com.es/images/backgrounds/1.jpg');background-size:cover;background-position: 50%; background-repeat: no-repeat;">
+		<h3>Oropesa</h3>
+	</div>
+</div>
+
+<div class="col-md-12" style="min-height:200px;background-color:#00ADEF">
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		
+		var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+	    $('#datePickerInit')
+	        .datepicker({
+	        	  autoclose: false,    // It is false, by default
+	        	  format: 'dd/mm/yyyy',
+	              
+	               
+	        })
+	        .on('changeDate', function(e) {
+	            // Revalidate the date field
+	        	 dateInit = new Date($('#datePickerInit').datepicker("getDate")); 
+	            
+	        	 $('#datePickerEnd input').prop('disabled', false);
+	          $('#datePickerEnd').datepicker({
+	 	            format: 'mm/dd/yyyy',
+	 	            startDate: dateInit, 
+	 	        })
+				
+	        });
+	});
 	if(!jQuery('#capacity').val()){ jQuery('#capacity').attr('value',"0")}
 	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
 	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
@@ -101,7 +176,7 @@
 		jQuery('.busquedaNormalIcon').addClass("show");
 	}
 	function closeBusqueda(){
-		jQuery('.welcomeSearch').css('height','100');
+		jQuery('.welcomeSearch').css('height','135');
 		jQuery('.busquedaAvanzada').removeClass("show");
 		jQuery('.busquedaAvanzadaIcon').addClass("show");
 		jQuery('.busquedaNormalIcon').removeClass("show");
