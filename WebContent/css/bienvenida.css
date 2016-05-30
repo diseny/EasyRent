@@ -73,4 +73,8 @@
 }
 .nm{
 	margin-top:10px;
-}}
+}
+.citiesWelcome:hover{
+	opacity:0.6;
+	cursor:pointer;
+}
