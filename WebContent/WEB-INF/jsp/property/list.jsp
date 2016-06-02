@@ -8,7 +8,8 @@
 	</div></div>
 	
 	<div class="col-md-12">
-	<div class="col-md-6 camposBusqueda">
+	<div class="col-md-6 ">
+		<div class="col-md-12 camposBusqueda">
 		<form:form id="searchList" method="post" modelAttribute="property">
 			<div class="col-md-12">
 				<div class="col-md-5 sm" >
@@ -111,6 +112,23 @@
 		</div>
 	
 		</form:form>
+		</div>
+		  <div class="col-md-12" id="map"></div>
+    <script type="text/javascript">
+		
+		var map;
+		function initMap() {
+		  map = new google.maps.Map(document.getElementById('map'), {
+		    center: {lat: -34.397, lng: 150.644},
+		    zoom: 8
+		  });
+		}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+		
 	</div>
 	
 	<div class="col-md-6">
@@ -404,11 +422,16 @@
 		$(document).ready(function() {
 			
 			var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+			
+			var today = new Date();
+			hoy = new Date(today);
+			//today = mm+'/'+dd+'/'+yyyy;
+			console.log(today)
 		    $('#datePickerInit')
 		        .datepicker({
 		        	  autoclose: false,    // It is false, by default
 		        	  format: 'dd/mm/yyyy',
-		              
+		        	  startDate: hoy, 
 	                   
 		        })
 		        .on('changeDate', function(e) {
@@ -422,7 +445,7 @@
 		 	        })
 					
 		        });
-		   
+		   console.log(dateInit)
 		});
 		
 		function post(path){
