@@ -141,11 +141,7 @@
 			            mapOptions);
 			 
 			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
-			        //var direcciones= <c:out value="${properties}"/>;
-			        
-			        
-			       		 
-			       		 
+			      
 			      
 			     	 var direcciones = ["Ronda Magdalena (Capuchinos), Castellón", "Plaza Clave, 11, Castellón de la Plana", "calle Juan Ramon Jimenez 8, Castellón"];
 			     	<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -193,6 +189,9 @@
 	</div>
 	
 	<div class="col-md-6">
+	<div class="col-md-12" style="min-height:70px;background-color:green">
+	<h4>Ordenar por :</h4>
+	</div>
 	<c:forEach items="${properties}" var="property" varStatus="loop">
 		<div class="col-md-6 propertyResult">
 			<div class="propData">
@@ -434,7 +433,6 @@
 			<th>Título</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
-			<th>Baños</th>
 			<th>Calle</th>
 			<th>Ciudad</th>
 			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
@@ -451,30 +449,7 @@
 				<td>
 					<c:forEach items="${services}" var="service" varStatus="loopServices">
 						<c:if test="${property.id == service.propertyId}" >
-	   						<c:if test="${service.serviceId == 0}" >
-		   						<img src="${pageContext.request.contextPath}/images/swimmingPool.png" title="Piscina" alt="Piscina" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 1}" >
-		   						<img src="${pageContext.request.contextPath}/images/balcony.png" title="Balcón" alt="Balcón" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 2}" >
-		   						<img src="${pageContext.request.contextPath}/images/jacuzzi.png" title="Jacuzzi" alt="Jacuzzi" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 3}" >
-		   						<img src="${pageContext.request.contextPath}/images/parquet.png" title="Parqué" alt="Parqué" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 4}" >
-		   						<img src="${pageContext.request.contextPath}/images/garden.png" title="Jardín" alt="Jardín" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 5}" >
-		   						<img src="${pageContext.request.contextPath}/images/wifi.png" title="Wi-Fi" alt="Wi-Fi" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 6}" >
-		   						<img src="${pageContext.request.contextPath}/images/tv.png" title="TV" alt="TV" style="width:25px;height:25px;">
-							</c:if>
-							<c:if test="${service.serviceId == 7}" >
-		   						<img src="${pageContext.request.contextPath}/images/gym.png" title="Gimnasio" alt="Gimnasio" style="width:25px;height:25px;">
-							</c:if>
+	   						<img src="${pageContext.request.contextPath}/images/${service.serviceName}.png" title="${service.serviceName}" alt="${service.serviceName}" style="width:25px;height:25px;">
 						</c:if>
 					</c:forEach>
 				</td>
@@ -482,7 +457,6 @@
 				<td>${property.title}</td>
 				<td>${property.capacity}</td>
 				<td>${property.numRooms}</td>
-				<td>${property.numBathrooms}</td>
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
