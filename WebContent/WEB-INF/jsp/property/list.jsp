@@ -1,10 +1,193 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
 	</div></div>
+	
+	<div class="col-md-12">
+	<div class="col-md-6 camposBusqueda">
+		<form:form id="searchList" method="post" modelAttribute="property">
+			<div class="col-md-12">
+				<div class="col-md-5 sm" >
+				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" list="municipios" placeholder="Ciudad"/>
+				</div>
+				<div class="col-md-3 sm">
+			        <div class="col-md-12">
+			
+				        <div class="form-group">
+				       		<div class="date">
+				           		<div class="input-group input-append date" id="datePickerInit">
+				            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px"/>
+				                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+				            	</div>
+				       	 	</div>
+				        </div>
+				    </div>
+				</div>
+				<div class="col-md-3 sm">
+					<div class="col-md-12">
+		        <div class="form-group">
+		       		<div class="date">
+		           		<div class="input-group input-append date" id="datePickerEnd">
+		            	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" />
+		                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+		            	</div>
+		       	 	</div>
+		        </div>
+		    </div>
+	    </div>
+	    <div class="showMore">
+	    	<div class="col-md-6 sm "><p class="btn btn-primary" onclick="verMas()">Ver más</p></div>
+	    	<div class="col-md-6 sm"><button class="btn btn-success" type="submit">Buscar</button></div>
+	    	</div>
+		</div>
+		<div class="avanzado">
+		<div class="col-md-12">
+		
+			<div class="col-md-4 sm ">
+				<div class="col-md-12">
+					<form:label path="capacity">Capacidad:</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input class="form-control" id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
+				</div>
+			</div>
+			<div class="col-md-4 sm">
+				<div class="col-md-12">
+					<form:label path="numRooms">Habitaciones:</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input class="form-control" id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/>
+				</div>
+			</div>
+			<div class="col-md-4 sm">
+				<div class="col-md-12">
+					<form:label path="numBathrooms">Baños:</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/>
+				</div>
+		</div>
+		
+		</div>
+		<div class="col-md-12">
+			<div class="col-md-4  sm">
+				<div class="col-md-12">
+					<form:label path="numBeds">Camas:</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input id="numBeds" type="number"  min="0"  class="form-control " path="numBeds" placeholder="Camas"/>
+				</div>
+			</div>
+			
+			<div class="col-md-4 sm">
+				<div class="col-md-12">
+					<form:label path="squareMeters">m<sup>2</sup>:</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input id="squareMeters" type="number" class="form-control " min="0" path="squareMeters" placeholder="m2"/>
+				</div>
+			</div>
+			
+			
+			<div class="col-md-4 sm">
+				<div class="col-md-12">
+					<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/día):</form:label>
+				</div>
+				<div class="col-md-12">
+					<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 sm">
+				<form:label path="street">Calle:</form:label>
+				<form:input id="street" class="form-control" type="street" path="street" placeholder="Calle"/>
+		</div>
+			<div class="col-md-6 sm"><p onclick="verMenos()" class="btn btn-primary">Ver menos</p></div>
+			<div class="col-md-6 sm"><button class="btn btn-success"type="submit">Buscar</button></div>
+		</div>
+	
+		</form:form>
+	</div>
+	
+	<div class="col-md-6">
+	<c:forEach items="${properties}" var="property" varStatus="loop">
+		<div class="col-md-6 propertyResult">
+			<div class="propData">
+				<h5 class="col-md-7 title"><a href="info/${property.id}.html">${property.title}</a></h5>
+				<h5 class="col-md-5 price">${property.dailyPrice} e</h5>
+			</div>
+			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
+				<div class="carousel-inner" >	
+				<c:set var="i" value="${0}"></c:set>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">	
+					<c:if test="${property.id == image.ID}" >
+						<c:if test="${i!=0}">
+							<div class="item" style=" background-image: url('${image.href}')">	
+							</div>
+						</c:if>
+						<c:if test="${i==0}">
+							<div class="item active slider" style="background-image: url('${image.href}')">
+							</div>
+						<c:set var="i" value="${1}"></c:set>
+						
+    					 
+						</c:if>
+						
+					</c:if>
+					 
+				</c:forEach>
+				
+					
+					<!-- <a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
+       				  <i class="material-icons"></i>
+    				 </a>
+    				 <a id="slider-right" class="right carousel-control" href="#carousel" data-slide="next">
+      			   <i class="material-icons"></i>
+     				</a> -->
+   				 </div>
+   				 <a style="height:30px;width:30px;background-color:#000"id="slider-left" class="left carousel-control" href="#carousel${loop.index }" data-slide="prev">
+       				<img id="flechaControl"src="${pageContext.request.contextPath}/images/arrowLeft.gif">
+   				 </a>
+   				<a style="height:30px;width:30px;background-color:#000" id="slider-right" class="right carousel-control" href="#carousel${loop.index }" data-slide="next">
+      			   <img id="flechaControl" src="${pageContext.request.contextPath}/images/arrowRight.gif">
+     			</a>
+   			</div>
+  		</div>
+   		</c:forEach>
+   		
+			<!--<tr class="fons">
+				<td>${loop.index + 1}</td>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">
+					<c:if test="${property.id == image.ID}" >
+   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
+					</c:if>
+				</c:forEach>
+			<td>${property.ownerUsername}</td>
+				<td>${property.title}</td>
+				<td>${property.capacity}</td>
+				<td>${property.numRooms}</td>
+				<td>${property.numBathrooms}</td>
+				<td>${property.numBeds}</td>
+				<td>${property.squareMeters}</td>
+				<td>${property.street}</td>
+				<td>${property.city}</td>
+				<td>${property.dailyPrice}</td>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
+				
+			</tr>-->
+		 
+	
+		
+		
+	
+	
+	</div>
+	</div>
+	
 	<div class="col-md-12 camposBusqueda" >
 	<form:form id="searchList" method="post" modelAttribute="property">
 		<div class="col-md-12 sm" style="height:50px">
@@ -65,10 +248,10 @@
 		</div>
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="numBathrooms">Ba�os:</form:label>
+				<form:label path="numBathrooms">Baños:</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Baños"/>
+				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/>
 			</div>
 		</div>
 		
@@ -98,10 +281,10 @@
 		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/d�a):</form:label>
+				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/día):</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por día"/>
+				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/>
 			</div>
 		</div>
 		</div>
@@ -161,8 +344,63 @@
    
 
     
-		<script>
+	
 		
+		<tr> 
+			<th>#</th>
+			<th>Imagen</th>
+			<th>Propietario</th>
+			<th>Título</th>
+			<th>Capacidad</th>
+			<th>Habitaciones</th>
+			<th>Baños</th>
+			<th>Camas</th>
+			<th>m<sup>2</sup></th>
+			<th>Calle</th>
+			<th>Ciudad</th>
+			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
+			<th></th>
+		</tr>
+		<c:forEach items="${properties}" var="property" varStatus="loop">
+			<tr class="fons">
+				<td>${loop.index + 1}</td>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">
+					<c:if test="${property.id == image.ID}" >
+   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
+					</c:if>
+				</c:forEach>
+				<td>${property.ownerUsername}</td>
+				<td>${property.title}</td>
+				<td>${property.capacity}</td>
+				<td>${property.numRooms}</td>
+				<td>${property.numBathrooms}</td>
+				<td>${property.numBeds}</td>
+				<td>${property.squareMeters}</td>
+				<td>${property.street}</td>
+				<td>${property.city}</td>
+				<td>${property.dailyPrice}</td>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
+			</tr>
+		</c:forEach> 
+	</table>
+	
+</jsp:body>
+</t:paginabasica>
+	<script>
+	
+		$(document).ready(function() { $('.propertyResult .carousel').carousel('pause');});
+	
+		
+	
+		function verMas(){
+			$('.avanzado').addClass("show");
+			$('.showMore').css('display','none');
+		}
+		function verMenos(){
+			$('.avanzado').removeClass("show");
+			$('.showMore').css('display','block');
+			
+		}
 		$(document).ready(function() {
 			
 			var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
@@ -184,13 +422,6 @@
 		 	        })
 					
 		        });
-		    
-			
-		    
-	        
-		   
-		    
-			
 		   
 		});
 		
@@ -227,48 +458,6 @@
 		}
 					
 		</script>
-		
-		<tr> 
-			<th>#</th>
-			<th>Imagen</th>
-			<th>Propietario</th>
-			<th>T�tulo</th>
-			<th>Capacidad</th>
-			<th>Habitaciones</th>
-			<th>Ba�os</th>
-			<th>Camas</th>
-			<th>m<sup>2</sup></th>
-			<th>Calle</th>
-			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/d�a)</th>
-			<th></th>
-		</tr>
-		<c:forEach items="${properties}" var="property" varStatus="loop">
-			<tr class="fons">
-				<td>${loop.index + 1}</td>
-				<c:forEach items="${images}" var="image" varStatus="loopImages">
-					<c:if test="${property.id == image.ID}" >
-   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
-					</c:if>
-				</c:forEach>
-				<td>${property.ownerUsername}</td>
-				<td>${property.title}</td>
-				<td>${property.capacity}</td>
-				<td>${property.numRooms}</td>
-				<td>${property.numBathrooms}</td>
-				<td>${property.numBeds}</td>
-				<td>${property.squareMeters}</td>
-				<td>${property.street}</td>
-				<td>${property.city}</td>
-				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m�s</a>
-			</tr>
-		</c:forEach> 
-	</table>
-	
-</jsp:body>
-</t:paginabasica>
-
 <datalist id="municipios">
 		
 		<option value="AIN">
@@ -282,9 +471,9 @@
 		<option value="ALMASSORA">
 		<option value="ALMEDIJAR">
 		<option value="ALMENARA">
-	  	<option value="ALQUERIAS DEL NI�O PERDIDO">
+	  	<option value="ALQUERIAS DEL NIÑO PERDIDO">
 		 <option value="ALTURA">
-		 <option value="ARA�UEL">
+		 <option value="ARAÑUEL">
 		 <option value="ARES DEL MAESTRE">
 		 <option value="ARGELITA">
 		 <option value="ARTANA">
@@ -308,7 +497,7 @@
 		 <option value="CASTELL DE CABRES">
 		 <option value="CASTELLFORT">
 		 <option value="CASTELLNOVO">
-		 <option value="CASTELL�N DE LA PLANA">
+		 <option value="CASTELLÓN DE LA PLANA">
 		 <option value="CASTILLO DE VILLAMALEFA">
 		 <option value="CATI">
 		 <option value="CAUDIEL">
@@ -353,17 +542,17 @@
 		 <option value="ORPESA">
 		 <option value="PALANQUES">
 		 <option value="PAVIAS">
-		 <option value="PE�ISCOLA">
+		 <option value="PEÑISCOLA">
 		 <option value="PINA DE MONTALGRAO">
 		 <option value="POBLA DE BENIFASSA">
 		 <option value="PORTELL DE MORELLA">
 		 <option value="PUEBLA DE ARENOSO">
 		 <option value="RIBESALBES">
 		 <option value="ROSELL">
-		 <option value="SACA�ET">
+		 <option value="SACAÑET">
 		 <option value="SALZADELLA">
 		 <option value="SAN JORGE">
-		 <option value="SAN JUAN DE MOR�">
+		 <option value="SAN JUAN DE MORÓ">
 		 <option value="SAN RAFAEL DEL RIO">
 		 <option value="SANT MATEU">
 		 <option value="SANTA MAGDALENA DE PULPIS">
@@ -409,3 +598,6 @@
 		 <option value="ZUCAINA">
 		 <option value="MANCOMUNIDAD ESPADAN-MIJARES">
 		</datalist>
+		
+		
+		
