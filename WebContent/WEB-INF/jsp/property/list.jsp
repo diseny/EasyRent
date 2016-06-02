@@ -41,7 +41,7 @@
 		    </div>
 	    </div>
 	    <div class="showMore">
-	    	<div class="col-md-6 sm "><p class="btn btn-primary" onclick="verMas()">Ver m√°s</p></div>
+	    	<div class="col-md-6 sm "><p class="btn btn-primary" onclick="verMas()">Ver m·s</p></div>
 	    	<div class="col-md-6 sm"><button class="btn btn-success" type="submit">Buscar</button></div>
 	    	</div>
 		</div>
@@ -66,10 +66,10 @@
 			</div>
 			<div class="col-md-4 sm">
 				<div class="col-md-12">
-					<form:label path="numBathrooms">Ba√±os:</form:label>
+					<form:label path="numBathrooms">BaÒos:</form:label>
 				</div>
 				<div class="col-md-12">
-					<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Ba√É¬±os"/>
+					<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Ba√±os"/>
 				</div>
 		</div>
 		
@@ -96,10 +96,10 @@
 			
 			<div class="col-md-4 sm">
 				<div class="col-md-12">
-					<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/d√≠a):</form:label>
+					<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/dÌa):</form:label>
 				</div>
 				<div class="col-md-12">
-					<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por d√É¬≠a"/>
+					<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por d√≠a"/>
 				</div>
 			</div>
 		</div>
@@ -194,7 +194,7 @@
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m√°s</a>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m·s</a>
 				
 			</tr>-->
 		 
@@ -266,10 +266,10 @@
 		</div>
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="numBathrooms">Ba√±os:</form:label>
+				<form:label path="numBathrooms">BaÒos:</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Ba√É¬±os"/>
+				<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="Ba√±os"/>
 			</div>
 		</div>
 		
@@ -299,10 +299,10 @@
 		
 		<div class="col-md-2 sm">
 			<div class="col-md-12">
-				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/d√≠a):</form:label>
+				<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/dÌa):</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por d√É¬≠a"/>
+				<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por d√≠a"/>
 			</div>
 		</div>
 		</div>
@@ -367,16 +367,16 @@
 		<tr> 
 			<th>#</th>
 			<th>Imagen</th>
+			<th></th>
+			<th>Servicios</th>
 			<th>Propietario</th>
-			<th>T√≠tulo</th>
+			<th>TÌtulo</th>
 			<th>Capacidad</th>
 			<th>Habitaciones</th>
-			<th>Ba√±os</th>
-			<th>Camas</th>
-			<th>m<sup>2</sup></th>
+			<th>BaÒos</th>
 			<th>Calle</th>
 			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/d√≠a)</th>
+			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/dÌa)</th>
 			<th></th>
 		</tr>
 		<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -387,17 +387,45 @@
    						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
 					</c:if>
 				</c:forEach>
+				<td>
+					<c:forEach items="${services}" var="service" varStatus="loopServices">
+						<c:if test="${property.id == service.propertyId}" >
+	   						<c:if test="${service.serviceId == 0}" >
+		   						<img src="${pageContext.request.contextPath}/images/swimmingPool.png" title="Piscina" alt="Piscina" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 1}" >
+		   						<img src="${pageContext.request.contextPath}/images/balcony.png" title="BalcÛn" alt="BalcÛn" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 2}" >
+		   						<img src="${pageContext.request.contextPath}/images/jacuzzi.png" title="Jacuzzi" alt="Jacuzzi" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 3}" >
+		   						<img src="${pageContext.request.contextPath}/images/parquet.png" title="ParquÈ" alt="ParquÈ" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 4}" >
+		   						<img src="${pageContext.request.contextPath}/images/garden.png" title="JardÌn" alt="JardÌn" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 5}" >
+		   						<img src="${pageContext.request.contextPath}/images/wifi.png" title="Wi-Fi" alt="Wi-Fi" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 6}" >
+		   						<img src="${pageContext.request.contextPath}/images/tv.png" title="TV" alt="TV" style="width:25px;height:25px;">
+							</c:if>
+							<c:if test="${service.serviceId == 7}" >
+		   						<img src="${pageContext.request.contextPath}/images/gym.png" title="Gimnasio" alt="Gimnasio" style="width:25px;height:25px;">
+							</c:if>
+						</c:if>
+					</c:forEach>
+				</td>
 				<td>${property.ownerUsername}</td>
 				<td>${property.title}</td>
 				<td>${property.capacity}</td>
 				<td>${property.numRooms}</td>
 				<td>${property.numBathrooms}</td>
-				<td>${property.numBeds}</td>
-				<td>${property.squareMeters}</td>
 				<td>${property.street}</td>
 				<td>${property.city}</td>
 				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m√°s</a>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver m·s</a>
 			</tr>
 		</c:forEach> 
 	</table>
@@ -494,9 +522,9 @@
 		<option value="ALMASSORA">
 		<option value="ALMEDIJAR">
 		<option value="ALMENARA">
-	  	<option value="ALQUERIAS DEL NI√ëO PERDIDO">
+	  	<option value="ALQUERIAS DEL NI—O PERDIDO">
 		 <option value="ALTURA">
-		 <option value="ARA√ëUEL">
+		 <option value="ARA—UEL">
 		 <option value="ARES DEL MAESTRE">
 		 <option value="ARGELITA">
 		 <option value="ARTANA">
@@ -520,7 +548,7 @@
 		 <option value="CASTELL DE CABRES">
 		 <option value="CASTELLFORT">
 		 <option value="CASTELLNOVO">
-		 <option value="CASTELL√ìN DE LA PLANA">
+		 <option value="CASTELL”N DE LA PLANA">
 		 <option value="CASTILLO DE VILLAMALEFA">
 		 <option value="CATI">
 		 <option value="CAUDIEL">
@@ -565,17 +593,17 @@
 		 <option value="ORPESA">
 		 <option value="PALANQUES">
 		 <option value="PAVIAS">
-		 <option value="PE√ëISCOLA">
+		 <option value="PE—ISCOLA">
 		 <option value="PINA DE MONTALGRAO">
 		 <option value="POBLA DE BENIFASSA">
 		 <option value="PORTELL DE MORELLA">
 		 <option value="PUEBLA DE ARENOSO">
 		 <option value="RIBESALBES">
 		 <option value="ROSELL">
-		 <option value="SACA√ëET">
+		 <option value="SACA—ET">
 		 <option value="SALZADELLA">
 		 <option value="SAN JORGE">
-		 <option value="SAN JUAN DE MOR√ì">
+		 <option value="SAN JUAN DE MOR”">
 		 <option value="SAN RAFAEL DEL RIO">
 		 <option value="SANT MATEU">
 		 <option value="SANTA MAGDALENA DE PULPIS">
