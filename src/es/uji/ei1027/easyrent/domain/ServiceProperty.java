@@ -4,7 +4,8 @@ public class ServiceProperty {
 
 	private int propertyId;
 	private int serviceId;
-		
+	private String serviceName;
+	
 	public int getPropertyId() { 
 		return propertyId; 
 	}
@@ -21,9 +22,17 @@ public class ServiceProperty {
 		this.serviceId = serviceId; 
 	}
 	
+	public String getServiceName(){
+		return serviceName;
+	}
+	
+	public void setServiceName(String serviceName){
+		this.serviceName = serviceName;
+	}
+	
 	@Override
 	public String toString() {
-		return "ServiceProperty: propertyId '" + propertyId + "', serviceId '" + serviceId + "'.";
+		return "ServiceProperty: propertyId '" + propertyId + "', serviceId '" + serviceId + "', serviceName '" + serviceName + "'.";
 	}
 	
 }
