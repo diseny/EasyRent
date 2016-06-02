@@ -24,3 +24,65 @@
 .add-on{
 	background-color:#269ecb;
 }
+
+.avanzado{
+	display:none;
+}
+.avanzada .show{
+	display:block;
+}
+
+.propertyResult{
+	width: 45%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-color: #000;
+    border-style: solid;
+    border-radius: 7px;
+    margin-left: 25px;
+}
+.propertyResult .item{
+	height:270px;
+	
+ background-size:cover;background-position: 50%;background-repeat: no-repeat;
+}
+.propData{
+
+    position: absolute;
+   background-color: #3bafda;
+		 color: #fff;
+    height: 46px;
+    z-index: 90;
+    left: 0%;
+    border-radius: -1px;
+    top: 83%;
+    width: 100%;
+}
+.propData a{
+	color:#000;
+}
+.propData .title{
+	background-color: #fff;
+		 color: #000;
+		 height: 100%;
+      padding: 14px;
+    margin: 0;
+	
+}.propData .price{
+		
+}
+
+.propertyResult .left.carousel-control,.propertyResult .right.carousel-control{
+	top:40%;
+}
+#flechaControl{
+	height:25px;widht:auto;
+}
+.propertyResult #slider-left:hover{
+	cursor:pointer;
+	
+}
+.propertyResult #slider-right:hover{
+	cursor:pointer;
+}

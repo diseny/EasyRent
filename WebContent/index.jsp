@@ -89,7 +89,12 @@
 				  <input id="numBeds" type="number"  min="0"  name="numBeds" class="form-control" type="text" placeholder="" autocomplete="on">
 				</div>
 			</div>
-			
+		
+		  <input type="hidden" min="0" id="pac-input" name="squareMeters" value="0" class="form-control" type="text" placeholder="" autocomplete="on">
+	
+		
+		   <input type="hidden" id="pac-input" name="street" class="form-control" type="text" placeholder="" autocomplete="on">
+	
 		</div>
 		
 		<div ><button class=" nm col-md-4 col-md-offset-4 btn btn-success">OK</button></div>
@@ -121,22 +126,32 @@
 	<div class="col-md-12" style="text-align:center">
 		<h3>Todos las localidades de la provincia</h3>
 	</div>
-	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+	<div class="col-md-offset-2 col-md-3 citiesWelcome"  onclick="buscarEnPueblo('Benicàssim')" style="background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg')">
 		<h3>Benicassim</h3>
 	</div> 
-	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.turismodecastellon.com/cmsupload/fotogaleria/Vilafames_Vista-panoramica.jpg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+	<div class="col-md-offset-2 col-md-3 citiesWelcome" onclick="buscarEnPueblo('Vilafamés')" style="background-image: url('http://www.turismodecastellon.com/cmsupload/fotogaleria/Vilafames_Vista-panoramica.jpg')">
 		<h3>Vilafames</h3>
 	</div>
-	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.casesdelsgasulla.com/wp-content/uploads/2013/05/glob_morella.jpg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+	<div class="col-md-offset-2 col-md-3 citiesWelcome" onclick="buscarEnPueblo('Morella')"  style="background-image: url('http://www.casesdelsgasulla.com/wp-content/uploads/2013/05/glob_morella.jpg')">
 		<h3>Morella</h3>
 	</div>
-	<div class="col-md-offset-2 col-md-3 citiesWelcome"  style="margin-top:20px;height:300px;background-image: url('http://www.oropesadelmar.com.es/images/backgrounds/1.jpg');background-size:cover;background-position: 50%; background-repeat: no-repeat;">
+	<div class="col-md-offset-2 col-md-3 citiesWelcome" onclick="buscarEnPueblo('Oropesa')"  style="background-image: url('http://www.oropesadelmar.com.es/images/backgrounds/1.jpg');">
 		<h3>Oropesa</h3>
 	</div>
 </div>
 
-<div class="col-md-12" style="min-height:200px;background-color:#00ADEF">
-
+<div class="col-md-12" style="min-height:200px;background-color:#00ADEF;text-align:center">
+	<div class="col-md-2 col-md-offset-2" style="margin-top:3%">
+		<h4 style="color:#fff">Más de <br><br>X casa</h4>
+		
+	</div>
+	<div class="col-md-2 col-md-offset-1" style="margin-top:3%">
+		<h4 style="color:#fff">Más de <br><br> 130 localidades</h4>
+		
+	</div>
+	<div class="col-md-2 col-md-offset-1" style="margin-top:3%">
+		<h4 style="color:#fff">Más de <br><br> X usuarios</h4>
+	</div>
 </div>
 
 <script>
@@ -166,7 +181,9 @@
 	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
 	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
 	if(!jQuery('#numBeds').val()){ jQuery('#numBeds').attr('value',"0")}
-	if(!jQuery('#squareMeters').val()){ jQuery('#squareMeters').attr('value',"0")}
+	if(!jQuery("#squareMeters").val()){jQuery("#squareMeters").attr('value',"0")}
+	if(!jQuery("#street").val()){jQuery("#street").attr('value',"0")}
+	if(!jQuery("#dailyPrice").val()){jQuery("#dailyPrice").attr('value',"0")}
 	
 	
 	function busqAvanzada(){
@@ -181,6 +198,36 @@
 		jQuery('.busquedaAvanzadaIcon').addClass("show");
 		jQuery('.busquedaNormalIcon').removeClass("show");
 	
+	}
+	
+	function buscarEnPueblo(pueblo){
+		method= "post";
+		path= "${pageContext.request.contextPath}/property/listOrderCapacityDown.html"
+		cap=0;
+		
+		nR=	0;
+		nBR=0;
+		nB=0;
+		sM=0;
+		st="";
+		ct=pueblo;
+		dP=0;
+		var	params={capacity:cap,numRooms:nR,numBathrooms:nBR,numBeds:nB,squareMeters:sM,street:st,city:ct,dailyPrice:dP};
+		var formu = document.createElement("form");
+		formu.setAttribute("method",method);
+		formu.setAttribute("action",path);
+		for(var key in params){
+			if(  params.hasOwnProperty(key)){
+				var hiddenField= document.createElement("input");
+				hiddenField.setAttribute("type","hidden");
+				hiddenField.setAttribute("name",key);
+				hiddenField.setAttribute("value",params[key]);
+				formu.appendChild(hiddenField);	
+			}
+			
+		}
+		document.body.appendChild(formu);
+		formu.submit();
 	}
 </script>
 <datalist id="municipios">

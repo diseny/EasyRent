@@ -57,10 +57,10 @@ public class PropertyController {
 		List<Image> images = new LinkedList<Image>();
 		List<Integer> ids = new LinkedList<Integer>();
 		for(Image i: list){
-			if(!ids.contains(i.getID())){
-				ids.add(i.getID());
+			//if(!ids.contains(i.getID())){
+				//ids.add(i.getID());
 				images.add(i);
-			}
+			//}
 		}
 		model.addAttribute("images", images);
 		return "property/list";
@@ -206,10 +206,10 @@ public class PropertyController {
 		List<Image> images = new LinkedList<Image>();
 		List<Integer> ids = new LinkedList<Integer>();
 		for(Image i: list){
-			if(!ids.contains(i.getID())){
-				ids.add(i.getID());
+			//if(!ids.contains(i.getID())){
+				//ids.add(i.getID());
 				images.add(i);
-			}
+			//}
 		}
 		model.addAttribute("images", images);
 		return "property/list";
