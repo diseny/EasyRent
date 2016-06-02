@@ -114,19 +114,80 @@
 		</form:form>
 		</div>
 		  <div class="col-md-12" id="map"></div>
+		  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		  
     <script type="text/javascript">
-		
+    var geocoder;
+    var map;
+  
 		var map;
-		function initMap() {
-		  map = new google.maps.Map(document.getElementById('map'), {
-		    center: {lat: -34.397, lng: 150.644},
-		    zoom: 8
+		var pos = new google.maps.LatLng(37.774807, -3.795573);
+		 
+		var marker = new google.maps.Marker({
+		      position: pos,
+		      map: map,
+		      title:"Esto es un marcador",
+		      animation: google.maps.Animation.DROP
 		  });
+
+		function initMap() {
+			 geocoder = new google.maps.Geocoder();
+			 var mapOptions = {
+			          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
+			          zoom: 11,
+			          mapTypeId: google.maps.MapTypeId.ROADMAP
+			        };
+			        var map = new google.maps.Map(document.getElementById("map"),
+			            mapOptions);
+			 
+			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
+			        //var direcciones= <c:out value="${properties}"/>;
+			        
+			        
+			       		 
+			       		 
+			      
+			     	 var direcciones = ["Ronda Magdalena (Capuchinos), Castellón", "Plaza Clave, 11, Castellón de la Plana", "calle Juan Ramon Jimenez 8, Castellón"];
+			     	<c:forEach items="${properties}" var="property" varStatus="loop">
+			        	
+			        	 if (geocoder) {
+					            geocoder.geocode({
+					              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
+					            }, function(results, status) {
+					              if (status == google.maps.GeocoderStatus.OK) {
+					                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+					                  map.setCenter(results[0].geometry.location);
+
+					                  var infowindow = new google.maps.InfoWindow({
+					                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
+					                    size: new google.maps.Size(150, 50)
+					                  });
+
+					                  var marker = new google.maps.Marker({
+					                    position: results[0].geometry.location,
+					                    map: map,
+					                    title: "<c:out value="${property.street}"/>"
+					                  });
+					                  google.maps.event.addListener(marker, 'click', function() {
+					                    infowindow.open(map, marker);
+					                  });
+
+					                } else {
+					                  alert("No results found");
+					                }
+					              } else {
+					                alert("Geocode was not successful for the following reason: " + status);
+					              }
+					            });
+					          }
+			        	
+			        	  </c:forEach>
+			       
 		}
 
     </script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
     </script>
 		
 	</div>
