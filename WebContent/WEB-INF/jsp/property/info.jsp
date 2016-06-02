@@ -64,6 +64,7 @@
 		<h1>FOTOS</h1>
 	</div>
 	</div>
+	
 	<script>
 		$('.fotosInfo').click(function(){
 			jQuery('.carousel-imagenes').addClass("show");
