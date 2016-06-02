@@ -75,6 +75,7 @@ public class PropertyController {
 		model.addAttribute("property", new Property());
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
+		List<Service> allServices = serviceDao.getServices();
 		for(ServiceProperty sP: servicesProperties){
 			for(Service s: services){
 				if(s.getID() == sP.getServiceId()){
@@ -82,6 +83,7 @@ public class PropertyController {
 				}
 			}
 		}
+		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);
 		model.addAttribute("images", imageDao.getImages());
 		return "property/list";
