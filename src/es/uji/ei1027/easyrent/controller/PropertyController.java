@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
+import es.uji.ei1027.easyrent.dao.ServiceDao;
+import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
 import es.uji.ei1027.easyrent.domain.Image;
 import es.uji.ei1027.easyrent.domain.Property;
+import es.uji.ei1027.easyrent.domain.Service;
+import es.uji.ei1027.easyrent.domain.ServiceProperty;
 
 @Controller
 @RequestMapping("/property")
@@ -34,6 +38,12 @@ public class PropertyController {
 	@Autowired
 	private PeriodDao periodDao;
 	
+	@Autowired
+	private ServiceDao serviceDao;
+	
+	@Autowired
+	private ServicePropertyDao servicePropertyDao;
+	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
        this.propertyDao = propertyDao;
@@ -49,20 +59,31 @@ public class PropertyController {
        this.periodDao = periodDao;
    }
    
+   @Autowired 
+   public void setServiceDao(ServiceDao serviceDao) {
+       this.serviceDao = serviceDao;
+   }
+   
+   @Autowired 
+   public void setServicePropertyDao(ServicePropertyDao servicePropertyDao) {
+       this.servicePropertyDao = servicePropertyDao;
+   }
+   
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
 		model.addAttribute("properties", propertyDao.getProperties());
 		model.addAttribute("property", new Property());
-		List<Image> list = imageDao.getImages();
-		List<Image> images = new LinkedList<Image>();
-		List<Integer> ids = new LinkedList<Integer>();
-		for(Image i: list){
-			//if(!ids.contains(i.getID())){
-				//ids.add(i.getID());
-				images.add(i);
-			//}
+		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
+		List<Service> services = serviceDao.getServices();
+		for(ServiceProperty sP: servicesProperties){
+			for(Service s: services){
+				if(s.getID() == sP.getServiceId()){
+					sP.setServiceName(s.getName());
+				}
+			}
 		}
-		model.addAttribute("images", images);
+		model.addAttribute("services", servicesProperties);
+		model.addAttribute("images", imageDao.getImages());
 		return "property/list";
 	}
 	
@@ -75,6 +96,7 @@ public class PropertyController {
 	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
 	public String infoProperty(Model model, @PathVariable int id) {
 		model.addAttribute("property", propertyDao.getProperty(id));
+		model.addAttribute("images", imageDao.getImages());
 		return "property/info"; 
 	}
 	
@@ -202,16 +224,17 @@ public class PropertyController {
 	private String generalList(Model model, Property property){
 		model.addAttribute("property", property);
 		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
-		List<Image> list = imageDao.getImages();
-		List<Image> images = new LinkedList<Image>();
-		List<Integer> ids = new LinkedList<Integer>();
-		for(Image i: list){
-			//if(!ids.contains(i.getID())){
-				//ids.add(i.getID());
-				images.add(i);
-			//}
+		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
+		List<Service> services = serviceDao.getServices();
+		for(ServiceProperty sP: servicesProperties){
+			for(Service s: services){
+				if(s.getID() == sP.getServiceId()){
+					sP.setServiceName(s.getName());
+				}
+			}
 		}
-		model.addAttribute("images", images);
+		model.addAttribute("services", servicesProperties);
+		model.addAttribute("images", imageDao.getImages());
 		return "property/list";
 	}
 	

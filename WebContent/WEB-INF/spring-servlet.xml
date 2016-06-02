@@ -54,4 +54,10 @@
 	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
 	<bean id="reservationDao" class="es.uji.ei1027.easyrent.dao.ReservationDao" />
 	
+	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
+	<bean id="serviceDao" class="es.uji.ei1027.easyrent.dao.ServiceDao" />
+	
+	<context:component-scan base-package="es.uji.ei1027.easyrent.dao" />
+	<bean id="servicePropertyDao" class="es.uji.ei1027.easyrent.dao.ServicePropertyDao" />
+	
 </beans>
