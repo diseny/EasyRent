@@ -86,3 +86,6 @@
 .propertyResult #slider-right:hover{
 	cursor:pointer;
 }
+#map{
+	height:400px;
+}
