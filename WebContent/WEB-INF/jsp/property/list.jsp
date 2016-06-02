@@ -141,11 +141,7 @@
 			            mapOptions);
 			 
 			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
-			        //var direcciones= <c:out value="${properties}"/>;
-			        
-			        
-			       		 
-			       		 
+			      
 			      
 			     	 var direcciones = ["Ronda Magdalena (Capuchinos), Castellón", "Plaza Clave, 11, Castellón de la Plana", "calle Juan Ramon Jimenez 8, Castellón"];
 			     	<c:forEach items="${properties}" var="property" varStatus="loop">
@@ -193,6 +189,9 @@
 	</div>
 	
 	<div class="col-md-6">
+	<div class="col-md-12" style="min-height:70px;background-color:green">
+	<h4>Ordenar por :</h4>
+	</div>
 	<c:forEach items="${properties}" var="property" varStatus="loop">
 		<div class="col-md-6 propertyResult">
 			<div class="propData">
@@ -478,8 +477,7 @@
 						</c:if>
 					</c:forEach>
 				</td>
-				<td>${property.ownerUsername}</td>
-				<td>${property.title}</td>
+				
 				<td>${property.capacity}</td>
 				<td>${property.numRooms}</td>
 				<td>${property.numBathrooms}</td>
