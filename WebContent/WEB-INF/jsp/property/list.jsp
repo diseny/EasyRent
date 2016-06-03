@@ -6,267 +6,7 @@
 <t:paginabasica title="EasyRent">
 <jsp:body>
 	</div></div>
-	
-	<div class="col-md-12">
-	<div class="col-md-6 ">
-		<div class="col-md-12 camposBusqueda">
-		<form:form id="searchList" method="post" modelAttribute="property">
-			<div class="col-md-12">
-				<div class="col-md-5 sm" >
-				<form:input style=" height: 100%;" id="city" class="form-control" type="city" path="city" list="municipios" placeholder="Ciudad"/>
-				</div>
-				<div class="col-md-3 sm">
-			        <div class="col-md-12">
-			
-				        <div class="form-group">
-				       		<div class="date">
-				           		<div class="input-group input-append date" id="datePickerInit">
-				            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px"/>
-				                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-				            	</div>
-				       	 	</div>
-				        </div>
-				    </div>
-				</div>
-				<div class="col-md-3 sm">
-					<div class="col-md-12">
-		        <div class="form-group">
-		       		<div class="date">
-		           		<div class="input-group input-append date" id="datePickerEnd">
-		            	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" />
-		                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-		            	</div>
-		       	 	</div>
-		        </div>
-		    </div>
-	    </div>
-	    <div class="showMore">
-	    	<div class="col-md-6 sm "><p class="btn btn-primary" onclick="verMas()">Ver más</p></div>
-	    	<div class="col-md-6 sm"><button class="btn btn-success" type="submit">Buscar</button></div>
-	    	</div>
-		</div>
-		<div class="avanzado">
-		<div class="col-md-12">
-		
-			<div class="col-md-4 sm ">
-				<div class="col-md-12">
-					<form:label path="capacity">Capacidad:</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input class="form-control" id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
-				</div>
-			</div>
-			<div class="col-md-4 sm">
-				<div class="col-md-12">
-					<form:label path="numRooms">Habitaciones:</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input class="form-control" id="numRooms" type="number"  min="0" path="numRooms" placeholder="Habitaciones"/>
-				</div>
-			</div>
-			<div class="col-md-4 sm">
-				<div class="col-md-12">
-					<form:label path="numBathrooms">Baños:</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input id="numBathrooms" class="form-control " type="number" min="0"  path="numBathrooms" placeholder="BaÃ±os"/>
-				</div>
-		</div>
-		
-		</div>
-		<div class="col-md-12">
-			<div class="col-md-4  sm">
-				<div class="col-md-12">
-					<form:label path="numBeds">Camas:</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input id="numBeds" type="number"  min="0"  class="form-control " path="numBeds" placeholder="Camas"/>
-				</div>
-			</div>
-			
-			<div class="col-md-4 sm">
-				<div class="col-md-12">
-					<form:label path="squareMeters">m<sup>2</sup>:</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input id="squareMeters" type="number" class="form-control " min="0" path="squareMeters" placeholder="m2"/>
-				</div>
-			</div>
-			
-			
-			<div class="col-md-4 sm">
-				<div class="col-md-12">
-					<form:label path="dailyPrice">Precio(<img src="${pageContext.request.contextPath}/images/euroBlackBackground.png" style="width:10px;height:10px;">/día):</form:label>
-				</div>
-				<div class="col-md-12">
-					<form:input id="dailyPrice" type="number" class="form-control" min="0" path="dailyPrice" placeholder="Precio por dÃ­a"/>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12 sm">
-				<form:label path="street">Calle:</form:label>
-				<form:input id="street" class="form-control" type="street" path="street" placeholder="Calle"/>
-		</div>
-			<div class="col-md-6 sm"><p onclick="verMenos()" class="btn btn-primary">Ver menos</p></div>
-			<div class="col-md-6 sm"><button class="btn btn-success"type="submit">Buscar</button></div>
-		</div>
-	
-		</form:form>
-		</div>
-		  <div class="col-md-12" id="map"></div>
-		  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-		  
-    <script type="text/javascript">
-    var geocoder;
-    var map;
-  
-		var map;
-		var pos = new google.maps.LatLng(37.774807, -3.795573);
-		 
-		var marker = new google.maps.Marker({
-		      position: pos,
-		      map: map,
-		      title:"Esto es un marcador",
-		      animation: google.maps.Animation.DROP
-		  });
-
-		function initMap() {
-			 geocoder = new google.maps.Geocoder();
-			 var mapOptions = {
-			          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
-			          zoom: 11,
-			          mapTypeId: google.maps.MapTypeId.ROADMAP
-			        };
-			        var map = new google.maps.Map(document.getElementById("map"),
-			            mapOptions);
-			 
-			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
-			      
-			      
-			     	 var direcciones = ["Ronda Magdalena (Capuchinos), Castellón", "Plaza Clave, 11, Castellón de la Plana", "calle Juan Ramon Jimenez 8, Castellón"];
-			     	<c:forEach items="${properties}" var="property" varStatus="loop">
-			        	
-			        	 if (geocoder) {
-					            geocoder.geocode({
-					              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
-					            }, function(results, status) {
-					              if (status == google.maps.GeocoderStatus.OK) {
-					                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-					                  map.setCenter(results[0].geometry.location);
-
-					                  var infowindow = new google.maps.InfoWindow({
-					                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
-					                    size: new google.maps.Size(150, 50)
-					                  });
-
-					                  var marker = new google.maps.Marker({
-					                    position: results[0].geometry.location,
-					                    map: map,
-					                    title: "<c:out value="${property.street}"/>"
-					                  });
-					                  google.maps.event.addListener(marker, 'click', function() {
-					                    infowindow.open(map, marker);
-					                  });
-
-					                } else {
-					                  alert("No results found");
-					                }
-					              } else {
-					                alert("Geocode was not successful for the following reason: " + status);
-					              }
-					            });
-					          }
-			        	
-			        	  </c:forEach>
-			       
-		}
-
-    </script>
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
-    </script>
-		
-	</div>
-	
-	<div class="col-md-6">
-	<div class="col-md-12" style="min-height:70px;background-color:green">
-	<h4>Ordenar por :</h4>
-	</div>
-	<c:forEach items="${properties}" var="property" varStatus="loop">
-		<div class="col-md-6 propertyResult">
-			<div class="propData">
-				<h5 class="col-md-7 title"><a href="info/${property.id}.html">${property.title}</a></h5>
-				<h5 class="col-md-5 price">${property.dailyPrice} e</h5>
-			</div>
-			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
-				<div class="carousel-inner" >	
-				<c:set var="i" value="${0}"></c:set>
-				<c:forEach items="${images}" var="image" varStatus="loopImages">	
-					<c:if test="${property.id == image.ID}" >
-						<c:if test="${i!=0}">
-							<div class="item" style=" background-image: url('${image.href}')">	
-							</div>
-						</c:if>
-						<c:if test="${i==0}">
-							<div class="item active slider" style="background-image: url('${image.href}')">
-							</div>
-						<c:set var="i" value="${1}"></c:set>
-						
-    					 
-						</c:if>
-						
-					</c:if>
-					 
-				</c:forEach>
-				
-					
-					<!-- <a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
-       				  <i class="material-icons"></i>
-    				 </a>
-    				 <a id="slider-right" class="right carousel-control" href="#carousel" data-slide="next">
-      			   <i class="material-icons"></i>
-     				</a> -->
-   				 </div>
-   				 <a style="height:30px;width:30px;background-color:#000"id="slider-left" class="left carousel-control" href="#carousel${loop.index }" data-slide="prev">
-       				<img id="flechaControl"src="${pageContext.request.contextPath}/images/arrowLeft.gif">
-   				 </a>
-   				<a style="height:30px;width:30px;background-color:#000" id="slider-right" class="right carousel-control" href="#carousel${loop.index }" data-slide="next">
-      			   <img id="flechaControl" src="${pageContext.request.contextPath}/images/arrowRight.gif">
-     			</a>
-   			</div>
-  		</div>
-   		</c:forEach>
-   		
-			<!--<tr class="fons">
-				<td>${loop.index + 1}</td>
-				<c:forEach items="${images}" var="image" varStatus="loopImages">
-					<c:if test="${property.id == image.ID}" >
-   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
-					</c:if>
-				</c:forEach>
-			<td>${property.ownerUsername}</td>
-				<td>${property.title}</td>
-				<td>${property.capacity}</td>
-				<td>${property.numRooms}</td>
-				<td>${property.numBathrooms}</td>
-				<td>${property.numBeds}</td>
-				<td>${property.squareMeters}</td>
-				<td>${property.street}</td>
-				<td>${property.city}</td>
-				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
-				
-			</tr>-->
-		 
-	
-		
-		
-	
-	
-	</div>
-	</div>
-	
-	<div class="col-md-12 camposBusqueda" >
+		<div class="col-md-12 camposBusqueda" >
 	<form:form id="searchList" method="post" modelAttribute="property">
 		<div class="col-md-12 sm" style="height:50px">
 			<div class="col-md-7 col-md-offset-1"  style=" height: 100%;margin-top:0px">
@@ -368,7 +108,107 @@
 		</div>
 		
 	</form:form>
-	</div></div>
+	</div>
+	<div class="col-md-12">
+	<div class="col-md-6 " style="margin-top:30px">
+		<div class="col-md-12">
+		<h4>Selecciona servicios:</h4>
+		<c:forEach items="${allServices}" var="service" varStatus="loopServices">
+			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')"><label>  ${service.name}</label> 
+		</c:forEach>
+		
+			 
+			
+		</div>
+		  <div class="col-md-12" id="map"></div>
+			</div>
+	
+	<div class="col-md-6" style="    border-left: 5px;border-style: solid;border-bottom: 0px;border-right: 0px;border-top: 0px;
+	">
+	<div class="col-md-12" style="min-height:70px;background-color:green">
+	<h4>Ordenar por :</h4>
+	</div>
+	<c:forEach items="${properties}" var="property" varStatus="loop">
+		<div class="col-md-6 propertyResult prop${loop.index}
+		<c:forEach items="${services}" var="service" varStatus="loopServices">
+			<c:if test="${property.id == service.propertyId}" >
+	   			<c:out value="${service.serviceName}"/>
+			</c:if>
+		</c:forEach>
+		">
+			<div class="propData">
+				<h5 class="col-md-7 title"><a href="info/${property.id}.html">${property.title}</a></h5>
+				<h5 class="col-md-5 price">${property.dailyPrice} e</h5>
+			</div>
+			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
+				<div class="carousel-inner" >	
+				<c:set var="i" value="${0}"></c:set>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">	
+					<c:if test="${property.id == image.ID}" >
+						<c:if test="${i!=0}">
+							<div class="item" style=" background-image: url('${image.href}')">	
+							</div>
+						</c:if>
+						<c:if test="${i==0}">
+							<div class="item active slider" style="background-image: url('${image.href}')">
+							</div>
+						<c:set var="i" value="${1}"></c:set>
+						
+    					 
+						</c:if>
+						
+					</c:if>
+					 
+				</c:forEach>
+				
+					
+					<!-- <a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
+       				  <i class="material-icons"></i>
+    				 </a>
+    				 <a id="slider-right" class="right carousel-control" href="#carousel" data-slide="next">
+      			   <i class="material-icons"></i>
+     				</a> -->
+   				 </div>
+   				 <a style="height:30px;width:30px;background-color:#000"id="slider-left" class="left carousel-control" href="#carousel${loop.index }" data-slide="prev">
+       				<img id="flechaControl"src="${pageContext.request.contextPath}/images/arrowLeft.gif">
+   				 </a>
+   				<a style="height:30px;width:30px;background-color:#000" id="slider-right" class="right carousel-control" href="#carousel${loop.index }" data-slide="next">
+      			   <img id="flechaControl" src="${pageContext.request.contextPath}/images/arrowRight.gif">
+     			</a>
+   			</div>
+  		</div>
+   		</c:forEach>
+   		
+			<!--<tr class="fons">
+				<td>${loop.index + 1}</td>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">
+					<c:if test="${property.id == image.ID}" >
+   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
+					</c:if>
+				</c:forEach>
+			<td>${property.ownerUsername}</td>
+				<td>${property.title}</td>
+				<td>${property.capacity}</td>
+				<td>${property.numRooms}</td>
+				<td>${property.numBathrooms}</td>
+				<td>${property.numBeds}</td>
+				<td>${property.squareMeters}</td>
+				<td>${property.street}</td>
+				<td>${property.city}</td>
+				<td>${property.dailyPrice}</td>
+				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
+				
+			</tr>-->
+		 
+	
+		
+		
+	
+	
+	</div>
+	</div>
+	
+</div>
 	<div class="container">
 	<div class="row">
 	<table class="table table-striped navProperty" style="text-align:center;"> 
@@ -419,10 +259,7 @@
 			</th>
 		</tr>
 		
-   
 
-    
-	
 		
 		<tr> 
 			<th>#</th>
@@ -467,7 +304,116 @@
 	
 </jsp:body>
 </t:paginabasica>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		  
+    <script type="text/javascript">
+    var geocoder;
+    var map;
+  
+		var map;
+		var pos = new google.maps.LatLng(37.774807, -3.795573);
+		 
+		var marker = new google.maps.Marker({
+		      position: pos,
+		      map: map,
+		      title:"Esto es un marcador",
+		      animation: google.maps.Animation.DROP
+		  });
+
+		function initMap() {
+			 geocoder = new google.maps.Geocoder();
+			 var mapOptions = {
+			          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
+			          zoom: 11,
+			          mapTypeId: google.maps.MapTypeId.ROADMAP
+			        };
+			        var map = new google.maps.Map(document.getElementById("map"),
+			            mapOptions);
+			 
+			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
+			      
+			      
+			     	
+			     	<c:forEach items="${properties}" var="property" varStatus="loop">
+			        	
+			        	 if (geocoder) {
+					            geocoder.geocode({
+					              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
+					            }, function(results, status) {
+					              if (status == google.maps.GeocoderStatus.OK) {
+					                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+					                  map.setCenter(results[0].geometry.location);
+
+					                  var infowindow = new google.maps.InfoWindow({
+					                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
+					                    size: new google.maps.Size(150, 50)
+					                  });
+
+					                  var marker = new google.maps.Marker({
+					                    position: results[0].geometry.location,
+					                    map: map,
+					                    title: "<c:out value="${property.street}"/>"
+					                  });
+					                  google.maps.event.addListener(marker, 'click', function() {
+					                    infowindow.open(map, marker);
+					                  });
+
+					                } else {
+					                  alert("No results found");
+					                }
+					              } else {
+					                alert("Geocode was not successful for the following reason: " + status);
+					              }
+					            });
+					          }
+			        	
+			        	  </c:forEach>
+			       
+		}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
+    </script>
+		
+
 	<script>
+		var servicios=[]
+		function actualizaPorServicios(servicio){
+			
+			id='#'.concat(servicio);
+			if($.inArray(servicio, servicios)&& $(id).is(':checked')){
+				servicios.push(servicio)
+				console.log('lo contiene')
+			}else{
+				var elem = servicios.indexOf(servicio);
+				console.log(elem)
+				console.log('no lo contiene')
+				if(elem != -1) {
+					servicios.splice(elem, 1);
+				}
+			}for(i=0;servicios.length>i;i++){
+					console.log(servicios[i])
+				
+			}
+			<c:forEach items="${properties}" var="property" varStatus="loop">
+				mostrar = true;
+				for(i=0;servicios.length>i;i++){
+					if(!$('.prop<c:out value="${loop.index}"/>').hasClass(servicios[i])){
+						$('.prop<c:out value="${loop.index}"/>').css('display','none');
+						mostrar=false;
+					}
+				}
+				if(mostrar){
+					$('.prop<c:out value="${loop.index}"/>').css('display','block');
+				}
+				console.log(mostrar);
+			</c:forEach>
+			
+			
+			
+		}	
+	
 	
 		$(document).ready(function() { $('.propertyResult .carousel').carousel('pause');});
 	
