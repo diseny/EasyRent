@@ -97,8 +97,22 @@ public class PropertyController {
 
 	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
 	public String infoProperty(Model model, @PathVariable int id) {
+		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
+		List<Service> services = serviceDao.getServices();
+		List<Service> allServices = serviceDao.getServices();
+		for(ServiceProperty sP: servicesProperties){
+			for(Service s: services){
+				if(s.getID() == sP.getServiceId()){
+					sP.setServiceName(s.getName());
+				}
+			}
+		}
+		model.addAttribute("allServices", allServices);
+		model.addAttribute("services", servicesProperties);
+		
 		model.addAttribute("property", propertyDao.getProperty(id));
 		model.addAttribute("images", imageDao.getImages());
+		
 		return "property/info"; 
 	}
 	

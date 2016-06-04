@@ -114,19 +114,29 @@
 		<div class="col-md-12">
 		<h4>Selecciona servicios:</h4>
 		<c:forEach items="${allServices}" var="service" varStatus="loopServices">
-			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')"><label>  ${service.name}</label> 
+			<div class="selecter col-md-3">
+			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')"><label >  ${service.name}</label> 
+			</div>
 		</c:forEach>
-		
-			 
+		<br>
+			
 			
 		</div>
+		<div class="col-md-12" id="mapaTit">
+		<h4>Busca en el mapa:</h4>
+		</div >
 		  <div class="col-md-12" id="map"></div>
 			</div>
 	
 	<div class="col-md-6" style="    border-left: 5px;border-style: solid;border-bottom: 0px;border-right: 0px;border-top: 0px;
 	">
-	<div class="col-md-12" style="min-height:70px;background-color:green">
-	<h4>Ordenar por :</h4>
+	<div class="col-md-12" style="min-height:70px;">
+	<h4 class="col-md-4">Ordenar por :</h4>
+	<select class="col-md-8 selecter-options" style="    margin-top: 17px;">
+		<option class="selecter-item">1</option>
+		<option>2</option>
+	</select>
+	
 	</div>
 	<c:forEach items="${properties}" var="property" varStatus="loop">
 		<div class="col-md-6 propertyResult prop${loop.index}
@@ -137,7 +147,11 @@
 		</c:forEach>
 		">
 			<div class="propData">
-				<h5 class="col-md-7 title"><a href="info/${property.id}.html">${property.title}</a></h5>
+			<div class="col-md-7 tit">
+				<h5 class="col-md-12 title"><a href="info/${property.id}.html">${property.title}</a></h5>
+				
+				<p class="col-md-12 subtit"> ${property.city} </p>
+			</div>
 				<h5 class="col-md-5 price">${property.dailyPrice} e</h5>
 			</div>
 			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
@@ -161,13 +175,7 @@
 					 
 				</c:forEach>
 				
-					
-					<!-- <a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
-       				  <i class="material-icons"></i>
-    				 </a>
-    				 <a id="slider-right" class="right carousel-control" href="#carousel" data-slide="next">
-      			   <i class="material-icons"></i>
-     				</a> -->
+				
    				 </div>
    				 <a style="height:30px;width:30px;background-color:#000"id="slider-left" class="left carousel-control" href="#carousel${loop.index }" data-slide="prev">
        				<img id="flechaControl"src="${pageContext.request.contextPath}/images/arrowLeft.gif">
@@ -378,23 +386,36 @@
 		
 
 	<script>
+		
+		
+		
+		$(document).ready(function() {
+			$("select").dropdown();
+			  $('input').iCheck({
+			    checkboxClass: 'icheckbox_flat',
+			    radioClass: 'iradio_flat'
+			  });
+				
+			<c:forEach items="${allServices}" var="property" varStatus="loop">
+       		var id= '#'.concat('<c:out value="${property.name}"/>');
+       		$(id).on("ifChanged", function(){
+       			actualizaPorServicios('<c:out value="${property.name}"/>')
+			 	});
+       	  </c:forEach>
+					
+		});
 		var servicios=[]
 		function actualizaPorServicios(servicio){
 			
 			id='#'.concat(servicio);
 			if($.inArray(servicio, servicios)&& $(id).is(':checked')){
 				servicios.push(servicio)
-				console.log('lo contiene')
 			}else{
 				var elem = servicios.indexOf(servicio);
-				console.log(elem)
-				console.log('no lo contiene')
+				
 				if(elem != -1) {
 					servicios.splice(elem, 1);
 				}
-			}for(i=0;servicios.length>i;i++){
-					console.log(servicios[i])
-				
 			}
 			<c:forEach items="${properties}" var="property" varStatus="loop">
 				mostrar = true;
@@ -407,7 +428,7 @@
 				if(mostrar){
 					$('.prop<c:out value="${loop.index}"/>').css('display','block');
 				}
-				console.log(mostrar);
+				
 			</c:forEach>
 			
 			

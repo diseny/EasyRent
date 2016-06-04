@@ -127,10 +127,10 @@
 		<h3>Todos las localidades de la provincia</h3>
 	</div>
 	<div class="col-md-offset-2 col-md-3 citiesWelcome"  onclick="buscarEnPueblo('Benicàssim')" style="background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg')">
-		<h3>Benicassim</h3>
+		<h3>Benicássim</h3>
 	</div> 
 	<div class="col-md-offset-2 col-md-3 citiesWelcome" onclick="buscarEnPueblo('Vilafamés')" style="background-image: url('http://www.turismodecastellon.com/cmsupload/fotogaleria/Vilafames_Vista-panoramica.jpg')">
-		<h3>Vilafames</h3>
+		<h3>Vilafamés</h3>
 	</div>
 	<div class="col-md-offset-2 col-md-3 citiesWelcome" onclick="buscarEnPueblo('Morella')"  style="background-image: url('http://www.casesdelsgasulla.com/wp-content/uploads/2013/05/glob_morella.jpg')">
 		<h3>Morella</h3>
@@ -155,28 +155,7 @@
 </div>
 
 <script>
-	$(document).ready(function() {
-		
-		var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
-	    $('#datePickerInit')
-	        .datepicker({
-	        	  autoclose: false,    // It is false, by default
-	        	  format: 'dd/mm/yyyy',
-	              
-	               
-	        })
-	        .on('changeDate', function(e) {
-	            // Revalidate the date field
-	        	 dateInit = new Date($('#datePickerInit').datepicker("getDate")); 
-	            
-	        	 $('#datePickerEnd input').prop('disabled', false);
-	          $('#datePickerEnd').datepicker({
-	 	            format: 'mm/dd/yyyy',
-	 	            startDate: dateInit, 
-	 	        })
-				
-	        });
-	});
+	
 	if(!jQuery('#capacity').val()){ jQuery('#capacity').attr('value',"0")}
 	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
 	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
