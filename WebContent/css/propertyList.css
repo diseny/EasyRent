@@ -34,6 +34,7 @@
 
 .propertyResult{
 	width: 45%;
+	height: 345px;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
@@ -49,28 +50,32 @@
 }
 .propData{
 
-    position: absolute;
-   background-color: #3bafda;
-		 color: #fff;
-    height: 46px;
+       position: absolute;
+    background-color: #3bafda;
+    color: #fff;
+    height: 67px;
     z-index: 90;
     left: 0%;
-    border-radius: -1px;
-    top: 83%;
+
+    top: 80%;
     width: 100%;
+}
 }
 .propData a{
 	color:#000;
 }
-.propData .title{
+.propData .tit{
 	background-color: #fff;
 		 color: #000;
 		 height: 100%;
-      padding: 14px;
     margin: 0;
+    padding:0;
 	
-}.propData .price{
-		
+}.propData .title { 
+margin: 0;
+}.propData .subtit{
+		margin: 0;
+		padding:0;
 }
 
 .propertyResult .left.carousel-control,.propertyResult .right.carousel-control{
@@ -88,4 +93,18 @@
 }
 #map{
 	height:400px;
+}
+
+.selecter label{
+	padding-left:10px
+}
+.selecter input{
+	-ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+}
+
+#mapaTit{
+	margin-top:20px;
 }

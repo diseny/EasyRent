@@ -6,8 +6,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/images/logo2.png">
+<link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/images/logo2.png">
+<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/images/logo2.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
 <title>${title}</title>
@@ -23,6 +27,7 @@
       <script src="js/html5shiv.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->
+    <script src="${pageContext.request.contextPath}/js/easyRent.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/css/bootflat/js/site.min.js"></script>
     
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
