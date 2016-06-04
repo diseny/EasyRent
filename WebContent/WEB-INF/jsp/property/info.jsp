@@ -6,18 +6,27 @@
 	<!-- Vamos a hacer un slider de prueba , pero tiene que coger las imagenes de la base de datos -->
 	<div id="carousel" class="carousel slide prevcarousel" data-ride="carousel">
 		<div class="carousel-inner" >
-		 	<div class="item active slider" style="height:100%; background-image: url('http://www.construyehogar.com/wp-content/uploads/2015/06/Dise%C3%B1o-de-casa-moderna-de-dos-plantas.jpg');background-size: 50%;background-position: 50%; background-repeat: no-repeat;">
-				 <img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
-			 </div>
-			 <div class="item" style="height:100%; background-image: url('http://decoracao.com/wp-content/uploads/2013/02/330.jpg');background-size: 50%;background-position: 50%;background-repeat: no-repeat;">	
-				<img id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
-			</div>
-			 <div class="item" style="height:100%; background-image: url('http://inmobiliaria56.com/wp-content/uploads/2014/01/Casa-modelo-1.jpg');background-size: 50%;background-position: 50%;background-repeat: no-repeat;">	
-				<img id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
-			</div>
-			 <div class="item" style="height:100%; background-image: url('http://www.casas--prefabricadas.es/wp-content/uploads/2014/11/Haus-Casas-Pref.jpg');background-size: 50%;background-position: 50%;background-repeat: no-repeat;">	
-				<img id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
-			</div>
+		<c:set var="i" value="${0}"></c:set>
+				<c:forEach items="${images}" var="image" varStatus="loopImages">	
+					<c:if test="${property.id == image.ID}" >
+						<c:if test="${i!=0}">
+							<div class="item" style=" background-image: url('${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">	
+								<img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
+							</div>
+						</c:if>
+						<c:if test="${i==0}">
+							<div class="item active slider" style="background-image: url('${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">
+							<img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
+							</div>
+						<c:set var="i" value="${1}"></c:set>
+						
+    					 
+						</c:if>
+						
+					</c:if>
+					 
+				</c:forEach>
+		 	
 		</div>
 	<a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
          <i class="material-icons"></i>
@@ -30,14 +39,15 @@
 	<div id="thumbcarousel" class=" carousel slide thumbscarousel" data-interval="false">
 	    <div class="carousel-inner">
 		    <div class="item active row">
-		   		 <div data-target="#carousel" data-slide-to="0"  class="thumb col-md-1 col-md-offset-4" style="height:100px;background-image: url('http://www.construyehogar.com/wp-content/uploads/2015/06/Dise%C3%B1o-de-casa-moderna-de-dos-plantas.jpg');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-		   	 	</div>
-			   	 <div data-target="#carousel" data-slide-to="1" class="thumb col-md-1"  style="margin-left:15px;height:100px;background-image: url('http://decoracao.com/wp-content/uploads/2013/02/330.jpg');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-				</div>
-				<div data-target="#carousel" data-slide-to="2"  class="thumb col-md-1 " style="margin-left:15px;height:100px;background-image: url('http://inmobiliaria56.com/wp-content/uploads/2014/01/Casa-modelo-1.jpg');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-		   	 	</div>
-		   	 	<div data-target="#carousel" data-slide-to="3" class="thumb col-md-1"  style="margin-left:15px;height:100px;background-image: url('http://www.casas--prefabricadas.es/wp-content/uploads/2014/11/Haus-Casas-Pref.jpg');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-				</div>
+		    	<c:forEach items="${images}" var="image" varStatus="loopImages">	
+					<c:if test="${property.id == image.ID}" >
+						<div data-target="#carousel" data-slide-to="${loopImages.index }"  class="thumb col-md-2 col-md-offset-2" style="height:100px;background-image: url('${image.href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
+							</div>
+					</c:if>
+					 
+				</c:forEach>
+		 	
+		   		
 		 	</div>
 	  <!-- 
 	  Si hay mas de cuatro imagenes: 
@@ -56,16 +66,158 @@
 </div></div>
 	<br><br><br>
 	<div class="row">
-	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.498039);">
-		AQUI VA LA DESCRIPION
+	<div class="menuAlquilar">
+		<div class="col-md-12 " style="height:100px">
+			<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
+			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice}</h4></div>
+		</div>
+		<hr>
+		<div class="col-md-12 " style="height:200px">
+			<div class="col-md-11 " style="margin-top:34px">
+			<div class="col-md-3 ">
+			<label>Inicio: </label>
+			</div>
+			<div class="col-md-6">
+			<div class="input-group input-append date" id="datePickerInit">
+	            	    <input class="form-control" type="text" path="startDate"  style="width:120px" >
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+			</div>
+			</div>
+			<div class="col-md-11 " style="margin-top:35px">
+			<div class="col-md-3 ">
+			<label>Final: </label>
+			</div>
+			<div class="col-md-6">
+			<div class="input-group input-append date" id="datePickerEnd">
+	            	    <input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" >
+	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+	            	</div>
+			</div>
+			</div>
+			
+			
+			
+	           		
+	       	 	
+		</div>
+	<div class="col-md-12" style="height:100px;border-bottom:0">
+			<button type="button" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
+		</div>
+			
 	</div>
+
+	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
+		<div class="col-md-10 col-md-offset-1">
+		<h1>${property.title }</h1>
+		<h6 class="locStreetList col-md-12">
+		  ${property.city} 	·  ${property.street } · 
+		<div class="ec-stars-wrapper">  <a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+	<a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+	<a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+	<a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a></div>
+		
+		</h6>  
+		<div class="ec-stars-wrapper">
 	
-	<div class="col-md-4 fotosInfo" style="height:300px ;background-image: url('http://www.construyehogar.com/wp-content/uploads/2015/06/Dise%C3%B1o-de-casa-moderna-de-dos-plantas.jpg');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
+</div>
+		<div class="col-md-12">
+			<div class="col-md-1" style="text-align:center">
+			<img src="${pageContext.request.contextPath}/images/habitaciones.png" style="height:50px;width:50px">
+			<h4>${property.numRooms}</h4>
+			
+			</div>
+			<div class="col-md-1" style="text-align:center">
+			<img src="${pageContext.request.contextPath}/images/personas.png" style="height:50px;width:50px">
+			<h4>${property.capacity}</h4>
+			
+			</div>
+			<div class="col-md-1" style="text-align:center">
+			<img src="${pageContext.request.contextPath}/images/cama.png" style="height:50px;width:50px">
+			<h4>${property.numBeds}</h4>
+			
+			</div>
+			<h3>
+				
+				
+				
+				</h3>
+		</div>
+		</div>
+		
+	</div>
+
+	<div class="col-md-12" style="min-height:250px;background-color:transparent">
+	<div class="col-md-4 col-md-offset-1">
+		<h4>Detalles</h4><hr>
+		<ul>
+		<li><h6>Capacidad: ${property.capacity} personas </h6></li>
+		<li><h6>Habitaciones: ${property.numRooms} </h6></li>
+		<li><h6>Camas: ${property.numBeds}</h6></li>
+		<li><h6>Baños: ${property.numBathrooms}</h6></li>
+		<li><h6>Tamaño: ${property.squareMeters} m<sup>2</sup></h6></li></ul>
+		
+	</div>
+
+	<div class="col-md-4 fotosInfo" style="height:300px ;width:455px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
 		<h1>FOTOS</h1>
 	</div>
 	</div>
+	<div class="col-md-12" style="min-height:250px;background-color:rgba(0, 255, 253, 0.048039);">
+		<div class="col-md-11 col-md-offset-1">
+		<h4>Descripción </h4><hr>
+		<h6>${property.description }</h6>
+		</div>
+	</div>
+	<div class="col-md-12" style="min-height:250px">
+		<div class="col-md-8 col-md-offset-1">
+		<h4>Servicios </h4><hr>
+		
+		<c:forEach items="${allServices}" var="servicios" varStatus="loopServicios">
+			<c:set var="i" value="${0}"></c:set>
+			<c:forEach items="${services}" var="service" varStatus="loopServicios">
+				<c:if test="${property.id == service.propertyId}" >
+					<c:if test="${service.serviceName == servicios.name}" >
+						<c:set var="i" value="${1}"></c:set>
+					</c:if>
+				</c:if>
+			</c:forEach>
+			<c:if test="${i!=0}">
+				<div class="serviciosInfo col-md-4">
+					<input type="radio" name="${servicios.name}" id="${servicios.name}" checked><label >  ${servicios.name}</label> 
+				</div>
+			</c:if>
+			<c:if test="${i==0}">
+				<div class="serviciosInfo col-md-4">
+					<input type="radio" name="${servicios.name}" id="${servicios.name}" disabled ><label >  ${servicios.name}</label> 
+				</div>
+			</c:if>
+		</c:forEach>
+		
+		
+	
+		
+	</div>
+	</div>
+	 <div class="col-md-12" style="background-color:rgba(0, 255, 253, 0.048039);">
+	 	<div class="col-md-11 col-md-offset-1"><h4>Aquí está</h4><hr></div>
+		<div class="col-md-7 col-md-offset-1" id="map">
+		
+		</div> 
+	 </div>
 	
 	<script>
+	$(document).ready(function(){
+			  $('input').iCheck({
+			    checkboxClass: 'icheckbox_flat',
+			    radioClass: 'iradio_flat'
+			  });
+			});
+	
+	
+	
+	
 		$('.fotosInfo').click(function(){
 			jQuery('.carousel-imagenes').addClass("show");
 		});
@@ -74,10 +226,69 @@
 			jQuery('.carousel-imagenes').removeClass("show");
 		}
 			
-		
+		 var geocoder;
+		    var map;
+		  
+				var map;
+				var pos = new google.maps.LatLng(37.774807, -3.795573);
+				 
+				var marker = new google.maps.Marker({
+				      position: pos,
+				      map: map,
+				      title:"Esto es un marcador",
+				      animation: google.maps.Animation.DROP
+				  });
+
+				function initMap() {
+					 geocoder = new google.maps.Geocoder();
+					 var mapOptions = {
+					          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
+					          zoom: 11,
+					          mapTypeId: google.maps.MapTypeId.ROADMAP
+					        };
+					        var map = new google.maps.Map(document.getElementById("map"),
+					            mapOptions);
+					 
+					        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
+					        	 if (geocoder) {
+							            geocoder.geocode({
+							              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
+							            }, function(results, status) {
+							              if (status == google.maps.GeocoderStatus.OK) {
+							                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+							                  map.setCenter(results[0].geometry.location);
+
+							                  var infowindow = new google.maps.InfoWindow({
+							                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
+							                    size: new google.maps.Size(150, 50)
+							                  });
+
+							                  var marker = new google.maps.Marker({
+							                    position: results[0].geometry.location,
+							                    map: map,
+							                    title: "<c:out value="${property.street}"/>"
+							                  });
+							                  google.maps.event.addListener(marker, 'click', function() {
+							                    infowindow.open(map, marker);
+							                  });
+
+							                } else {
+							                  alert("No results found");
+							                }
+							              } else {
+							                alert("Geocode was not successful for the following reason: " + status);
+							              }
+							            });
+							          }
+					        	
+					        	 
+					       
+				}
+
 	</script>
-	      <div class="col-md-8"></div>
-      
-	<h2>${property.id}</h2>
+	 <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
+    </script>
+	  
 </jsp:body>
 </t:paginabasica>
