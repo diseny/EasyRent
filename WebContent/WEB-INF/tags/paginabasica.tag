@@ -6,11 +6,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/images/logo2.png">
 <link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/images/logo2.png">
 <link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/images/logo2.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
 <title>${title}</title>
