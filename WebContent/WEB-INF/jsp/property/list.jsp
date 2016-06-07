@@ -114,11 +114,11 @@
 		<div class="col-md-12">
 		<h4>Selecciona servicios:</h4>
 		<c:forEach items="${allServices}" var="service" varStatus="loopServices">
-			<div class="selecter col-md-3">
+			<div class="selecter col-md-4">
 			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')"><label >  ${service.name}</label> 
 			</div>
 		</c:forEach>
-		<br>
+		<b r>
 			
 			
 		</div>
@@ -128,13 +128,32 @@
 		  <div class="col-md-12" id="map"></div>
 			</div>
 	
-	<div class="col-md-6" style="    border-left: 5px;border-style: solid;border-bottom: 0px;border-right: 0px;border-top: 0px;
+	<div class="col-md-6" style="height:800px;overflow: scroll;   border-left: 5px;border-style: solid;border-bottom: 0px;border-right: 0px;border-top: 0px;
 	">
 	<div class="col-md-12" style="min-height:70px;">
 	<h4 class="col-md-4">Ordenar por :</h4>
-	<select class="col-md-8 selecter-options" style="    margin-top: 17px;">
-		<option class="selecter-item">1</option>
-		<option>2</option>
+	<select class="col-md-8 selecter-options" style="margin-top: 17px;"onchange="post()" id="orderSelect">
+		<option value="${pageContext.request.contextPath}/property/listOrderTitleDown.html" class="selecter-item">Titulo ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderTitleUp.html" class="selecter-item">Titulo descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCapacityDown.html" class="selecter-item">Capacidad ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCapacityUP.html" class="selecter-item">Capacidad descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderRoomsDown.html" class="selecter-item">Habitaciones ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderRoomsUp.html" class="selecter-item">Habitaciones descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderBathroomsDown.html" class="selecter-item">Baños ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderBathroomsUp.html" class="selecter-item">Baños descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderBedsDown.html" class="selecter-item">Camas ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderBedsUp.html" class="selecter-item">Camas descendente</option>
+		
+		<option value="${pageContext.request.contextPath}/property/listOrderMetersDown.html" class="selecter-item">Tamaño ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderMetersUp.html" class="selecter-item">Tamaño descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderStreetDown.html" class="selecter-item">Calle ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderStreetUp.html" class="selecter-item">Calle descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCityDown.html" class="selecter-item">Ciudad ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCityUp.html" class="selecter-item">Ciudad descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderPriceDown.html" class="selecter-item">Precio ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderPriceUp.html" class="selecter-item">Precio descendente</option>
+	
+	
 	</select>
 	
 	</div>
@@ -151,8 +170,22 @@
 				<h5 class="col-md-12 title"><a href="info/${property.id}.html">${property.title}</a></h5>
 				
 				<p class="col-md-12 subtit"> ${property.city} </p>
+				<div class="col-md-12">
+					<div class="col-md-4">
+					<img src="${pageContext.request.contextPath}/images/habitaciones.png" style="height:25px;width:25px">
+			<h4>${property.numRooms}</h4>
+					</div>
+					<div class="col-md-4">
+					<img src="${pageContext.request.contextPath}/images/personas.png" style="height:25px;width:25px">
+			<h4>${property.capacity}</h4>
+					</div>
+					<div class="col-md-4">
+					<img src="${pageContext.request.contextPath}/images/cama.png" style="height:25px;width:25px">
+			<h4>${property.numBeds}</h4>
+					</div>
+				</div>
 			</div>
-				<h5 class="col-md-5 price">${property.dailyPrice} e</h5>
+				<h4 class="col-md-5 price">${property.dailyPrice} e</h4>
 			</div>
 			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
 				<div class="carousel-inner" >	
@@ -217,98 +250,6 @@
 	</div>
 	
 </div>
-	<div class="container">
-	<div class="row">
-	<table class="table table-striped navProperty" style="text-align:center;"> 
-		<tr> 
-			<th></th>
-			<th></th>
-			<th>
-				<img  onclick="post('${pageContext.request.contextPath}/property/listOrderOwnerDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderOwnerUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderTitleDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderTitleUp.html')"src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCapacityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderRoomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBathroomsDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png">
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBathroomsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBedsDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderBedsUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th style="width:70px">
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderMetersDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderMetersUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderStreetDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderStreetUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityDown.html')" src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderCityUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >
-			</th>
-			<th>
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceDown.html')"src="${pageContext.request.contextPath}/images/sortDown.png" >
-				<img onclick="post('${pageContext.request.contextPath}/property/listOrderPriceUp.html')" src="${pageContext.request.contextPath}/images/sortUp.png" >			
-			</th>
-			<th>
-			</th>
-		</tr>
-		
-
-		
-		<tr> 
-			<th>#</th>
-			<th>Imagen</th>
-			<th></th>
-			<th>Servicios</th>
-			<th>Propietario</th>
-			<th>Título</th>
-			<th>Capacidad</th>
-			<th>Habitaciones</th>
-			<th>Calle</th>
-			<th>Ciudad</th>
-			<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
-			<th></th>
-		</tr>
-		<c:forEach items="${properties}" var="property" varStatus="loop">
-			<tr class="fons">
-				<td>${loop.index + 1}</td>
-				<c:forEach items="${images}" var="image" varStatus="loopImages">
-					<c:if test="${property.id == image.ID}" >
-   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
-					</c:if>
-				</c:forEach>
-				<td>
-					<c:forEach items="${services}" var="service" varStatus="loopServices">
-						<c:if test="${property.id == service.propertyId}" >
-	   						<img src="${pageContext.request.contextPath}/images/${service.serviceName}.png" title="${service.serviceName}" alt="${service.serviceName}" style="width:25px;height:25px;">
-						</c:if>
-					</c:forEach>
-				</td>
-				<td>${property.ownerUsername}</td>
-				<td>${property.title}</td>
-				<td>${property.capacity}</td>
-				<td>${property.numRooms}</td>
-				<td>${property.street}</td>
-				<td>${property.city}</td>
-				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
-			</tr>
-		</c:forEach> 
-	</table>
 	
 </jsp:body>
 </t:paginabasica>
@@ -478,7 +419,9 @@
 		   console.log(dateInit)
 		});
 		
-		function post(path){
+		function post(){
+			 var selectBox = document.getElementById("orderSelect");
+			 var path = selectBox.options[selectBox.selectedIndex].value;
 			method="post";
 			
 			//pillo todos los valores de los input del formulario que busca 
