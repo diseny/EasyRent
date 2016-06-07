@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
+import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
 import es.uji.ei1027.easyrent.domain.Image;
@@ -44,6 +45,9 @@ public class PropertyController {
 	@Autowired
 	private ServicePropertyDao servicePropertyDao;
 	
+	@Autowired
+	private PunctuationDao punctuationDao;
+	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
        this.propertyDao = propertyDao;
@@ -67,6 +71,11 @@ public class PropertyController {
    @Autowired 
    public void setServicePropertyDao(ServicePropertyDao servicePropertyDao) {
        this.servicePropertyDao = servicePropertyDao;
+   }
+   
+   @Autowired 
+   public void setPunctuationDao(PunctuationDao punctuationDao) {
+       this.punctuationDao = punctuationDao;
    }
    
 	@RequestMapping(value="/list")
@@ -109,10 +118,13 @@ public class PropertyController {
 		}
 		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);
-		
 		model.addAttribute("property", propertyDao.getProperty(id));
 		model.addAttribute("images", imageDao.getImages());
-		
+		model.addAttribute("punctuations", punctuationDao.getPunctuations(id));		
+		try{
+			float average = punctuationDao.getPunctuationAverage(id);
+			model.addAttribute("average", Math.round(average));
+		} catch(NullPointerException e) {;}
 		return "property/info"; 
 	}
 	
@@ -258,7 +270,7 @@ public class PropertyController {
 		List<Integer> propertiesIds = null;
 		if(requirements.getStartDate()!=null && !requirements.getStartDate().equals("") && requirements.getFinishDate()!=null && !requirements.getFinishDate().equals("")){
 			String []startDate = requirements.getStartDate().split("/");
-			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
+			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[0])-1,Integer.parseInt(startDate[1]));
 			String []finishDate = requirements.getFinishDate().split("/");
 			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[0])-1,Integer.parseInt(finishDate[1]));
 			if(finish.compareTo(start)>0){
