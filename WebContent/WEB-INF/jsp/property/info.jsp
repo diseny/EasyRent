@@ -69,7 +69,7 @@
 	<div class="menuAlquilar">
 		<div class="col-md-12 " style="height:100px">
 			<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
-			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice}</h4></div>
+			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
 		</div>
 		<hr>
 		<div class="col-md-12 " style="height:200px">
@@ -96,10 +96,6 @@
 			</div>
 			</div>
 			
-			
-			
-	           		
-	       	 	
 		</div>
 	<div class="col-md-12" style="height:100px;border-bottom:0">
 			<button type="button" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
@@ -111,17 +107,17 @@
 		<div class="col-md-10 col-md-offset-1">
 		<h1>${property.title }</h1>
 		<h6 class="locStreetList col-md-12">
-		  ${property.city} 	·  ${property.street } · 
-		<div class="ec-stars-wrapper">  <a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
-	<a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-	<a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-	<a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a></div>
-		
+		  ${property.city} · ${property.street}, ${property.number} · 
+		  <c:choose>
+		  <c:when test='${average == null}'>
+		  	(Sin puntuaciones)
+		  </c:when>
+		  <c:otherwise>
+		  	<img style="width:100px;height:15px;" alt="" src="${pageContext.request.contextPath}/images/star${average}.png">		  
+		  </c:otherwise>
+		  </c:choose>
 		</h6>  
-		<div class="ec-stars-wrapper">
-	
-</div>
+
 		<div class="col-md-12">
 			<div class="col-md-1" style="text-align:center">
 			<img src="${pageContext.request.contextPath}/images/habitaciones.png" style="height:50px;width:50px">
@@ -194,12 +190,38 @@
 				</div>
 			</c:if>
 		</c:forEach>
+		</div>
+	</div>	
 		
-		
-	
-		
+	<div class="col-md-12" style="min-height:100px">
+	<div class="col-md-8 col-md-offset-1">
+	<h4>Puntuaciones</h4>
+		<c:choose>
+		  <c:when test='${average == null}'>
+		  	(Sin puntuaciones)
+		  </c:when>
+		  <c:otherwise>
+			<table class="table table-striped navProperty" style="text-align:center;">
+	      		<tr> 
+					<th>#</th>
+					<th>Puntuación</th>
+					<th>Cliente</th>
+					<th>Comentarios</th>
+				</tr>
+				<c:forEach items="${punctuations}" var="punctuation" varStatus="loop">
+					<tr class="fons">
+						<td>${loop.index + 1}</td>
+						<td>${punctuation.punctuation}</td>
+						<td>${punctuation.username}</td>
+						<td style="text-align:justify">${punctuation.comments}</td>
+					</tr>
+				</c:forEach> 
+			</table>
+			</c:otherwise>
+		</c:choose>
+	</div>	
 	</div>
-	</div>
+		
 	 <div class="col-md-12" style="background-color:rgba(0, 255, 253, 0.048039);">
 	 	<div class="col-md-11 col-md-offset-1"><h4>Aquí está</h4><hr></div>
 		<div class="col-md-7 col-md-offset-1" id="map">
