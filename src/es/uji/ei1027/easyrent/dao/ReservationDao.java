@@ -50,4 +50,9 @@ public class ReservationDao {
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
 	
+	public List<Reservation> getReservationsProperty(int id) {
+		String query = "SELECT * FROM Reservation WHERE id_property='" + id + "';";
+		return this.jdbcTemplate.query(query, new ReservationMapper());
+	}
+
 }
