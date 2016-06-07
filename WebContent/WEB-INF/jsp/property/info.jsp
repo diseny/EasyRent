@@ -77,7 +77,7 @@
 			<div class="col-md-3 ">
 			<label>Inicio: </label>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 ">
 			<div class="input-group input-append date" id="datePickerInit">
 	            	    <input class="form-control" type="text" path="startDate"  style="width:120px" >
 	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -208,8 +208,13 @@
 	 </div>
 	
 	<script>
+
+	
+	
 	$(document).ready(function(){
-			  $('input').iCheck({
+		
+			
+		$('input').iCheck({
 			    checkboxClass: 'icheckbox_flat',
 			    radioClass: 'iradio_flat'
 			  });
@@ -285,6 +290,9 @@
 					       
 				}
 
+				
+				
+				
 	</script>
 	 <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
