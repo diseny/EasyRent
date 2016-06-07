@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <div class="carousel-imagenes">
 	<!-- Vamos a hacer un slider de prueba , pero tiene que coger las imagenes de la base de datos -->
@@ -75,32 +76,33 @@
 		<div class="col-md-12 " style="height:200px">
 			<div class="col-md-11 " style="margin-top:34px">
 			<div class="col-md-3 ">
-			<label>Inicio: </label>
-			</div>
-			<div class="col-md-6 ">
-			<div class="input-group input-append date" id="datePickerInit">
-	            	    <input class="form-control" type="text" path="startDate"  style="width:120px" >
-	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-	            	</div>
-			</div>
-			</div>
-			<div class="col-md-11 " style="margin-top:35px">
-			<div class="col-md-3 ">
-			<label>Final: </label>
-			</div>
-			<div class="col-md-6">
-			<div class="input-group input-append date" id="datePickerEnd">
-	            	    <input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" >
-	                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-	            	</div>
-			</div>
-			</div>
 			
-		</div>
-	<div class="col-md-12" style="height:100px;border-bottom:0">
-			<button type="button" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
-		</div>
-			
+			<form:form id="book" method="post" modelAttribute="property">
+				<label>Inicio: </label>
+				</div>
+				<div class="col-md-6 ">
+				<div class="input-group input-append date" id="datePickerInit">
+		            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" ></form:input>
+		                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+		            	</div>
+				</div>
+				</div>
+				<div class="col-md-11 " style="margin-top:35px">
+				<div class="col-md-3 ">
+				<label>Final: </label>
+				</div>
+				<div class="col-md-6">
+				<div class="input-group input-append date" id="datePickerEnd">
+	           	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" ></form:input>
+	               	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+		        </div>
+				</div>
+				</div>
+				</div>
+				<div class="col-md-12" style="height:100px;border-bottom:0">
+					<button type="submit" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
+				</div>
+			</form:form>
 	</div>
 
 	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
