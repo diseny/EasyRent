@@ -46,8 +46,6 @@ public class PropertyController {
 	@Autowired
 	private PeriodDao periodDao;
 	
-	@Autowired
-	private ReservationDao reservationDao;
 	
 	@Autowired
 	private ServiceDao serviceDao;
@@ -128,7 +126,7 @@ public class PropertyController {
 		List<Service> services = serviceDao.getServices();
 		List<Service> allServices = serviceDao.getServices();
 		List<Period> periods= periodDao.getPeriods(id);
-		List<Reservation> reservas = reservationDao.getReservations(id);
+		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
 		for(ServiceProperty sP: servicesProperties){
 			for(Service s: services){
 				if(s.getID() == sP.getServiceId()){
