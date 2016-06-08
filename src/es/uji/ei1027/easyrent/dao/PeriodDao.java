@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+
 import es.uji.ei1027.easyrent.domain.Period;
 
 @Repository
@@ -40,4 +41,8 @@ public class PeriodDao {
 		return this.jdbcTemplate.queryForList(query, Integer.class);
 	}
 	
+	public List<Period> getPeriods(int id){
+		String query= "SELECT * from Period WHERE property_id ="+id +";";
+		return this.jdbcTemplate.query(query,  new PeriodMapper());
+	}
 }
