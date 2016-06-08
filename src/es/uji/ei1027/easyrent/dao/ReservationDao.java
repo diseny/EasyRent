@@ -8,9 +8,11 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Reservation;
 
 @Repository
@@ -49,5 +51,8 @@ public class ReservationDao {
 		String query = "SELECT * FROM Reservation WHERE user_name_tenant='" + tenant + "';";
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
-	
+	public List<Reservation> getReservations(int id){
+		String query= "SELECT * from Reservation WHERE id_property ="+id +";";
+		return this.jdbcTemplate.query(query, new ReservationMapper());
+	}
 }
