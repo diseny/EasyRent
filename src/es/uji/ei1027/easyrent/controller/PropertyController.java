@@ -58,6 +58,9 @@ public class PropertyController {
 	@Autowired
 	private PunctuationDao punctuationDao;
 	
+	@Autowired
+	private ReservationDao reservationDao;
+	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
        this.propertyDao = propertyDao;
@@ -86,6 +89,11 @@ public class PropertyController {
    @Autowired 
    public void setPunctuationDao(PunctuationDao punctuationDao) {
        this.punctuationDao = punctuationDao;
+   }
+   
+   @Autowired 
+   public void setReservationDao(ReservationDao reservationDao) {
+       this.reservationDao = reservationDao;
    }
    
 	@RequestMapping(value="/list")
@@ -140,6 +148,58 @@ public class PropertyController {
 			model.addAttribute("average", Math.round(average));
 		} catch(NullPointerException e) {;}
 		return "property/info"; 
+	}
+	
+	@RequestMapping(value="/info/{id}", method = RequestMethod.POST)
+	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id) {
+		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
+		List<Service> services = serviceDao.getServices();
+		List<Service> allServices = serviceDao.getServices();
+		for(ServiceProperty sP: servicesProperties){
+			for(Service s: services){
+				if(s.getID() == sP.getServiceId()){
+					sP.setServiceName(s.getName());
+				}
+			}
+		}
+		model.addAttribute("allServices", allServices);
+		model.addAttribute("services", servicesProperties);
+		model.addAttribute("property", propertyDao.getProperty(id));
+		model.addAttribute("images", imageDao.getImages());
+		model.addAttribute("punctuations", punctuationDao.getPunctuations(id));		
+		try{
+			float average = punctuationDao.getPunctuationAverage(id);
+			model.addAttribute("average", Math.round(average));
+		} catch(NullPointerException e) {;}
+		if(property.getStartDate()!=null && !property.getStartDate().equals("") && property.getFinishDate()!=null && !property.getFinishDate().equals("")){
+			List<Integer> propertiesIds = null;
+			String []startDate = property.getStartDate().split("/");
+			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
+			String []finishDate = property.getFinishDate().split("/");
+			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[0]));
+			if(finish.compareTo(start)>0){
+				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
+			}
+			if(propertiesIds.contains(id)){
+				if(checkAvailability(reservationDao.getReservationsProperty(id), start, finish)){
+					System.out.println(true);
+				}
+			}
+		}
+		return "property/info"; 
+	}
+	
+	private boolean checkAvailability(List<Reservation> reservationsProperty, Date start, Date finish) {
+		for(Reservation res: reservationsProperty){
+			String []startDate = res.getStartDate().split("-");
+			Date startRes = new java.sql.Date(Integer.parseInt(startDate[0])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[2]));
+			String []finishDate = res.getFinishDate().split("-");
+			Date finishRes = new java.sql.Date(Integer.parseInt(finishDate[0])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[2]));
+			if(start.compareTo(startRes)>=0 && start.compareTo(finishRes)<=0 || finish.compareTo(startRes)>=0 && finish.compareTo(finishRes)<=0 || start.compareTo(startRes)<=0 && finish.compareTo(finishRes)>=0){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	@RequestMapping(value="/listOrderOwnerDown")
@@ -284,9 +344,9 @@ public class PropertyController {
 		List<Integer> propertiesIds = null;
 		if(requirements.getStartDate()!=null && !requirements.getStartDate().equals("") && requirements.getFinishDate()!=null && !requirements.getFinishDate().equals("")){
 			String []startDate = requirements.getStartDate().split("/");
-			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[0])-1,Integer.parseInt(startDate[1]));
+			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
 			String []finishDate = requirements.getFinishDate().split("/");
-			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[0])-1,Integer.parseInt(finishDate[1]));
+			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[0]));
 			if(finish.compareTo(start)>0){
 				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
 			}
