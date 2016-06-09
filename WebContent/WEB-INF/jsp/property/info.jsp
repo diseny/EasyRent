@@ -234,10 +234,158 @@
 	<script>
 
 	
-	
 	$(document).ready(function(){
+			var disabledDates=[];
+			<c:forEach items="${reservas}" var="reserva" varStatus="loop">
+				var dates=["<c:out value="${reserva.startDate}"/>","<c:out value="${reserva.finishDate}"/>"];
+				disabledDates.push(dates);
+			</c:forEach>
+			var enabledDates=[];
+			<c:forEach items="${periods}" var="period" varStatus="loop">
+				var dates=["<c:out value="${period.start}"/>","<c:out value="${period.finish}"/>"];
+				enabledDates.push(dates);
+			</c:forEach>
 		
+		var hoy = new Date();
 			
+		
+		function available(date) {
+			var mes =  date.getMonth()+1;
+			var dia =  date.getDate();
+			if(mes<10){
+				mes = '0'.concat(mes);
+			}
+			
+			if(dia<10){
+				dia = '0'.concat(dia);
+			}
+			var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
+			fechaHoy = new Date(dmy)
+			clases =""
+			for( var i=0;i<enabledDates.length;i++){
+				fechaRangoInicio= new Date(enabledDates[i][0]); 
+				fechaRangoFin= new Date(enabledDates[i][1]);
+				if(fechaRangoInicio>fechaHoy || fechaRangoFin<fechaHoy){
+					clases= clases.concat(' disabled reservado ');
+					}
+				
+			}
+			
+			for( var i=0;i<disabledDates.length;i++){
+				fechaRangoInicio= new Date(disabledDates[i][0]); 
+				fechaRangoFin= new Date(disabledDates[i][1]);
+			if(fechaRangoInicio<=fechaHoy && fechaRangoFin>=fechaHoy){
+				clases= clases.concat(' disabled reservado ');
+				}
+			
+			 }
+			return {
+	             classes: clases
+	          }; 
+			
+
+				 
+			
+		}
+		function available2(date) {
+			
+			var mes =  date.getMonth()+1;
+			var dia =  date.getDate();
+			if(mes<10){
+				mes = '0'.concat(mes);
+			}
+			
+			if(dia<10){
+				dia = '0'.concat(dia);
+			}
+			var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
+			
+			
+			
+			fechaHoy = new Date(dmy)
+			clases =""
+			for( var i=0;i<enabledDates.length;i++){
+				
+				fechaRangoInicio= new Date(enabledDates[i][0]); 
+				fechaRangoFin= new Date(enabledDates[i][1]);
+				if(fechaRangoInicio<fechaHoy && fechaRangoFin>fechaHoy){
+					if(fechaRangoFin<fechaMinima){
+						fechaMinima=fechaRangoFin;	
+					}
+				}
+				
+				
+			}
+			for( var i=0;i<disabledDates.length;i++){
+				fechaIni=new Date(disabledDates[i][0])
+				if(fechaMinima> fechaIni && dateInit<fechaIni){
+					fechaMinima= fechaIni;
+				}
+			
+				
+			
+			 }
+			var mes =  fechaMinima.getMonth()+1;
+			var dia =  fechaMinima.getDate()-1;
+			if(mes<10){
+				mes = '0'.concat(mes);
+			}
+			
+			if(dia<10){
+				dia = '0'.concat(dia);
+			}
+			
+			var fin= fechaMinima.getFullYear()+ "-" + mes +"-" + dia;
+			fechaMinima= new Date(fin);
+			
+			
+			$('#datePickerEnd').datepicker({
+				autoclose : true,
+				format : 'dd/mm/yyyy',
+				startDate : dateInit,
+				endDate: fechaMinima,
+			})
+			return {
+	        
+	            	 
+	          }; 
+			
+
+				 
+			
+		}
+
+		
+		$('#datePickerInit').datepicker({
+		autoclose : true,
+		
+		format : 'dd/mm/yyyy',
+		startDate : hoy,
+		beforeShowDay: available,	
+		
+		
+	})			
+			
+		
+		
+		var fechaMinima = new Date('2020-01-01');
+		var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+		$('#datePickerInit').on('changeDate', function(e) {
+			// Revalidate the date field
+			dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+
+			$('#datePickerEnd input').prop('disabled', false);
+			$('#datePickerEnd').datepicker({
+				autoclose : true,
+				format : 'dd/mm/yyyy',
+				startDate : dateInit,
+				
+				beforeShowDay: available2,	
+			})
+			
+		});
+		
+
 		$('input').iCheck({
 			    checkboxClass: 'icheckbox_flat',
 			    radioClass: 'iradio_flat'

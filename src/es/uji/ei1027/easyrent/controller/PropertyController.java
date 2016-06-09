@@ -1,5 +1,8 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
@@ -20,7 +25,7 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
-import es.uji.ei1027.easyrent.domain.Image;
+import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
@@ -40,6 +45,7 @@ public class PropertyController {
 	
 	@Autowired
 	private PeriodDao periodDao;
+	
 	
 	@Autowired
 	private ServiceDao serviceDao;
@@ -119,6 +125,8 @@ public class PropertyController {
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		List<Service> allServices = serviceDao.getServices();
+		List<Period> periods= periodDao.getPeriods(id);
+		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
 		for(ServiceProperty sP: servicesProperties){
 			for(Service s: services){
 				if(s.getID() == sP.getServiceId()){
@@ -126,6 +134,8 @@ public class PropertyController {
 				}
 			}
 		}
+		model.addAttribute("reservas",reservas);
+		model.addAttribute("periods",periods);
 		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);
 		model.addAttribute("property", propertyDao.getProperty(id));
@@ -366,6 +376,89 @@ public class PropertyController {
 		if(requirements.getDailyPrice()!=0)
 			filters.add("daily_price<=" + requirements.getDailyPrice());
 		filters.add("ORDER BY " + field + " " + order);
+	}
+	
+	@RequestMapping(value="/uploadFile")
+	public String uploadFileHandler() {
+	
+		return "property/upload";
+	}
+	
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String uploadFileHandler(@RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file) {
+		
+		return "property/upload";
+		/*
+		 *
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + name);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				
+				return "You successfully uploaded file=" + name;
+			} catch (Exception e) {
+				return "You failed to upload " + name + " => " + e.getMessage();
+			}
+		} else {
+			return "You failed to upload " + name
+					+ " because the file was empty.";
+		}*/
+	}
+
+	/**
+	 * Upload multiple file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
+	String uploadMultipleFileHandler(@RequestParam("name") String[] names,
+			@RequestParam("file") MultipartFile[] files) {
+
+		if (files.length != names.length)
+			return "Mandatory information missing";
+
+		String message = "";
+		for (int i = 0; i < files.length; i++) {
+			MultipartFile file = files[i];
+			String name = names[i];
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + name);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				
+
+				message = message + "You successfully uploaded file=" + name ;
+			} catch (Exception e) {
+				return "You failed to upload " + name + " => " + e.getMessage();
+			}
+		}
+		return message;
 	}
 	
 }

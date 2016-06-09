@@ -116,3 +116,9 @@ position: absolute;
 .serviciosInfo{
 	margin-top:10px;
 }
+
+
+
+.reservado{
+	color:red!important;
+}
