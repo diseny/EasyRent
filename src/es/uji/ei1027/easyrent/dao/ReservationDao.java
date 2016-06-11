@@ -51,7 +51,7 @@ public class ReservationDao {
 		String query = "SELECT * FROM Reservation WHERE user_name_tenant='" + tenant + "';";
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
-	public List<Reservation> getReservations(int id){
+	public List<Reservation> getReservationsProperty(int id){
 		String query= "SELECT * from Reservation WHERE id_property ="+id +";";
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
