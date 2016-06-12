@@ -48,7 +48,7 @@ public class PropertyDao {
 	    	return property;
 	    }
 	}
-
+	
 	public List<Property> getProperties() {
 		 return this.jdbcTemplate.query("SELECT * FROM Property;", new PropertyMapper());
 	}

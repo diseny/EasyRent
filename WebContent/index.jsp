@@ -111,13 +111,13 @@
 	</div>
 	<div style="color:#fff" class="col-md-offset-1 col-md-2">
 	
-	<div style="border-radius:100%;margin-bottom:40px;margin-top:20px;height:200px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+	<div style="border-radius:100%;margin-bottom:40px;margin-top:20px;height:200px;background-image: url('http://i.imgur.com/Fehij5R.jpg');background-size: cover;background-position: 40%; background-repeat: no-repeat;">
 		</div>
 		<h3>Rápido</h3>
 	</div>
 	<div style="color:#fff" class="col-md-offset-1 col-md-2">
 	
-	<div style="border-radius:100%;margin-top:20px;margin-bottom:40px;height:200px;background-image: url('http://benicassimparaiso.es/wp-content/uploads/2015/06/playa-heliopolis-benicassim.jpeg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
+	<div style="border-radius:100%;margin-top:20px;margin-bottom:40px;height:200px;background-image: url('http://www.diariodeseguros.es/wp-content/uploads/2014/05/seguro-del-hogar-.jpg');background-size: cover;background-position: 50%; background-repeat: no-repeat;">
 		</div>
 		<h3>Seguro</h3>
 	</div>
@@ -155,7 +155,24 @@
 </div>
 
 <script>
+var hoy = new Date();
+$('#datePickerInit').datepicker({
+	autoclose : true,
+	format : 'dd/mm/yyyy',
+	startDate : hoy,
 	
+})	;
+$('#datePickerInit').on('changeDate', function(e) {
+	// Revalidate the date field
+	dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+	$('#datePickerEnd input').prop('disabled', false);
+	$('#datePickerEnd').datepicker({
+		autoclose : true,
+		format : 'dd/mm/yyyy',
+		startDate: dateInit,
+	})
+});
+
 	if(!jQuery('#capacity').val()){ jQuery('#capacity').attr('value',"0")}
 	if(!jQuery('#numRooms').val()){ jQuery('#numRooms').attr('value',"0")}
 	if(!jQuery('#numBathrooms').val()){ jQuery('#numBathrooms').attr('value',"0")}
