@@ -1,8 +1,5 @@
 package es.uji.ei1027.easyrent.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
@@ -93,7 +88,43 @@ public class PropertyController {
    public void setReservationDao(ReservationDao reservationDao) {
        this.reservationDao = reservationDao;
    }
+
    
+   @RequestMapping(value="/add") 
+	public String addProperty(Model model) {
+	   	Property prop = new Property();
+		int numProp= propertyDao.getProperties().size();
+		model.addAttribute("property",prop);
+		model.addAttribute("numProp", numProp);
+		
+		return "property/add";
+	}
+   @RequestMapping(value="/add", method=RequestMethod.POST)
+	public String addProperty(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
+	   PropertyValidator propertyValidator = new PropertyValidator();
+		propertyValidator.validate(property, bindingResult);
+		if (bindingResult.hasErrors())
+			return "property/add";
+		try {
+			propertyDao.addProperty(property);
+		} catch (Exception e) {
+			if(e.getMessage()==null){
+				return "redirect:list.html";
+			}
+			else{
+				if(e.getMessage().contains("already exists")){
+					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que ya hay una propiedad con el username indicado.");
+				} else if(e.getMessage().contains("not present")){
+					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que el username no est� registrado.");
+				} 
+				
+				return "property/add";
+			}
+		}
+		return "redirect:list.html";
+	}
+
+	
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
 		model.addAttribute("properties", propertyDao.getProperties());
@@ -119,6 +150,8 @@ public class PropertyController {
 		stablishFilters(property, "daily_price", "ASC");
 		return generalList(model, property);
 	}
+	
+	
 
 	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
 	public String infoProperty(Model model, @PathVariable int id) {
@@ -378,87 +411,5 @@ public class PropertyController {
 		filters.add("ORDER BY " + field + " " + order);
 	}
 	
-	@RequestMapping(value="/uploadFile")
-	public String uploadFileHandler() {
-	
-		return "property/upload";
-	}
-	
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file) {
-		
-		return "property/upload";
-		/*
-		 *
-		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()
-						+ File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				
-				return "You successfully uploaded file=" + name;
-			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
-			}
-		} else {
-			return "You failed to upload " + name
-					+ " because the file was empty.";
-		}*/
-	}
-
-	/**
-	 * Upload multiple file using Spring Controller
-	 */
-	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
-	String uploadMultipleFileHandler(@RequestParam("name") String[] names,
-			@RequestParam("file") MultipartFile[] files) {
-
-		if (files.length != names.length)
-			return "Mandatory information missing";
-
-		String message = "";
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
-			String name = names[i];
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()
-						+ File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				
-
-				message = message + "You successfully uploaded file=" + name ;
-			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
-			}
-		}
-		return message;
-	}
 	
 }
