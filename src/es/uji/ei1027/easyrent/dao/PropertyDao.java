@@ -62,6 +62,11 @@ public class PropertyDao {
 		return this.jdbcTemplate.query(query, new PropertyMapper());
 	}
 	
+	public List<Integer> getIdsPropertyOwner(String owner) {
+		String query = "SELECT id FROM Property WHERE owner_username='" + owner + "';";
+		return this.jdbcTemplate.queryForList(query, Integer.class);
+	}
+	
 	public List<Property> getPropertyFilter(List<String> filters) {
 		String query;
 		String order = filters.get(filters.size()-1);

@@ -1,5 +1,7 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,7 @@ public class UserController {
 	private PropertyDao propertyDao;
 	private ReservationDao reservationDao;
 	private CredentialsDao credentialsDao;
+	final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 
    @Autowired 
    public void setUserDao(UserDao userDao) {
@@ -112,8 +115,35 @@ public class UserController {
        }
 	   User user = (User)session.getAttribute("user");	
 	   model.addAttribute("user", user);
+	   List<Reservation> uncheckedReservations = reservationDao.getReservations();
+	   Date today = new java.sql.Date(new java.util.Date().getTime());
+	   Date applicationTimestamp;
+	   String application[];
+	   for(Reservation r: uncheckedReservations){
+		   if(r.getConfirmationTimestamp()==null){
+			   application = r.getApplicationTimestamp().split("-");
+			   applicationTimestamp = new java.sql.Date(Integer.parseInt(application[0])-1900,Integer.parseInt(application[1])-1,Integer.parseInt(application[2]));
+			   if(((today.getTime()-applicationTimestamp.getTime())/MILLSECS_PER_DAY)>7){
+				   try{
+					   reservationDao.reject(r.getTrackingNumber());
+				   }catch(Exception e){;}
+			   }
+		   }
+	   }
+	   
 	   if(user.getRole().equals("Owner")){
-		   model.addAttribute("propertiesOwner", propertyDao.getPropertyOwner(user.getUsername()));
+		   List<Reservation> reservations = reservationDao.getReservations();
+		   List<Reservation> reservationsOwner = new LinkedList<Reservation>();
+		   List<Property> propertiesOwner = propertyDao.getPropertyOwner(user.getUsername());
+		   List<Integer> propertiesIds = propertyDao.getIdsPropertyOwner((user.getUsername()));
+		   for(Reservation r: reservations){
+			   if(propertiesIds.contains(r.getIdProperty())){
+				   r.setPropertyTitle(propertyDao.getProperty(r.getIdProperty()).getTitle());
+				   reservationsOwner.add(r);
+			   }
+		   }
+		   model.addAttribute("propertiesOwner", propertiesOwner);
+		   model.addAttribute("reservations", reservationsOwner);
 	   }
 	   else if(user.getRole().equals("Tenant")){
 		   List<Reservation> reservations = reservationDao.getReservationsTenant(user.getUsername());
