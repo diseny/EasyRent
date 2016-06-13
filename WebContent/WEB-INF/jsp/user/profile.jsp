@@ -55,7 +55,7 @@
 									<td>${propertyOwner.street}</td>
 									<td>${propertyOwner.city}</td>
 									<td>${propertyOwner.dailyPrice}</td>
-									<td><a href="info/${propertyOwner.id}.html" class="btn btn-info">Ir a la propiedad</a>
+									<td><a href="${pageContext.request.contextPath}/property/info/${propertyOwner.id}.html" class="btn btn-info">Ir a la propiedad</a>
 								</tr>
 							</c:forEach> 
 						</table>

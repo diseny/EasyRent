@@ -66,45 +66,65 @@
 <jsp:body>
 </div></div>
 	<br><br><br>
-	<div class="row">
-	<div class="menuAlquilar">
-		<div class="col-md-12 " style="height:100px">
-			<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
-			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
-		</div>
-		<hr>
-		<div class="col-md-12 " style="height:200px">
-			<div class="col-md-11 " style="margin-top:34px">
-			<div class="col-md-3 ">
-			
-			<form:form id="book" method="post" modelAttribute="property">
-				<label>Inicio: </label>
-				</div>
-				<div class="col-md-6 ">
-				<div class="input-group input-append date" id="datePickerInit">
-		            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" ></form:input>
-		                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-		            	</div>
-				</div>
-				</div>
-				<div class="col-md-11 " style="margin-top:35px">
-				<div class="col-md-3 ">
-				<label>Final: </label>
-				</div>
-				<div class="col-md-6">
-				<div class="input-group input-append date" id="datePickerEnd">
-	           	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" ></form:input>
-	               	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-		        </div>
-				</div>
-				</div>
-				</div>
-				<div class="col-md-12" style="height:100px;border-bottom:0">
-					<button type="submit" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
-				</div>
-			</form:form>
-	</div>
-
+	<c:choose>
+		<c:when test='${user == null}'>
+  		</c:when>
+  		<c:otherwise>
+	  		<c:choose>
+				<c:when test='${user.role == "Tenant"}'>
+					<div class="row">
+					<form:form id="book" method="post" modelAttribute="property">
+					<div class="menuAlquilar">
+						<div class="col-md-12 " style="height:100px">
+							<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
+							<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
+						</div>
+						<hr>
+						<div class="col-md-12 " style="height:250px">
+							<div class="col-md-4">
+								<label>Personas:</label>
+							</div>
+							<div class="col-md-6 ">
+								<form:input class="form-control" value="1" type="number" min="1" max="${property.capacity}" path="numPeople" placeholder="Nº personas"></form:input>
+							</div>
+							<div class="col-md-11 " style="margin-top:34px">
+							<div class="col-md-4 ">
+								<form:input type="hidden" path="dailyPrice"></form:input>
+								<label>Inicio: </label>
+								</div>
+								<div class="col-md-6 ">
+								<div class="input-group input-append date" id="datePickerInit">
+				            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" ></form:input>
+				                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+				            	</div>
+								</div>
+								</div>
+								<div class="col-md-11 " style="margin-top:35px">
+								<div class="col-md-4 ">
+								<label>Final: </label>
+								</div>
+								<div class="col-md-6">
+								<div class="input-group input-append date" id="datePickerEnd">
+					           	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" ></form:input>
+					               	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+						        </div>
+								</div>
+								</div>
+								<div class="col-md-11 " style="margin-top:35px">
+								</div>
+						</div>
+						<div class="col-md-12" style="height:100px;border-bottom:0">
+							<button type="submit" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
+						</div>
+					</div>
+					</form:form>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+			</c:choose>
+	   	</c:otherwise>
+  	</c:choose>
+	
 	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
 		<div class="col-md-10 col-md-offset-1">
 		<h1>${property.title }</h1>
