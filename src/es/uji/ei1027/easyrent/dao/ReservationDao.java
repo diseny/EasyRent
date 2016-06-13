@@ -6,12 +6,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Reservation;
 
@@ -51,8 +53,18 @@ public class ReservationDao {
 		String query = "SELECT * FROM Reservation WHERE user_name_tenant='" + tenant + "';";
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
+	
 	public List<Reservation> getReservationsProperty(int id){
 		String query= "SELECT * from Reservation WHERE id_property ="+id +";";
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
+	
+	public void addReservation(Reservation reservation) throws PSQLException{
+		this.jdbcTemplate.update("INSERT INTO Reservation(tracking_number, user_name_tenant, id_property, application_timestamp, confirmation_timestamp, num_people, start_date, finish_date, total_amount, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", reservation.getTrackingNumber(), reservation.getUserNameTenant(), reservation.getIdProperty(), reservation.getApplicationTimestamp(), reservation.getConfirmationTimestamp(), reservation.getNumPeople(), reservation.getStartDate(), reservation.getFinishDate(), reservation.getStatus());
+	}
+	
+	public Integer generateTrackingNumber(){
+		return this.jdbcTemplate.queryForObject("SELECT MAX(tracking_number) FROM Reservation;", Integer.class);
+	}
+	
 }

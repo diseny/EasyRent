@@ -1,11 +1,10 @@
 package es.uji.ei1027.easyrent.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
@@ -30,6 +27,8 @@ import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
+import es.uji.ei1027.easyrent.domain.User;
+import es.uji.ei1027.easyrent.domain.UserSession;
 
 @Controller
 @RequestMapping("/property")
@@ -149,42 +148,75 @@ public class PropertyController {
 	}
 	
 	@RequestMapping(value="/info/{id}", method = RequestMethod.POST)
-	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id) {
-		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
-		List<Service> services = serviceDao.getServices();
-		List<Service> allServices = serviceDao.getServices();
-		for(ServiceProperty sP: servicesProperties){
-			for(Service s: services){
-				if(s.getID() == sP.getServiceId()){
-					sP.setServiceName(s.getName());
-				}
-			}
-		}
-		model.addAttribute("allServices", allServices);
-		model.addAttribute("services", servicesProperties);
-		model.addAttribute("property", propertyDao.getProperty(id));
-		model.addAttribute("images", imageDao.getImages());
-		model.addAttribute("punctuations", punctuationDao.getPunctuations(id));		
-		try{
-			float average = punctuationDao.getPunctuationAverage(id);
-			model.addAttribute("average", Math.round(average));
-		} catch(NullPointerException e) {;}
+	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id,  HttpSession session) {
+		boolean available = false;
+		Date start = null;
+		Date finish = null;
 		if(property.getStartDate()!=null && !property.getStartDate().equals("") && property.getFinishDate()!=null && !property.getFinishDate().equals("")){
 			List<Integer> propertiesIds = null;
 			String []startDate = property.getStartDate().split("/");
-			Date start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
+			start = new java.sql.Date(Integer.parseInt(startDate[2])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[0]));
 			String []finishDate = property.getFinishDate().split("/");
-			Date finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[0]));
+			finish = new java.sql.Date(Integer.parseInt(finishDate[2])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[0]));
 			if(finish.compareTo(start)>0){
 				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
 			}
 			if(propertiesIds.contains(id)){
-				if(checkAvailability(reservationDao.getReservationsProperty(id), start, finish)){
-					System.out.println(true);
-				}
+				available = checkAvailability(reservationDao.getReservationsProperty(id), start, finish);
 			}
 		}
-		return "property/info"; 
+		if(!available){
+			List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
+			List<Service> services = serviceDao.getServices();
+			List<Service> allServices = serviceDao.getServices();
+			List<Period> periods= periodDao.getPeriods(id);
+			List<Reservation> reservas = reservationDao.getReservationsProperty(id);
+			for(ServiceProperty sP: servicesProperties){
+				for(Service s: services){
+					if(s.getID() == sP.getServiceId()){
+						sP.setServiceName(s.getName());
+					}
+				}
+			}
+			model.addAttribute("reservas",reservas);
+			model.addAttribute("periods",periods);
+			model.addAttribute("allServices", allServices);
+			model.addAttribute("services", servicesProperties);
+			model.addAttribute("property", propertyDao.getProperty(id));
+			model.addAttribute("images", imageDao.getImages());
+			model.addAttribute("punctuations", punctuationDao.getPunctuations(id));		
+			try{
+				float average = punctuationDao.getPunctuationAverage(id);
+				model.addAttribute("average", Math.round(average));
+			} catch(NullPointerException e) {;}
+			return "property/info";
+		}
+		/*
+		tracking_number INTEGER  NOT NULL,
+		user_name_tenant VARCHAR (30) NOT NULL,	
+		id_property INTEGER NOT NULL,
+	    application_timestamp DATE NOT NULL,
+		confirmation_timestamp DATE,
+		num_people INTEGER NOT NULL,
+		start_date DATE NOT NULL,
+		finish_date DATE NOT NULL,
+		total_amount REAL NOT NULL,	
+		status VARCHAR (50) NOT NULL, 
+		*/
+		Reservation reservation = new Reservation();
+		reservation.setTrackingNumber(reservationDao.generateTrackingNumber()+1);
+		User user = (User)session.getAttribute("user");
+		reservation.setUserNameTenant(user.getUsername());
+		reservation.setIdProperty(id);
+		reservation.setApplicationTimestamp(new java.sql.Date(new java.util.Date().getTime()).toString());
+		reservation.setConfirmationTimestamp(null);
+		reservation.setNumPeople(property.getNumPeople());
+		reservation.setStartDate(start.toString());
+		reservation.setFinishDate(finish.toString());
+		reservation.setTotalAmount((finish.compareTo(start)+1)*property.getDailyPrice());
+		reservation.setStatus("rejected");
+		System.out.println(property.getNumPeople());
+		return "redirect:../../user/profile.html";
 	}
 	
 	private boolean checkAvailability(List<Reservation> reservationsProperty, Date start, Date finish) {
@@ -378,7 +410,7 @@ public class PropertyController {
 		filters.add("ORDER BY " + field + " " + order);
 	}
 	
-	@RequestMapping(value="/uploadFile")
+	/*@RequestMapping(value="/uploadFile")
 	public String uploadFileHandler() {
 	
 		return "property/upload";
@@ -417,12 +449,10 @@ public class PropertyController {
 		} else {
 			return "You failed to upload " + name
 					+ " because the file was empty.";
-		}*/
+		}
 	}
 
-	/**
-	 * Upload multiple file using Spring Controller
-	 */
+	
 	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
 	String uploadMultipleFileHandler(@RequestParam("name") String[] names,
 			@RequestParam("file") MultipartFile[] files) {
@@ -459,6 +489,6 @@ public class PropertyController {
 			}
 		}
 		return message;
-	}
+	}*/
 	
 }
