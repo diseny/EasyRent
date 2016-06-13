@@ -104,6 +104,12 @@ public class UserController {
    
    @RequestMapping("/profile") 
    public String getProfileInfo(HttpSession session, Model model) {
+	   if (session.getAttribute("user") == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "user/profile.html");
+          return "login";
+       }
 	   User user = (User)session.getAttribute("user");	
 	   model.addAttribute("user", user);
 	   if(user.getRole().equals("Owner")){

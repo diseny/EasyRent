@@ -19,6 +19,7 @@ public class Property {
 	private boolean isActive;
 	private String startDate;
 	private String finishDate;
+	private int numPeople;
 
 	public int getId() { 
 		return id; 
@@ -155,6 +156,14 @@ public class Property {
 	public void setFinishDate(String finishDate) {	
 		this.finishDate = finishDate;
 	}
+
+	public int getNumPeople() {
+		return numPeople;
+	}
+	
+	public void setNumPeople(int numPeople) {	
+		this.numPeople = numPeople;
+	}
 	
 	@Override
 	public String toString() {
@@ -163,7 +172,7 @@ public class Property {
 				+ capacity + "', numRooms '" + numRooms + "', numBathrooms '" + numBathrooms + "', numBeds '"
 				+ numBeds + "', squareMeters '" + squareMeters + "', street '" + street + "', number '"
 				+ number + "', floor '" + floor + "', city '" + city + "', dailyPrice '" + dailyPrice + "', isActive '"
-				+ isActive + "', start '" + startDate + "', finish '" + finishDate + "'.";
+				+ isActive + "', start '" + startDate + "', finish '" + finishDate + "', people '" + numPeople + "'.";
 	}
 	
 }

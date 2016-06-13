@@ -94,6 +94,7 @@ public class PropertyController {
        this.reservationDao = reservationDao;
    }
    
+<<<<<<< HEAD
    @RequestMapping(value="/add") 
 	public String addProperty(Model model) {
 	   	Property prop = new Property();
@@ -131,6 +132,8 @@ public class PropertyController {
 	}
 
 	
+=======
+>>>>>>> master
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
 		model.addAttribute("properties", propertyDao.getProperties());

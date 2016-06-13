@@ -65,18 +65,18 @@ position: absolute;
 }
 
 .menuAlquilar{
-	    background-color: #fff;
+	background-color: #fff;
     z-index: 10;
     border-style: solid;
     border-radius: 13px;
-    height: 400px;
+    height: 450px;
     width: 300px;
     position: fixed;
     left: 74%;
     top: 30%;
 }
 .menuAlquilar .col-md-12{
-	    border-bottom: 5px;
+	border-bottom: 5px;
     border-style: solid;
     border-top: 0;
     border-left: 0;
