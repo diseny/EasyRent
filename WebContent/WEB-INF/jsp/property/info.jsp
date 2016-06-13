@@ -178,7 +178,7 @@
 		
 	</div>
 
-	<div class="col-md-4 fotosInfo" style="height:300px ;width:455px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
+	<div class="col-md-4 fotosInfo" style="height:300px ;width:400px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
 		<h1>FOTOS</h1>
 	</div>
 	</div>
@@ -369,31 +369,19 @@
 	        
 	            	 
 	          }; 
-			
-
-				 
-			
 		}
 
-		
 		$('#datePickerInit').datepicker({
 		autoclose : true,
-		
 		format : 'dd/mm/yyyy',
 		startDate : hoy,
 		beforeShowDay: available,	
-		
-		
 	})			
-			
-		
-		
 		var fechaMinima = new Date('2020-01-01');
-	
 		$('#datePickerInit').on('changeDate', function(e) {
 			// Revalidate the date field
 			dateInit = new Date($('#datePickerInit').datepicker("getDate"));
-			$('#datePickerEnd').datepicker('setStartDate', dateInit).datepicker( "option", "beforeShowDay", available2 );
+			//$('#datePickerEnd').datepicker('setStartDate', dateInit).datepicker( "option", "beforeShowDay", available2 );
 			//$('#datePickerEnd').datepicker( "option", "beforeShowDay", available2 );
 			//console.log($('#datePickerEnd').datepicker('setStartDate', dateInit));
 			$('#datePickerEnd input').prop('disabled', false);
@@ -403,8 +391,6 @@
 				startDate: dateInit,
 				beforeShowDay: available2,	
 			})
-			
-			
 		});
 		
 

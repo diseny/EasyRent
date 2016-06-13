@@ -14,9 +14,60 @@
 <jsp:body>
 	</div></div>
 	<br><br><br>
+	<div class="row">
+	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
+		<div class="col-md-10 col-md-offset-1">
+		<h1>Añadir Propiedad</h1>
+		
+
+		
+		</div>
+		</div>
+		
+	</div>
+	<div class="col-md-12" style="min-height:230px;">
+		<div class="col-md-10 col-md-offset-1">
+		
+		<h3>Detalles básicos</h3>
+
+		
+		</div>
+		</div>
+		
+	</div>
+	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 255, 253, 0.048039);">
+		<div class="col-md-10 col-md-offset-1">
+		
+		
+
+		
+		</div>
+		</div>
+		
+	</div>
+	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
+		<div class="col-md-10 col-md-offset-1">
+		
+		
+
+		
+		</div>
+		</div>
+		
+	</div>
+	<div class="col-md-12" style="min-height:230px">
+		<div class="col-md-10 col-md-offset-1">
+		
+		
+
+		
+		</div>
+		</div>
+		
+	</div>
+	
 	<h2>Nueva propiedad</h2>
-	<c:set var="propNum" value="${numProp}"></c:set>
-	<h1>${user.username}--${propNum}</h1>
+
 	<form:form method="post" modelAttribute="property">
 		<table>
 
@@ -93,7 +144,7 @@
 			</tr>
 		</table>
 	</form:form>
-	
+	</div>
 </jsp:body>
 </t:paginabasica>
 </html>
