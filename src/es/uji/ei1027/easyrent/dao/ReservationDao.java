@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Reservation;
+import es.uji.ei1027.easyrent.domain.User;
 
 @Repository
 public class ReservationDao {
@@ -68,6 +69,14 @@ public class ReservationDao {
 	
 	public Integer generateTrackingNumber(){
 		return this.jdbcTemplate.queryForObject("SELECT MAX(tracking_number) FROM Reservation;", Integer.class);
+	}
+	
+	public void accept(int tracking_number) throws PSQLException{
+		this.jdbcTemplate.update("UPDATE Reservation SET status = 'accepted' WHERE tracking_number = ?;", tracking_number);
+	}
+	
+	public void reject(int tracking_number) throws PSQLException{
+		this.jdbcTemplate.update("UPDATE Reservation SET status = 'rejected' WHERE tracking_number = ?;", tracking_number);
 	}
 	
 }

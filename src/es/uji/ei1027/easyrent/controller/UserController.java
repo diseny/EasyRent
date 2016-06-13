@@ -1,5 +1,6 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -113,7 +114,18 @@ public class UserController {
 	   User user = (User)session.getAttribute("user");	
 	   model.addAttribute("user", user);
 	   if(user.getRole().equals("Owner")){
-		   model.addAttribute("propertiesOwner", propertyDao.getPropertyOwner(user.getUsername()));
+		   List<Reservation> reservations = reservationDao.getReservations();
+		   List<Reservation> reservationsOwner = new LinkedList<Reservation>();
+		   List<Property> propertiesOwner = propertyDao.getPropertyOwner(user.getUsername());
+		   List<Integer> propertiesIds = propertyDao.getIdsPropertyOwner((user.getUsername()));
+		   for(Reservation r: reservations){
+			   if(propertiesIds.contains(r.getIdProperty())){
+				   r.setPropertyTitle(propertyDao.getProperty(r.getIdProperty()).getTitle());
+				   reservationsOwner.add(r);
+			   }
+		   }
+		   model.addAttribute("propertiesOwner", propertiesOwner);
+		   model.addAttribute("reservations", reservationsOwner);
 	   }
 	   else if(user.getRole().equals("Tenant")){
 		   List<Reservation> reservations = reservationDao.getReservationsTenant(user.getUsername());
