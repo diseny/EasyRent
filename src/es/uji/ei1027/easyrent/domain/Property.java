@@ -172,7 +172,7 @@ public class Property {
 				+ capacity + "', numRooms '" + numRooms + "', numBathrooms '" + numBathrooms + "', numBeds '"
 				+ numBeds + "', squareMeters '" + squareMeters + "', street '" + street + "', number '"
 				+ number + "', floor '" + floor + "', city '" + city + "', dailyPrice '" + dailyPrice + "', isActive '"
-				+ isActive + "', start '" + startDate + "', finish '" + finishDate + "'.";
+				+ isActive + "', start '" + startDate + "', finish '" + finishDate + "', people '" + numPeople + "'.";
 	}
 	
 }

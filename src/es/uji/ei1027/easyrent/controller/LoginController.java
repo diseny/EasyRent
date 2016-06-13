@@ -111,8 +111,13 @@ public class LoginController {
 			userSession.setRole(user.getRole());
 			userSession.setIsActive(user.getIsActive());
 			session.setAttribute("user", userSession);
-			return "redirect:index.jsp";
 		}
+		String url = (String)session.getAttribute("nextURL");
+		if(url!=null){
+			session.removeAttribute("nextURL");
+			return "redirect:" + url;
+		}
+		return "redirect:index.jsp";
 	}
 
 	@RequestMapping("/logout") 

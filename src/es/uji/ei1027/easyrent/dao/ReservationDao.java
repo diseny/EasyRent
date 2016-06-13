@@ -60,7 +60,10 @@ public class ReservationDao {
 	}
 	
 	public void addReservation(Reservation reservation) throws PSQLException{
-		this.jdbcTemplate.update("INSERT INTO Reservation(tracking_number, user_name_tenant, id_property, application_timestamp, confirmation_timestamp, num_people, start_date, finish_date, total_amount, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", reservation.getTrackingNumber(), reservation.getUserNameTenant(), reservation.getIdProperty(), reservation.getApplicationTimestamp(), reservation.getConfirmationTimestamp(), reservation.getNumPeople(), reservation.getStartDate(), reservation.getFinishDate(), reservation.getStatus());
+		String []applicationTimestamp = reservation.getApplicationTimestamp().split("-");
+		String []startDate = reservation.getStartDate().split("-");
+		String []finishDate = reservation.getFinishDate().split("-");
+		this.jdbcTemplate.update("INSERT INTO Reservation(tracking_number, user_name_tenant, id_property, application_timestamp, confirmation_timestamp, num_people, start_date, finish_date, total_amount, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", reservation.getTrackingNumber(), reservation.getUserNameTenant(), reservation.getIdProperty(), new java.sql.Date(Integer.parseInt(applicationTimestamp[0])-1900,Integer.parseInt(applicationTimestamp[1])-1,Integer.parseInt(applicationTimestamp[2])), reservation.getConfirmationTimestamp(), reservation.getNumPeople(), new java.sql.Date(Integer.parseInt(startDate[0])-1900,Integer.parseInt(startDate[1])-1,Integer.parseInt(startDate[2])), new java.sql.Date(Integer.parseInt(finishDate[0])-1900,Integer.parseInt(finishDate[1])-1,Integer.parseInt(finishDate[2])), reservation.getTotalAmount(), reservation.getStatus());
 	}
 	
 	public Integer generateTrackingNumber(){

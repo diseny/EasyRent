@@ -110,4 +110,8 @@ public class PropertyDao {
 		this.jdbcTemplate.update("DELETE FROM Property WHERE id=?;", property.getId());
 	}
 	
+	public Integer generateTrackingNumber(){
+		return this.jdbcTemplate.queryForObject("SELECT MAX(tracking_number) FROM Reservation;", Integer.class);
+	}
+	
 }

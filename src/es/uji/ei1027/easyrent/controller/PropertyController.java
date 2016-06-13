@@ -35,6 +35,7 @@ import es.uji.ei1027.easyrent.domain.UserSession;
 public class PropertyController {
 	
 	private List<String> filters;
+	final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 	
 	@Autowired
 	private PropertyDao propertyDao;
@@ -165,6 +166,7 @@ public class PropertyController {
 				available = checkAvailability(reservationDao.getReservationsProperty(id), start, finish);
 			}
 		}
+		available = true;
 		if(!available){
 			List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 			List<Service> services = serviceDao.getServices();
@@ -191,18 +193,7 @@ public class PropertyController {
 			} catch(NullPointerException e) {;}
 			return "property/info";
 		}
-		/*
-		tracking_number INTEGER  NOT NULL,
-		user_name_tenant VARCHAR (30) NOT NULL,	
-		id_property INTEGER NOT NULL,
-	    application_timestamp DATE NOT NULL,
-		confirmation_timestamp DATE,
-		num_people INTEGER NOT NULL,
-		start_date DATE NOT NULL,
-		finish_date DATE NOT NULL,
-		total_amount REAL NOT NULL,	
-		status VARCHAR (50) NOT NULL, 
-		*/
+		finish = new Date(2016-1900, 6-1, 30);
 		Reservation reservation = new Reservation();
 		reservation.setTrackingNumber(reservationDao.generateTrackingNumber()+1);
 		User user = (User)session.getAttribute("user");
@@ -213,9 +204,16 @@ public class PropertyController {
 		reservation.setNumPeople(property.getNumPeople());
 		reservation.setStartDate(start.toString());
 		reservation.setFinishDate(finish.toString());
-		reservation.setTotalAmount((finish.compareTo(start)+1)*property.getDailyPrice());
-		reservation.setStatus("rejected");
-		System.out.println(property.getNumPeople());
+		reservation.setTotalAmount(((finish.getTime()-start.getTime())/MILLSECS_PER_DAY+1)*property.getDailyPrice());
+		reservation.setStatus("pending");
+		try{
+			reservationDao.addReservation(reservation);
+		}
+		catch(Exception e){
+			//ha fallado la insercion, mostrar mensaje de error con un pop-up
+			System.out.println(e);
+			return "property/info";
+		}
 		return "redirect:../../user/profile.html";
 	}
 	
