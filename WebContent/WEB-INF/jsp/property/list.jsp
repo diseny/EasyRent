@@ -327,10 +327,30 @@
 		
 
 	<script>
-		
+	
 		
 		
 		$(document).ready(function() {
+			var hoy = new Date();
+			$('#datePickerInit').datepicker({
+				autoclose : true,
+				format : 'dd/mm/yyyy',
+				startDate : hoy,
+				
+			})	;
+			$('#datePickerInit').on('changeDate', function(e) {
+				// Revalidate the date field
+				dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+				$('#datePickerEnd input').prop('disabled', false);
+				$('#datePickerEnd').datepicker({
+					autoclose : true,
+					format : 'dd/mm/yyyy',
+					startDate: dateInit,
+				})
+			});
+			
+			
+			
 			$("select").dropdown();
 			  $('input').iCheck({
 			    checkboxClass: 'icheckbox_flat',

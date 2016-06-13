@@ -369,19 +369,21 @@
 		
 		
 		var fechaMinima = new Date('2020-01-01');
-		var dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+	
 		$('#datePickerInit').on('changeDate', function(e) {
 			// Revalidate the date field
 			dateInit = new Date($('#datePickerInit').datepicker("getDate"));
-
+			$('#datePickerEnd').datepicker('setStartDate', dateInit).datepicker( "option", "beforeShowDay", available2 );
+			//$('#datePickerEnd').datepicker( "option", "beforeShowDay", available2 );
+			//console.log($('#datePickerEnd').datepicker('setStartDate', dateInit));
 			$('#datePickerEnd input').prop('disabled', false);
 			$('#datePickerEnd').datepicker({
 				autoclose : true,
 				format : 'dd/mm/yyyy',
-				startDate : dateInit,
-				
+				startDate: dateInit,
 				beforeShowDay: available2,	
 			})
+			
 			
 		});
 		
