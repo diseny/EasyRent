@@ -203,7 +203,6 @@ public class PropertyController {
 				available = checkAvailability(reservationDao.getReservationsProperty(id), start, finish);
 			}
 		}
-		available = true;
 		if(!available){
 			List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 			List<Service> services = serviceDao.getServices();
@@ -230,7 +229,6 @@ public class PropertyController {
 			} catch(NullPointerException e) {;}
 			return "property/info";
 		}
-		finish = new Date(2016-1900, 6-1, 30);
 		Reservation reservation = new Reservation();
 		reservation.setTrackingNumber(reservationDao.generateTrackingNumber()+1);
 		User user = (User)session.getAttribute("user");
