@@ -240,17 +240,11 @@
 				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
 				
 			</tr>-->
-		 
-	
 		
-		
-	
 	
 	</div>
 	</div>
-	
 </div>
-	
 </jsp:body>
 </t:paginabasica>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
