@@ -102,6 +102,8 @@ public class PropertyController {
    @RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addProperty(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
 	   PropertyValidator propertyValidator = new PropertyValidator();
+		int numProp= propertyDao.getProperties().size();
+		model.addAttribute("numProp", numProp);
 		propertyValidator.validate(property, bindingResult);
 		if (bindingResult.hasErrors())
 			return "property/add";
