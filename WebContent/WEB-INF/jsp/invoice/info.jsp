@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
@@ -18,25 +19,6 @@
 				</c:otherwise>
 		  	</c:choose>
 	  	</div>
-	  	<div style="text-align:right;">
-		  	<span class="rating">
-		        <input type="radio" class="rating-input"
-		    			id="rating-input-1-5" name="rating-input-1"/>
-		        <label for="rating-input-1-5" class="rating-star"></label>
-		        <input type="radio" class="rating-input"
-		                id="rating-input-1-4" name="rating-input-1"/>
-		        <label for="rating-input-1-4" class="rating-star"></label>
-		        <input type="radio" class="rating-input"
-		                id="rating-input-1-3" name="rating-input-1"/>
-		        <label for="rating-input-1-3" class="rating-star"></label>
-		        <input type="radio" class="rating-input"
-		                id="rating-input-1-2" name="rating-input-1"/>
-		        <label for="rating-input-1-2" class="rating-star"></label>
-		        <input type="radio" class="rating-input"
-		                id="rating-input-1-1" name="rating-input-1"/>
-		        <label for="rating-input-1-1" class="rating-star"></label>
-			</span>
-		</div>
       </div>
       <div id="bandaTitulo">ID FACTURA: ${invoice.invoiceNumber}
       </div>
@@ -93,6 +75,30 @@
           </tr>
         </tbody>
       </table>
+      <c:choose>
+			<c:when test='${user.role == "Tenant"}'>
+		  		<form:form method="post" modelAttribute="punctuation" action="${pageContext.request.contextPath}/invoice/info/${reservation.trackingNumber}.html">
+			  		<form:input path="propertyId" type="hidden" value="${property.id}"/>
+					<div class="col-md-12">
+						<form:label path="punctuation">Puntuación:</form:label>
+					</div>
+					<div class="col-md-1">
+						<form:input class="form-control" type="number" value="1" min="1" max="5" placeholder="Puntuación" path="punctuation" required="required"/>
+					</div>
+					<div class="col-md-12">
+						<form:label path="comments">Comentarios:</form:label>
+					</div>
+					<div class="col-md-6">	
+						<form:textarea rows="5" cols="60" class="form-control"  placeholder="Comentarios" path="comments" required="required"/>
+					</div>
+					<div class="col-md-12">
+					</div>
+					<div class="col-md-6" style="text-align:right;">
+						<form:input type="submit" path="" class="btn btn-info" value="Puntuar"/>
+					</div>
+				</form:form>
+			</c:when>
+		</c:choose>
     </main>
 	 	  
 </jsp:body>

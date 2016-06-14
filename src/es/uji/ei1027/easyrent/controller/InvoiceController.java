@@ -16,6 +16,7 @@ import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Invoice;
 import es.uji.ei1027.easyrent.domain.Property;
+import es.uji.ei1027.easyrent.domain.Punctuation;
 import es.uji.ei1027.easyrent.domain.Reservation;
 
 @Controller
@@ -90,6 +91,7 @@ public class InvoiceController {
 	
 	@RequestMapping(value="/info/{tracking_number}")
 	public String accept(@PathVariable int tracking_number, Model model) {
+		Punctuation punctuation = new Punctuation();
 		Reservation res = reservationDao.getReservation(tracking_number);
 		Property property = propertyDao.getProperty(res.getIdProperty());
 		Invoice invoice = invoiceDao.getInvoice(tracking_number);
@@ -98,6 +100,7 @@ public class InvoiceController {
 		model.addAttribute("average", punctuationDao.getPunctuationAverage(property.getId()));
 		model.addAttribute("reservation", res);
 		model.addAttribute("invoice", invoice);
+		model.addAttribute("punctuation", punctuation);
 		model.addAttribute("property", property);
 		model.addAttribute("tenant", userDao.getTenant(res.getUserNameTenant()));
 		model.addAttribute("owner", userDao.getOwner(property.getOwnerUsername()));

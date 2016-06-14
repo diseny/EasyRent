@@ -13,7 +13,6 @@
 				<div class="col-lg-3 col-sm-6">
 		            <div class="card hovercard" style="background-color:#ccffff">
 		                <div class="cardheader">
-		
 		                </div>
 		                <div class="avatar">
 		                    <img alt="" src="${pageContext.request.contextPath}/images/user.png">
