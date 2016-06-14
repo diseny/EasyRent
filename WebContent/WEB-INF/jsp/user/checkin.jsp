@@ -5,8 +5,7 @@
 <jsp:body>
 	<br><br><br>
 	<h2>Registro</h2>
-	<form:form method="post" modelAttribute="user"
-		action="${pageContext.request.contextPath}/user/checkin.html">
+	<form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/user/checkin.html">
 		<div class="form-group">
 		<p>
 			<form:label path="username">Nombre de usuario:</form:label>
