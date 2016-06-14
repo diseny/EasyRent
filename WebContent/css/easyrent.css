@@ -8,6 +8,7 @@
 @import url('../css/propertyList.css');
 @import url('../css/navegacio.css');
 @import url('../css/info.css');
+@import url('../css/invoice.css');
 
 .loggeduser { 
 	color: gray;				

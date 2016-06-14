@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.User;
+import es.uji.ei1027.easyrent.domain.UserSession;
 
 @Repository
 public class UserDao {
@@ -36,6 +37,19 @@ public class UserDao {
 			credentials.setRole(rs.getString("role"));
 			credentials.setIsActive(rs.getBoolean("is_active"));
 	    	return credentials;
+	    }
+	}
+	
+	private static final class UserMapper implements RowMapper<User> {
+
+	    public User mapRow(ResultSet rs, int rowNum) throws SQLException { 
+	    	User user = new User();
+			user.setUsername(rs.getString("username"));
+			user.setName(rs.getString("name"));
+			user.setSurname(rs.getString("surname"));
+			user.setEmail(rs.getString("email"));
+			user.setPhoneNumber(rs.getString("phone_number"));
+			return user;
 	    }
 	}
 	
@@ -88,6 +102,16 @@ public class UserDao {
 	public void updateTenant(User user) throws PSQLException{
 		String []fecha = user.getRegistrationDate().split("-");
 		this.jdbcTemplate.update("UPDATE Tenant SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getIsActive(), user.getUsername());
+	}
+	
+	public User getOwner(String username){
+		String query = "SELECT * FROM Owner WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new UserMapper());
+	}
+	
+	public User getTenant(String username){
+		String query = "SELECT * FROM Tenant WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new UserMapper());
 	}
 	
 }
