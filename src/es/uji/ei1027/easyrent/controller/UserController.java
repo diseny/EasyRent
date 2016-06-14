@@ -125,7 +125,8 @@ public class UserController {
 			   applicationTimestamp = new java.sql.Date(Integer.parseInt(application[0])-1900,Integer.parseInt(application[1])-1,Integer.parseInt(application[2]));
 			   if(((today.getTime()-applicationTimestamp.getTime())/MILLSECS_PER_DAY)>7){
 				   try{
-					   reservationDao.reject(r.getTrackingNumber());
+					   r.setConfirmationTimestamp(new java.sql.Date(new java.util.Date().getTime()).toString());
+					   reservationDao.reject(r);
 				   }catch(Exception e){;}
 			   }
 		   }
