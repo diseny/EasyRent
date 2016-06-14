@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.domain.Invoice;
+import es.uji.ei1027.easyrent.domain.Reservation;
 
 @Controller
 @RequestMapping("/reservation")
@@ -22,9 +23,11 @@ public class ReservationController {
 	}
 
 	@RequestMapping(value="/accept/{tracking_number}")
-	public String accept(@ModelAttribute("reservation") Invoice invoice, @PathVariable int tracking_number) {
+	public String accept(@PathVariable int tracking_number) {
 		try{
-			reservationDao.accept(tracking_number);
+			Reservation reservation = reservationDao.getReservation(tracking_number);
+			reservation.setConfirmationTimestamp(new java.sql.Date(new java.util.Date().getTime()).toString());
+			reservationDao.accept(reservation);
 		}catch(Exception e){
 			return "redirect:../../user/profile.html";
 		}
@@ -32,9 +35,11 @@ public class ReservationController {
 	 }
 	
 	@RequestMapping(value="/reject/{tracking_number}")
-	public String reject(@ModelAttribute("reservation") Invoice invoice, @PathVariable int tracking_number) {
+	public String reject(@PathVariable int tracking_number) {
 		try{
-			reservationDao.reject(tracking_number);
+			Reservation reservation = reservationDao.getReservation(tracking_number);
+			reservation.setConfirmationTimestamp(new java.sql.Date(new java.util.Date().getTime()).toString());
+			reservationDao.reject(reservation);
 		}catch(Exception e){
 			return "redirect:../../user/profile.html";
 		}

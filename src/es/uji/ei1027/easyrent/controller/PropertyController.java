@@ -164,6 +164,12 @@ public class PropertyController {
 		List<Service> allServices = serviceDao.getServices();
 		List<Period> periods= periodDao.getPeriods(id);
 		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
+		List<Reservation> reservasNoRechazadas = new LinkedList<Reservation>();
+		for(Reservation r: reservas){
+			if(!r.getStatus().equals("rejected")){
+				reservasNoRechazadas.add(r);
+			}
+		}
 		for(ServiceProperty sP: servicesProperties){
 			for(Service s: services){
 				if(s.getID() == sP.getServiceId()){
@@ -171,7 +177,7 @@ public class PropertyController {
 				}
 			}
 		}
-		model.addAttribute("reservas",reservas);
+		model.addAttribute("reservas",reservasNoRechazadas);
 		model.addAttribute("periods",periods);
 		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);

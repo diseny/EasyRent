@@ -60,6 +60,11 @@ public class ReservationDao {
 		return this.jdbcTemplate.query(query, new ReservationMapper());
 	}
 	
+	public Reservation getReservation(int id){
+		String query= "SELECT * from Reservation WHERE tracking_number=" + id + ";";
+		return this.jdbcTemplate.queryForObject(query, new ReservationMapper());
+	}
+	
 	public void addReservation(Reservation reservation) throws PSQLException{
 		String []applicationTimestamp = reservation.getApplicationTimestamp().split("-");
 		String []startDate = reservation.getStartDate().split("-");
@@ -71,12 +76,14 @@ public class ReservationDao {
 		return this.jdbcTemplate.queryForObject("SELECT MAX(tracking_number) FROM Reservation;", Integer.class);
 	}
 	
-	public void accept(int tracking_number) throws PSQLException{
-		this.jdbcTemplate.update("UPDATE Reservation SET status = 'accepted' WHERE tracking_number = ?;", tracking_number);
+	public void accept(Reservation reservation) throws PSQLException{
+		String query = "UPDATE Reservation SET status = 'accepted', confirmation_timestamp=' " + reservation.getConfirmationTimestamp() + "' WHERE tracking_number=" + reservation.getTrackingNumber() + ";";
+		this.jdbcTemplate.update(query);
 	}
 	
-	public void reject(int tracking_number) throws PSQLException{
-		this.jdbcTemplate.update("UPDATE Reservation SET status = 'rejected' WHERE tracking_number = ?;", tracking_number);
+	public void reject(Reservation reservation) throws PSQLException{
+		String query = "UPDATE Reservation SET status = 'rejected', confirmation_timestamp=' " + reservation.getConfirmationTimestamp() + "' WHERE tracking_number=" + reservation.getTrackingNumber() + ";";
+		this.jdbcTemplate.update(query);
 	}
 	
 }
