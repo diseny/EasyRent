@@ -10,19 +10,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.easyrent.dao.InvoiceDao;
+import es.uji.ei1027.easyrent.dao.PropertyDao;
+import es.uji.ei1027.easyrent.dao.PunctuationDao;
+import es.uji.ei1027.easyrent.dao.ReservationDao;
+import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Invoice;
+import es.uji.ei1027.easyrent.domain.Property;
+import es.uji.ei1027.easyrent.domain.Reservation;
 
 @Controller
 @RequestMapping("/invoice")
 public class InvoiceController {
 	
 	private InvoiceDao invoiceDao; 
+	private ReservationDao reservationDao;
+	private PropertyDao propertyDao;
+	private UserDao userDao;
+	private PunctuationDao punctuationDao;
 
 	@Autowired
 	public void setInvoiceDao(InvoiceDao invoiceDao) {
 		this.invoiceDao = invoiceDao;
 	}
 
+	@Autowired
+	public void setReservationDao(ReservationDao reservationDao) {
+		this.reservationDao = reservationDao;
+	}
+	
+	@Autowired
+	public void setPropertyDao(PropertyDao propertyDao) {
+		this.propertyDao = propertyDao;
+	}
+	
+	@Autowired
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	
+	@Autowired
+	public void setPunctuationDao(PunctuationDao punctuationDao) {
+		this.punctuationDao = punctuationDao;
+	}
+	
 	@RequestMapping("/list") 
 	public String listInvoice(Model model) {
 		model.addAttribute("invoice", invoiceDao.getInvoices());
@@ -57,6 +87,23 @@ public class InvoiceController {
 		}
 		return "redirect:list.html";
 	 }
+	
+	@RequestMapping(value="/info/{tracking_number}")
+	public String accept(@PathVariable int tracking_number, Model model) {
+		Reservation res = reservationDao.getReservation(tracking_number);
+		Property property = propertyDao.getProperty(res.getIdProperty());
+		Invoice invoice = invoiceDao.getInvoice(tracking_number);
+		invoice.setVatIncrease(res.getTotalAmount()*(invoice.getVat()/100));
+		invoice.setTotal(res.getTotalAmount()+invoice.getVatIncrease());
+		model.addAttribute("average", punctuationDao.getPunctuationAverage(property.getId()));
+		model.addAttribute("reservation", res);
+		model.addAttribute("invoice", invoice);
+		model.addAttribute("property", property);
+		model.addAttribute("tenant", userDao.getTenant(res.getUserNameTenant()));
+		model.addAttribute("owner", userDao.getOwner(property.getOwnerUsername()));
+		return "invoice/info";
+	}
+	
 	/*
 	@RequestMapping(value="/update/{username}", method = RequestMethod.GET)
 	public String editInvoice(Model model, @PathVariable String username) {
