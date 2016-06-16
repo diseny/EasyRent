@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.Punctuation;
 
 @Repository
@@ -43,9 +44,28 @@ public class PunctuationDao {
 		return this.jdbcTemplate.query(query, new PunctuationMapper());
 	}
 	
+	public Punctuation getPunctuation(int propertyId, String tenant) throws Exception{
+		String query = "SELECT * FROM Punctuation WHERE property_id=" + propertyId + " AND tenant_username='" + tenant + "';"; 
+		return this.jdbcTemplate.queryForObject(query, new PunctuationMapper());
+	}
+	
 	public Float getPunctuationAverage(int propertyId) {
 		String query = "SELECT AVG(punctuation) FROM Punctuation WHERE property_id=" + propertyId + ";"; 
 		return this.jdbcTemplate.queryForObject(query, Float.class);
+	}
+	
+	public void addPunctuation(Punctuation punctuation) throws PSQLException{
+		this.jdbcTemplate.update("INSERT INTO Punctuation(tenant_username, property_id, punctuation, comments) VALUES(?, ?, ?, ?);", punctuation.getUsername(), punctuation.getPropertyId(), punctuation.getPunctuation(), punctuation.getComments());
+	}
+	
+	public void updatePunctuation(Punctuation punctuation) throws PSQLException{
+		String query = "UPDATE Punctuation SET punctuation=" + punctuation.getPunctuation() + ", comments='" + punctuation.getComments() + "' WHERE property_id=" + punctuation.getPropertyId() + " AND tenant_username='" + punctuation.getUsername() + "';";
+		this.jdbcTemplate.update(query);
+	}
+	
+	public void deletePunctuation(Punctuation punctuation) throws PSQLException{
+		String query = "DELETE FROM Punctuation WHERE property_id=" + punctuation.getPropertyId() + " AND tenant_username='" + punctuation.getUsername() + "';";
+		this.jdbcTemplate.update(query);
 	}
 	
 }

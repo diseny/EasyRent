@@ -1,5 +1,7 @@
 package es.uji.ei1027.easyrent.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import es.uji.ei1027.easyrent.domain.Invoice;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Punctuation;
 import es.uji.ei1027.easyrent.domain.Reservation;
+import es.uji.ei1027.easyrent.domain.User;
 
 @Controller
 @RequestMapping("/invoice")
@@ -91,7 +94,6 @@ public class InvoiceController {
 	
 	@RequestMapping(value="/info/{tracking_number}")
 	public String accept(@PathVariable int tracking_number, Model model) {
-		Punctuation punctuation = new Punctuation();
 		Reservation res = reservationDao.getReservation(tracking_number);
 		Property property = propertyDao.getProperty(res.getIdProperty());
 		Invoice invoice = invoiceDao.getInvoice(tracking_number);
@@ -100,10 +102,19 @@ public class InvoiceController {
 		model.addAttribute("average", punctuationDao.getPunctuationAverage(property.getId()));
 		model.addAttribute("reservation", res);
 		model.addAttribute("invoice", invoice);
-		model.addAttribute("punctuation", punctuation);
 		model.addAttribute("property", property);
 		model.addAttribute("tenant", userDao.getTenant(res.getUserNameTenant()));
 		model.addAttribute("owner", userDao.getOwner(property.getOwnerUsername()));
+		Punctuation punctuation = new Punctuation();
+		String messagePunctuation = "";
+		try{
+			punctuation = punctuationDao.getPunctuation(property.getId(), res.getUserNameTenant());
+		}
+		catch(Exception e){
+			messagePunctuation = "form";
+		}
+		model.addAttribute("message", messagePunctuation);
+		model.addAttribute("punctuation", punctuation);
 		return "invoice/info";
 	}
 	

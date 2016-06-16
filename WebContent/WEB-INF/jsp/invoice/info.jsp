@@ -7,18 +7,8 @@
 <jsp:body>
 	<br><br><br>
 	<header class="clearfix">
-      <div id="logo" style="text-align:left;">
+      <div id="logo" style="text-align:center;">
         <img src="${pageContext.request.contextPath}/images/easyrent.jpg">
-        <div style="text-align:right;">
-		    <c:choose>
-				<c:when test='${average == null}'>
-					(Sin puntuaciones)
-				</c:when>
-				<c:otherwise>
-					Puntuacion media ${average}		  
-				</c:otherwise>
-		  	</c:choose>
-	  	</div>
       </div>
       <div id="bandaTitulo">ID FACTURA: ${invoice.invoiceNumber}
       </div>
@@ -75,29 +65,63 @@
           </tr>
         </tbody>
       </table>
+      <div class="col-md-12">
       <c:choose>
-			<c:when test='${user.role == "Tenant"}'>
-		  		<form:form method="post" modelAttribute="punctuation" action="${pageContext.request.contextPath}/invoice/info/${reservation.trackingNumber}.html">
-			  		<form:input path="propertyId" type="hidden" value="${property.id}"/>
-					<div class="col-md-12">
-						<form:label path="punctuation">Puntuación:</form:label>
-					</div>
-					<div class="col-md-1">
-						<form:input class="form-control" type="number" value="1" min="1" max="5" placeholder="Puntuación" path="punctuation" required="required"/>
-					</div>
-					<div class="col-md-12">
-						<form:label path="comments">Comentarios:</form:label>
-					</div>
-					<div class="col-md-6">	
-						<form:textarea rows="5" cols="60" class="form-control"  placeholder="Comentarios" path="comments" required="required"/>
-					</div>
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-6" style="text-align:right;">
-						<form:input type="submit" path="" class="btn btn-info" value="Puntuar"/>
-					</div>
-				</form:form>
+			<c:when test='${average == null}'>
+				(Aún no tiene puntuaciones)
 			</c:when>
+			<c:otherwise>
+				Puntuación media ${average} (sobre 5)
+			</c:otherwise>
+		</c:choose>
+		</div>
+      	<c:choose>
+			<c:when test='${message == "form"}'>
+				<c:choose>
+					<c:when test='${user.role == "Tenant"}'>
+				  		<form:form method="post" modelAttribute="punctuation" action="${pageContext.request.contextPath}/punctuation/add/${reservation.trackingNumber}.html">
+					  		<form:hidden path="propertyId" value="${property.id}"/>
+							<div class="col-md-12">
+								<form:label path="punctuation">Puntuación:</form:label>
+							</div>
+							<div class="col-md-1">
+								<form:input class="form-control" type="number" value="1" min="1" max="5" placeholder="Puntuación" path="punctuation" required="required"/>
+							</div>
+							<div class="col-md-12">
+								<form:label path="comments">Comentarios:</form:label>
+							</div>
+							<div class="col-md-6">	
+								<form:textarea maxlength="300" rows="5" class="form-control"  placeholder="Comentarios" path="comments" required="required"/>
+							</div>
+							<div class="col-md-12">
+							</div>
+							<div class="col-md-6" style="text-align:right;">
+								<button type="submit" class="btn btn-success">PUNTUAR</button>
+							</div>
+						</form:form>
+					</c:when>
+					<c:otherwise>
+						<div class="col-md-12">
+							El cliente aún no ha puntuado su estancia. 
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test='${user.role == "Tenant"}'>
+				  		<div class="col-md-12">
+							Tu puntuación es de ${punctuation.punctuation}. Comentaste: "${punctuation.comments}"
+							<a href="${pageContext.request.contextPath}/punctuation/delete/${reservation.trackingNumber}/${property.id}.html" class="btn btn-danger">Eliminar</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="col-md-12">
+							La puntuación del cliente es de  ${punctuation.punctuation}. Éste comentó: "${punctuation.comments}"
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
 		</c:choose>
     </main>
 	 	  
