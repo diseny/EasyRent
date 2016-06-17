@@ -4,6 +4,7 @@ public class User {
 
 	private String username;
 	private String password;
+	private String repeatedPassword;
 	private String role;
 	private String nationalId;
 	private String name;
@@ -28,6 +29,14 @@ public class User {
 	
 	public void setPassword(String password) { 
 		this.password = password; 
+	}
+	
+	public String getRepeatedPassword() { 
+		return repeatedPassword; 
+	}
+	
+	public void setRepeatedPassword(String repeatedPassword) { 
+		this.repeatedPassword = repeatedPassword; 
 	}
 	
 	public String getRole() { 

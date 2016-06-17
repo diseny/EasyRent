@@ -84,7 +84,7 @@
 				</div>
 			</div>
 			<div class="col-md-12 campos" >
-				<input type="submit" class="btn btn-info col-md-8 col-md-offset-2 " value="Registrarse" />
+				<input type="submit" class="btn btn-info col-md-8 col-md-offset-2 " value="Iniciar sesión" />
 			</div>
 			<div class="col-md-12 campos">
 				<p>¿Aún no tienes cuenta?<a href="${pageContext.request.contextPath}/user/checkin.html"> Regístrate</a></p>

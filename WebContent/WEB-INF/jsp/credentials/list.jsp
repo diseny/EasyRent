@@ -19,6 +19,7 @@
 			<th>Registro</th>
 			<th>Teléfono</th>
 			<th>Activo</th>
+			<th></th>
 		</tr>
 		<c:forEach items="${credentials}" var="cred" varStatus="loop">
 			<tr class="fons">
@@ -35,9 +36,11 @@
 				<c:choose>
 					<c:when test="${cred.isActive == 'true'}">
 						<td>Sí</td>
+						<td><a href="${pageContext.request.contextPath}/user/administratordeletes/${cred.username}.html" class="btn btn-danger">Desactivar</a></td>
 					</c:when>
 					<c:otherwise>
 						<td>No</td>
+						<td><a href="${pageContext.request.contextPath}/user/administratoractivates/${cred.username}.html" class="btn btn-info">Reactivar</a></td>
 					</c:otherwise>
 				</c:choose>
 			</tr>

@@ -23,21 +23,6 @@ import es.uji.ei1027.easyrent.domain.User;
 import es.uji.ei1027.easyrent.domain.UserSession;
 import es.uji.ei1027.easyrent.domain.Owner;
 
-class UserValidator implements Validator { 
-
-	public boolean supports(Class<?> cls) { 
-		return Credentials.class.isAssignableFrom(cls);
-	}
-
-	public void validate(Object obj, Errors errors) {
-		Credentials user = (Credentials)obj;
-		if(user.getUsername().trim().equals(""))
-			errors.rejectValue("username", "required", "El username es un campo obligatorio.");
-		if(user.getPassword().trim().equals(""))
-			errors.rejectValue("password", "required", "La contraseña es un campo obligatorio.");
-	}
-
-}
 
 @Controller
 public class LoginController {
