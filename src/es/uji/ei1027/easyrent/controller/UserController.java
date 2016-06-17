@@ -23,6 +23,7 @@ import es.uji.ei1027.easyrent.dao.PropertyDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Credentials;
+import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.User;
@@ -71,6 +72,12 @@ public class UserController {
        this.credentialsDao = credentialsDao;
    }
    
+   @RequestMapping(value="/update", method=RequestMethod.GET)
+   public String update(HttpSession session, Model model){
+	   model.addAttribute("user", session.getAttribute("user"));
+	   return "user/update";
+   }
+   
    @RequestMapping(value="/update", method=RequestMethod.POST)
    public String updateUserPost(@ModelAttribute("user") User user, BindingResult bindingResult, HttpSession session, Model model) {
 	   User userSession = (User)session.getAttribute("user");
@@ -85,6 +92,7 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "user/update";
 		}
+		PopUpMessage message = new PopUpMessage();
 	   try{
 		   BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 		   user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
@@ -96,10 +104,18 @@ public class UserController {
 		   } else {
 			   userDao.updateAdministrator(user);
 		   }
-	   } catch(Exception e){
-		   ;
+	   }catch(Exception e){
+		   message.setTitle("Error");
+		   message.setMessage("No se ha podido actualizar tu perfil. Prueba en otro momento.");
+		   model.addAttribute("message", message);
+		   session.setAttribute("user", user);
+		   return "redirect:../user/profile.html";
 	   }
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu perfil se ha actualizado correctamente.");
+	   model.addAttribute("message", message);
 	   session.setAttribute("user", user);
+	   System.out.println(message);
 	   return "redirect:../user/profile.html";
    }
    
