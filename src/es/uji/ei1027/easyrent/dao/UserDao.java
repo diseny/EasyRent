@@ -57,6 +57,11 @@ public class UserDao {
 		 return this.jdbcTemplate.query("SELECT * FROM Credentials;", new CredentialsMapper());
 	}
 	
+	public Credentials getCredentials(String username) {
+		String query = "SELECT * FROM Credentials WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new CredentialsMapper());
+	}
+	
 	public Credentials loadUserByUsername(String username, String password){
 		Credentials	credentials = this.jdbcTemplate.queryForObject("SELECT * FROM Credentials WHERE username=?;",  new Object[] {username}, new CredentialsMapper());
 		BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor(); 

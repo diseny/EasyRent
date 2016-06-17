@@ -22,6 +22,7 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
+import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
@@ -46,7 +47,6 @@ public class PropertyController {
 	@Autowired
 	private PeriodDao periodDao;
 	
-	
 	@Autowired
 	private ServiceDao serviceDao;
 	
@@ -58,6 +58,9 @@ public class PropertyController {
 	
 	@Autowired
 	private ReservationDao reservationDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
@@ -94,9 +97,21 @@ public class PropertyController {
        this.reservationDao = reservationDao;
    }
 	
+   @Autowired 
+   public void setUserDao(UserDao userDao) {
+       this.userDao = userDao;
+   }
+   
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
-		model.addAttribute("properties", propertyDao.getProperties());
+		List<Property> properties = propertyDao.getProperties();
+		List<Property> activeProperties = new LinkedList<Property>();
+		for(Property p: properties){
+			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
+				activeProperties.add(p);
+			}
+		}
+		model.addAttribute("properties", activeProperties);
 		model.addAttribute("property", new Property());
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
@@ -372,8 +387,15 @@ public class PropertyController {
 	}
 	
 	private String generalList(Model model, Property property){
+		List<Property> properties = propertyDao.getProperties();
+		List<Property> activeProperties = new LinkedList<Property>();
+		for(Property p: properties){
+			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
+				activeProperties.add(p);
+			}
+		}
 		model.addAttribute("property", property);
-		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
+		model.addAttribute("properties", activeProperties);
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		for(ServiceProperty sP: servicesProperties){

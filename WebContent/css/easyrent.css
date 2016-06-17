@@ -9,6 +9,7 @@
 @import url('../css/navegacio.css');
 @import url('../css/info.css');
 @import url('../css/invoice.css');
+@import url('../css/easyrent.css');
 
 .loggeduser { 
 	color: gray;				
