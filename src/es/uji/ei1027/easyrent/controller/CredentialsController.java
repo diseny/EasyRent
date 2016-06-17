@@ -3,6 +3,8 @@ package es.uji.ei1027.easyrent.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +59,16 @@ public class CredentialsController {
    }
 
 	@RequestMapping("/list") 
-	public String listCredentials(Model model) {
+	public String listCredentials(Model model, HttpSession session) {
+		User userSession = (User)session.getAttribute("user");
+		if (userSession == null){ 
+	          model.addAttribute("user", new User()); 
+	          session.setAttribute("nextURL", "credentials/list.html");
+	          return "login";
+	    }
+		else if(!userSession.getRole().equals("Administrator")){
+			return "redirect:../user/profile.html";
+		}
 		List<Credentials> credentials = credentialsDao.getCredentials();
 		List<User> users = new LinkedList<User>();
 		for(Credentials c: credentials){

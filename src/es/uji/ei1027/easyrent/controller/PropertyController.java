@@ -93,43 +93,6 @@ public class PropertyController {
    public void setReservationDao(ReservationDao reservationDao) {
        this.reservationDao = reservationDao;
    }
-   
-   @RequestMapping(value="/add") 
-	public String addProperty(Model model) {
-	   	Property prop = new Property();
-		int numProp= propertyDao.getProperties().size();
-		model.addAttribute("property",prop);
-		model.addAttribute("numProp", numProp);
-		
-		return "property/add";
-	}
-   @RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addProperty(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
-	   PropertyValidator propertyValidator = new PropertyValidator();
-		int numProp= propertyDao.getProperties().size();
-		model.addAttribute("numProp", numProp);
-		propertyValidator.validate(property, bindingResult);
-		if (bindingResult.hasErrors())
-			return "property/add";
-		try {
-			propertyDao.addProperty(property);
-		} catch (Exception e) {
-			if(e.getMessage()==null){
-				return "redirect:list.html";
-			}
-			else{
-				if(e.getMessage().contains("already exists")){
-					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que ya hay una propiedad con el username indicado.");
-				} else if(e.getMessage().contains("not present")){
-					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que el username no est� registrado.");
-				} 
-				
-				return "property/add";
-			}
-		}
-		return "redirect:list.html";
-	}
-
 	
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
@@ -162,7 +125,13 @@ public class PropertyController {
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		List<Service> allServices = serviceDao.getServices();
-		List<Period> periods= periodDao.getPeriods(id);
+		List<Period> periods = periodDao.getPeriods(id);
+		if(periods.size()==0){
+			Period period = new Period();
+			period.setStart(new java.sql.Date(2015-1900,0,1));
+			period.setFinish(new java.sql.Date(new java.util.Date().getYear(),new java.util.Date().getMonth(),new java.util.Date().getDay()-1));
+			periods.add(period);
+		}
 		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
 		List<Reservation> reservasNoRechazadas = new LinkedList<Reservation>();
 		for(Reservation r: reservas){
@@ -193,6 +162,16 @@ public class PropertyController {
 	
 	@RequestMapping(value="/info/{id}", method = RequestMethod.POST)
 	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id,  HttpSession session) {
+		User userSession = (User)session.getAttribute("user");
+		if (userSession == null) 
+		{ 
+			model.addAttribute("user", new User()); 
+			session.setAttribute("nextURL", "property/info/" + id + ".html");
+			return "login";
+        }
+		else if(!userSession.getRole().equals("Tenant")){
+			return "redirect:../../property/info/" + id + ".html";
+		}
 		boolean available = false;
 		Date start = null;
 		Date finish = null;
@@ -205,7 +184,7 @@ public class PropertyController {
 			if(finish.compareTo(start)>0){
 				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
 			}
-			if(propertiesIds.contains(id)){
+			if(propertiesIds!=null && propertiesIds.contains(id)){
 				available = checkAvailability(reservationDao.getReservationsProperty(id), start, finish);
 			}
 		}

@@ -57,45 +57,20 @@ public class InvoiceController {
 		this.punctuationDao = punctuationDao;
 	}
 	
-	@RequestMapping("/list") 
-	public String listInvoice(Model model) {
-		model.addAttribute("invoice", invoiceDao.getInvoices());
-		return "invoice/list";
-	}
-
-	@RequestMapping(value="/add") 
-	public String addOwner(Model model) {
-		model.addAttribute("invoice", new Invoice());
-		return "invoice/add";
-	}
-
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String processAddSubmit(@ModelAttribute("invoice") Invoice invoice, BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return "invoice/add";
-		try {
-			invoiceDao.addInvoice(invoice);
-		} catch (Exception e) {
-			if(e.getMessage()==null){
-				return "redirect:list.html";
-			}
-			else{
-				if(e.getMessage().contains("already exists")){
-					bindingResult.rejectValue("username", "obligatori", "Parece que ya hay un Owner con el username indicado.");
-				} else if(e.getMessage().contains("not present")){
-					bindingResult.rejectValue("username", "obligatori", "Parece que el username no está registrado.");
-				} 
-				
-				return "invoice/add";
-			}
-		}
-		return "redirect:list.html";
-	 }
-	
 	@RequestMapping(value="/info/{tracking_number}")
-	public String accept(@PathVariable int tracking_number, Model model) {
+	public String accept(@PathVariable int tracking_number, Model model, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if (user == null) 
+	    { 
+		    model.addAttribute("user", new User()); 
+		    session.setAttribute("nextURL", "invoice/info/" + tracking_number + ".html");
+	    	return "login";
+	    }
 		Reservation res = reservationDao.getReservation(tracking_number);
 		Property property = propertyDao.getProperty(res.getIdProperty());
+		if(!res.getUserNameTenant().equals(user.getUsername()) && !property.getOwnerUsername().equals(user.getUsername())){
+			return "redirect:../../user/profile.html";
+		}
 		Invoice invoice = invoiceDao.getInvoice(tracking_number);
 		invoice.setVatIncrease(res.getTotalAmount()*(invoice.getVat()/100));
 		invoice.setTotal(res.getTotalAmount()+invoice.getVatIncrease());
@@ -117,36 +92,5 @@ public class InvoiceController {
 		model.addAttribute("punctuation", punctuation);
 		return "invoice/info";
 	}
-	
-	/*
-	@RequestMapping(value="/update/{username}", method = RequestMethod.GET)
-	public String editInvoice(Model model, @PathVariable String username) {
-		model.addAttribute("invoice", invoiceDao.getInvoice(username));
-		return "invoice/update"; 
-	}
-
-	@RequestMapping(value="/update/{username}", method = RequestMethod.POST) 
-	public String processUpdateSubmit(@PathVariable String username, @ModelAttribute("invoice") Invoice invoice, BindingResult bindingResult) {
-		//InvoiceValidator InvoiceValidator = new InvoiceValidator();
-		InvoiceValidator.validate(invoice, bindingResult);
-		if (bindingResult.hasErrors()) 
-			return "invoice/update";
-		invoiceDao.updateInvoice(invoice);
-		return "redirect:../list.html"; 
-	}
-	
-	@RequestMapping(value="/delete/{username}", method = RequestMethod.GET)
-	public String deleteInvoice(Model model, @PathVariable String username) {
-		model.addAttribute("Invoice", InvoiceDao.getInvoice(username));
-		return "Invoice/delete"; 
-	}
-
-	@RequestMapping(value="/delete/{username}", method = RequestMethod.POST) 
-	public String processDeleteSubmit(@PathVariable String username, @ModelAttribute("Invoice") Invoice Invoice, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) 
-			return "Invoice/delete";
-		InvoiceDao.deleteInvoice(Invoice);
-		return "redirect:../list.html"; 
-	}*/
 	
 }

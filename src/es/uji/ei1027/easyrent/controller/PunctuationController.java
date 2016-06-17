@@ -35,8 +35,15 @@ public class PunctuationController {
 
 	@RequestMapping(value="/add/{tracking_number}", method=RequestMethod.POST)
 	public String add(@PathVariable int tracking_number, @ModelAttribute("punctuation") Punctuation punctuation, Model model, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if(user==null){
+			model.addAttribute("user", new User()); 
+	        session.setAttribute("nextURL", "user/profile.html");
+	        return "login";
+		} else if(!user.getRole().equals("Tenant") || !user.getUsername().equals(punctuation.getUsername())){
+			return "redirect:../../invoice/info/" + tracking_number + ".html";
+		}
 		try{
-			User user = (User)session.getAttribute("user");
 			punctuation.setUsername(user.getUsername());
 			punctuationDao.addPunctuation(punctuation);
 		} catch(Exception e){
@@ -46,9 +53,16 @@ public class PunctuationController {
 	}
 	
 	@RequestMapping(value="/delete/{tracking_number}/{property_id}")
-	public String delete(@PathVariable int tracking_number, @PathVariable int property_id, @ModelAttribute("punctuation") Punctuation punctuation, HttpSession session) {
+	public String delete(Model model, @PathVariable int tracking_number, @PathVariable int property_id, @ModelAttribute("punctuation") Punctuation punctuation, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if(user==null){
+			model.addAttribute("user", new User()); 
+	        session.setAttribute("nextURL", "user/profile.html");
+	        return "login";
+		} else if(!user.getRole().equals("Tenant") || !user.getUsername().equals(punctuation.getUsername())){
+			return "redirect:../../invoice/info/" + tracking_number + ".html";
+		}
 		try{
-			User user = (User)session.getAttribute("user");
 			punctuation.setUsername(user.getUsername());
 			punctuation.setPropertyId(property_id);
 			punctuationDao.deletePunctuation(punctuation);
