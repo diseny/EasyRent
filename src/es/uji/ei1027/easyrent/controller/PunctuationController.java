@@ -54,6 +54,7 @@ public class PunctuationController {
 		message.setTitle("Hecho");
 	    message.setMessage("Has puntuado la propiedad " + punctuation.getPropertyId() + " con un " + punctuation.getPunctuation() + ".");
 	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
 		return "redirect:../../user/profile.html";
 	}
 	
@@ -78,6 +79,7 @@ public class PunctuationController {
 		message.setTitle("Hecho");
 	    message.setMessage("Has borrado tu puntuación sobre la propiedad " + punctuation.getPropertyId() + ".");
 	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
 		return "redirect:../../../user/profile.html";
 	}
 	

@@ -256,6 +256,17 @@ public class UserController {
 		   }
 		   model.addAttribute("reservations", reservations);
 	   }
+	   Integer popUpCounter = (Integer)session.getAttribute("counter");
+	   if(popUpCounter!=null){
+		   if(popUpCounter==0){
+			   popUpCounter++;
+		   	   session.setAttribute("counter", popUpCounter);
+		   }
+		   else{
+			   session.removeAttribute("counter");
+			   session.removeAttribute("message");
+		   }
+	   }
 	   return "user/profile";
    }
    
