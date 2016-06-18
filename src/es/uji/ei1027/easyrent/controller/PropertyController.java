@@ -1,20 +1,34 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import apple.laf.JRSUIUtils.Images;
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
@@ -32,6 +46,7 @@ import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
 import es.uji.ei1027.easyrent.domain.AddProperty;
+import es.uji.ei1027.easyrent.domain.ImageFile;
 import es.uji.ei1027.easyrent.domain.User;
 
 @Controller
@@ -64,6 +79,9 @@ public class PropertyController {
 	
 	@Autowired
 	private ReservationDao reservationDao;
+	
+	@Autowired
+	private ImageDao imagenDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -113,18 +131,25 @@ public class PropertyController {
 		model.addAttribute("property",prop);
 		model.addAttribute("numProp", numProp);
 		model.addAttribute("allServices", allServices);
+		
+	
 		return "property/add";
 	}
    @RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addProperty(@ModelAttribute("property") Property property,@ModelAttribute("addproperty") AddProperty addproperty, BindingResult bindingResult, Model model) {
-	
 		int numProp= propertyDao.getProperties().size();
 		model.addAttribute("numProp", numProp);
-		try {
+		try {			
+			CommonsMultipartFile fich=addproperty.getFichero();
+			String name= addproperty.getFichero().getOriginalFilename();
 			propertyDao.addProperty(property);
-		
 			servicesPropertyDao.addServicesProperty(addproperty);
 			periodDao.addPeriod(addproperty);
+			addproperty.setHref(name);
+			imagenDao.addImage(addproperty);
+			File nDirectory = new File("/Users/morenomoreno_/Documents/workspace/EasyRent/WebContent/images/propiedades/"+numProp);
+			nDirectory.mkdirs();
+			FileCopyUtils.copy(fich.getBytes(), new File(nDirectory+"/"+name));
 		} catch (Exception e) {
 			if(e.getMessage()==null){
 				return "redirect:add.html";

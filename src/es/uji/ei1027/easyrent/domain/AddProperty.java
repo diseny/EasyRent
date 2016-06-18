@@ -1,5 +1,7 @@
 package es.uji.ei1027.easyrent.domain;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class AddProperty {
 
 	
@@ -17,6 +19,19 @@ public class AddProperty {
 	private String start;
 	private String finish;
 	
+	private String caption;
+	private String href;
+
+	private CommonsMultipartFile fichero;
+	
+	
+	public CommonsMultipartFile getFichero() { 
+		return fichero; 
+	}
+	
+	public void setFichero(CommonsMultipartFile fichero) { 
+		this.fichero = fichero; 
+	}
 	
 	public int getPeriodId(){
 		return periodId;
@@ -126,5 +141,21 @@ public class AddProperty {
 
 	public void setCocina(int cocina) {
 		this.cocina = cocina;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+
+	public String getHref() {
+		return href;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
 	}
 }
