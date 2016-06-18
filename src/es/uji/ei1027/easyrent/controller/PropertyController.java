@@ -22,12 +22,15 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
+import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
+
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
+import es.uji.ei1027.easyrent.domain.AddProperty;
 import es.uji.ei1027.easyrent.domain.User;
 import es.uji.ei1027.easyrent.domain.UserSession;
 
@@ -52,6 +55,9 @@ public class PropertyController {
 	
 	@Autowired
 	private ServicePropertyDao servicePropertyDao;
+	
+	@Autowired 
+	private ServicesPropertyDao servicesPropertyDao;
 	
 	@Autowired
 	private PunctuationDao punctuationDao;
@@ -96,6 +102,37 @@ public class PropertyController {
    public void setReservationDao(ReservationDao reservationDao) {
        this.reservationDao = reservationDao;
    }
+   
+   @RequestMapping(value="/add") 
+	public String addProperty(Model model) {
+	   	Property prop = new Property();
+	  	AddProperty addproperty= new AddProperty();
+		List<Service> allServices = serviceDao.getServices();
+		int numProp= propertyDao.getProperties().size();
+		model.addAttribute("addProperty" ,addproperty);
+		model.addAttribute("property",prop);
+		model.addAttribute("numProp", numProp);
+		model.addAttribute("allServices", allServices);
+		return "property/add";
+	}
+   @RequestMapping(value="/add", method=RequestMethod.POST)
+	public String addProperty(@ModelAttribute("property") Property property,@ModelAttribute("addproperty") AddProperty addproperty, BindingResult bindingResult, Model model) {
+	
+		int numProp= propertyDao.getProperties().size();
+		model.addAttribute("numProp", numProp);
+		try {
+			propertyDao.addProperty(property);
+		
+			servicesPropertyDao.addServicesProperty(addproperty);
+			periodDao.addPeriod(addproperty);
+		} catch (Exception e) {
+			if(e.getMessage()==null){
+				return "redirect:add.html";
+			}
+		}
+		return "redirect:list.html";
+	}
+
 	
    @Autowired 
    public void setUserDao(UserDao userDao) {

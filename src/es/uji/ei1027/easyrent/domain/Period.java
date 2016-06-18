@@ -9,19 +9,19 @@ public class Period {
 	private Date start;
 	private Date finish;
 	
-	public int getPropertyID(){
+	public int getPropertyId(){
 		return propertyId;
 	}
 	
-	public void setPropertyID(int propertyId){
+	public void setPropertyId(int propertyId){
 		this.propertyId = propertyId;
 	}
 	
-	public int getPeriodID(){
+	public int getPeriodId(){
 		return periodId;
 	}
 	
-	public void setPeriodID(int periodId){
+	public void setPeriodId(int periodId){
 		this.periodId = periodId;
 	}
 
@@ -43,7 +43,7 @@ public class Period {
 	
 	@Override
 	public String toString(){
-		return "Period: propertyId '" + propertyId + "', periodId '" + periodId + "', start '" + start.toString()+ "', finish '" + finish.toString() + "'.";
+		return "Period: propertyId '" + propertyId + "', periodId '" + periodId + "', start '" + start+ "', finish '" + finish + "'.";
 	}
 	
 }

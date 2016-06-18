@@ -6,11 +6,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Service;
 
 @Repository

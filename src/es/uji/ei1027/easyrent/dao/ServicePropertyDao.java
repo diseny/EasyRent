@@ -6,11 +6,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
 
 @Repository
@@ -37,5 +39,8 @@ public class ServicePropertyDao {
 		String query = "SELECT * FROM ServiceProperty;";
 		return this.jdbcTemplate.query(query, new ServicePropertyMapper());
 	}
+	public void addServiceProperty(ServiceProperty service,ServiceProperty service1) throws PSQLException{
 	
+		this.jdbcTemplate.update("INSERT INTO ServiceProperty(property_id,service_id) VALUES(?, ?);", service1.getPropertyId(), service1.getServiceId());
+	}
 }
