@@ -40,6 +40,7 @@ import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 
 import es.uji.ei1027.easyrent.domain.Period;
+import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
@@ -47,7 +48,6 @@ import es.uji.ei1027.easyrent.domain.ServiceProperty;
 import es.uji.ei1027.easyrent.domain.AddProperty;
 import es.uji.ei1027.easyrent.domain.ImageFile;
 import es.uji.ei1027.easyrent.domain.User;
-import es.uji.ei1027.easyrent.domain.UserSession;
 
 @Controller
 @RequestMapping("/property")
@@ -198,7 +198,7 @@ public class PropertyController {
 	}
 
 	@RequestMapping(value="/info/{id}", method = RequestMethod.GET)
-	public String infoProperty(Model model, @PathVariable int id) {
+	public String infoProperty(Model model, @PathVariable int id, HttpSession session) {
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		List<Service> allServices = serviceDao.getServices();
@@ -234,6 +234,17 @@ public class PropertyController {
 			float average = punctuationDao.getPunctuationAverage(id);
 			model.addAttribute("average", Math.round(average));
 		} catch(NullPointerException e) {;}
+		Integer popUpCounter = (Integer)session.getAttribute("counter");
+		if(popUpCounter!=null){
+			if(popUpCounter==0){
+				popUpCounter++;
+			   	session.setAttribute("counter", popUpCounter);
+			}
+			else{
+				session.removeAttribute("counter");
+				session.removeAttribute("message");
+			}
+		}
 		return "property/info"; 
 	}
 	
@@ -249,6 +260,7 @@ public class PropertyController {
 		else if(!userSession.getRole().equals("Tenant")){
 			return "redirect:../../property/info/" + id + ".html";
 		}
+		PopUpMessage message = new PopUpMessage();
 		boolean available = false;
 		Date start = null;
 		Date finish = null;
@@ -289,6 +301,10 @@ public class PropertyController {
 				float average = punctuationDao.getPunctuationAverage(id);
 				model.addAttribute("average", Math.round(average));
 			} catch(NullPointerException e) {;}
+			message.setTitle("Hecho");
+		    message.setMessage("Las fechas de la reserva no son válidas. Prueba con otras de las que permite el calendario.");
+		    session.setAttribute("message", message);
+		    session.setAttribute("counter", 0);
 			return "property/info";
 		}
 		Reservation reservation = new Reservation();
@@ -307,10 +323,16 @@ public class PropertyController {
 			reservationDao.addReservation(reservation);
 		}
 		catch(Exception e){
-			//ha fallado la insercion, mostrar mensaje de error con un pop-up
-			System.out.println(e);
-			return "property/info";
+			message.setTitle("Hecho");
+		    message.setMessage("Tu reserva de " + reservation.getStartDate() + " a " + reservation.getStartDate() + " no ha podido registrarse. Por favor, prueba en otro momento.");
+		    session.setAttribute("message", message);
+		    session.setAttribute("counter", 0);
+		    return "property/info";
 		}
+		message.setTitle("Hecho");
+	    message.setMessage("Tu reserva de " + reservation.getStartDate() + " a " + reservation.getStartDate() + " se ha registrado. Se mostrará como pendiente en tu perfil hasta que el dueño la acepte o la rechace. Si en 7 días no ha contestado se considerará como rechazada.");
+	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
 		return "redirect:../../user/profile.html";
 	}
 	

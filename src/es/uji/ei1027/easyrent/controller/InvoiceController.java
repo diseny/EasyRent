@@ -88,6 +88,9 @@ public class InvoiceController {
 		catch(Exception e){
 			messagePunctuation = "form";
 		}
+		if(punctuation.getUsername()==null){
+			messagePunctuation = "form";
+		}
 		model.addAttribute("message", messagePunctuation);
 		model.addAttribute("punctuation", punctuation);
 		return "invoice/info";

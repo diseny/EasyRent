@@ -251,232 +251,229 @@
 		</div> 
 	 </div>
 	
-	<script>
-
-	
-	$(document).ready(function(){
-			var disabledDates=[];
-			<c:forEach items="${reservas}" var="reserva" varStatus="loop">
-				var dates=["<c:out value="${reserva.startDate}"/>","<c:out value="${reserva.finishDate}"/>"];
-				disabledDates.push(dates);
-			</c:forEach>
-			var enabledDates=[];
-			<c:forEach items="${periods}" var="period" varStatus="loop">
-				var dates=["<c:out value="${period.start}"/>","<c:out value="${period.finish}"/>"];
-				enabledDates.push(dates);
-			</c:forEach>
-		
-		var hoy = new Date();
-			
-		
-		function available(date) {
-			var mes =  date.getMonth()+1;
-			var dia =  date.getDate();
-			if(mes<10){
-				mes = '0'.concat(mes);
-			}
-			
-			if(dia<10){
-				dia = '0'.concat(dia);
-			}
-			var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
-			fechaHoy = new Date(dmy)
-			clases =""
-			for( var i=0;i<enabledDates.length;i++){
-				fechaRangoInicio= new Date(enabledDates[i][0]); 
-				fechaRangoFin= new Date(enabledDates[i][1]);
-				if(fechaRangoInicio>fechaHoy || fechaRangoFin<fechaHoy){
-					clases= clases.concat(' disabled reservado ');
-					}
-				
-			}
-			
-			for( var i=0;i<disabledDates.length;i++){
-				fechaRangoInicio= new Date(disabledDates[i][0]); 
-				fechaRangoFin= new Date(disabledDates[i][1]);
-			if(fechaRangoInicio<=fechaHoy && fechaRangoFin>=fechaHoy){
-				clases= clases.concat(' disabled reservado ');
-				}
-			
-			 }
-			return {
-	             classes: clases
-	          }; 
-			
-
-				 
-			
-		}
-		function available2(date) {
-			
-			var mes =  date.getMonth()+1;
-			var dia =  date.getDate();
-			if(mes<10){
-				mes = '0'.concat(mes);
-			}
-			
-			if(dia<10){
-				dia = '0'.concat(dia);
-			}
-			var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
-			
-			
-			
-			fechaHoy = new Date(dmy)
-			clases =""
-			for( var i=0;i<enabledDates.length;i++){
-				
-				fechaRangoInicio= new Date(enabledDates[i][0]); 
-				fechaRangoFin= new Date(enabledDates[i][1]);
-				if(fechaRangoInicio<fechaHoy && fechaRangoFin>fechaHoy){
-					if(fechaRangoFin<fechaMinima){
-						fechaMinima=fechaRangoFin;	
-					}
-				}
-				
-				
-			}
-			for( var i=0;i<disabledDates.length;i++){
-				fechaIni=new Date(disabledDates[i][0])
-				if(fechaMinima> fechaIni && dateInit<fechaIni){
-					fechaMinima= fechaIni;
-				}
-			
-				
-			
-			 }
-			var mes =  fechaMinima.getMonth()+1;
-			var dia =  fechaMinima.getDate()-1;
-			if(mes<10){
-				mes = '0'.concat(mes);
-			}
-			
-			if(dia<10){
-				dia = '0'.concat(dia);
-			}
-			
-			var fin= fechaMinima.getFullYear()+ "-" + mes +"-" + dia;
-			fechaMinima= new Date(fin);
-			
-			
-			$('#datePickerEnd').datepicker({
-				autoclose : true,
-				format : 'dd/mm/yyyy',
-				startDate : dateInit,
-				endDate: fechaMinima,
-			})
-			return {
-	        
-	            	 
-	          }; 
-		}
-
-		$('#datePickerInit').datepicker({
-		autoclose : true,
-		format : 'dd/mm/yyyy',
-		startDate : hoy,
-		beforeShowDay: available,	
-	})			
-		var fechaMinima = new Date('2020-01-01');
-		$('#datePickerInit').on('changeDate', function(e) {
-			// Revalidate the date field
-			dateInit = new Date($('#datePickerInit').datepicker("getDate"));
-			//$('#datePickerEnd').datepicker('setStartDate', dateInit).datepicker( "option", "beforeShowDay", available2 );
-			//$('#datePickerEnd').datepicker( "option", "beforeShowDay", available2 );
-			//console.log($('#datePickerEnd').datepicker('setStartDate', dateInit));
-			$('#datePickerEnd input').prop('disabled', false);
-			$('#datePickerEnd').datepicker({
-				autoclose : true,
-				format : 'dd/mm/yyyy',
-				startDate: dateInit,
-				beforeShowDay: available2,	
-			})
-		});
-		
-
-		$('input').iCheck({
-			    checkboxClass: 'icheckbox_flat',
-			    radioClass: 'iradio_flat'
-			  });
-			});
-	
-	
-	
-	
-		$('.fotosInfo').click(function(){
-			jQuery('.carousel-imagenes').addClass("show");
-		});
-		
-		function closeSlider(){
-			jQuery('.carousel-imagenes').removeClass("show");
-		}
-			
-		 var geocoder;
-		    var map;
-		  
-				var map;
-				var pos = new google.maps.LatLng(37.774807, -3.795573);
-				 
-				var marker = new google.maps.Marker({
-				      position: pos,
-				      map: map,
-				      title:"Esto es un marcador",
-				      animation: google.maps.Animation.DROP
-				  });
-
-				function initMap() {
-					 geocoder = new google.maps.Geocoder();
-					 var mapOptions = {
-					          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
-					          zoom: 11,
-					          mapTypeId: google.maps.MapTypeId.ROADMAP
-					        };
-					        var map = new google.maps.Map(document.getElementById("map"),
-					            mapOptions);
-					 
-					        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
-					        	 if (geocoder) {
-							            geocoder.geocode({
-							              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
-							            }, function(results, status) {
-							              if (status == google.maps.GeocoderStatus.OK) {
-							                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-							                  map.setCenter(results[0].geometry.location);
-
-							                  var infowindow = new google.maps.InfoWindow({
-							                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
-							                    size: new google.maps.Size(150, 50)
-							                  });
-
-							                  var marker = new google.maps.Marker({
-							                    position: results[0].geometry.location,
-							                    map: map,
-							                    title: "<c:out value="${property.street}"/>"
-							                  });
-							                  google.maps.event.addListener(marker, 'click', function() {
-							                    infowindow.open(map, marker);
-							                  });
-
-							                } else {
-							                  alert("No results found");
-							                }
-							              } else {
-							                alert("Geocode was not successful for the following reason: " + status);
-							              }
-							            });
-							          }
-					        	
-					        	 
-					       
-				}
-
-				
-				
-				
-	</script>
-	 <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
-    </script>
+	<div class="modal fade" id="myModal" role="dialog">
+  	  <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">${message.title}</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>${message.message}</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        </div>
+	      </div>
+	    </div>
+	 </div>
 	  
 </jsp:body>
 </t:paginabasica>
+
+<script>
+	var message = '${message.message}';
+	if (message!=''){
+		$('#myModal').modal('show');
+		console.log(message);
+	}
+</script>
+
+<script>
+	$(document).ready(function(){
+	var disabledDates=[];
+	<c:forEach items="${reservas}" var="reserva" varStatus="loop">
+		var dates=["<c:out value="${reserva.startDate}"/>","<c:out value="${reserva.finishDate}"/>"];
+		disabledDates.push(dates);
+	</c:forEach>
+	
+	var enabledDates=[];
+	<c:forEach items="${periods}" var="period" varStatus="loop">
+		var dates=["<c:out value="${period.start}"/>","<c:out value="${period.finish}"/>"];
+		enabledDates.push(dates);
+	</c:forEach>
+	
+	var hoy = new Date();
+		
+	function available(date) {
+		var mes =  date.getMonth()+1;
+		var dia =  date.getDate();
+		if(mes<10){
+			mes = '0'.concat(mes);
+		}
+		
+		if(dia<10){
+			dia = '0'.concat(dia);
+		}
+		var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
+		fechaHoy = new Date(dmy)
+		clases =""
+		for( var i=0;i<enabledDates.length;i++){
+			fechaRangoInicio= new Date(enabledDates[i][0]); 
+			fechaRangoFin= new Date(enabledDates[i][1]);
+			if(fechaRangoInicio>fechaHoy || fechaRangoFin<fechaHoy){
+				clases= clases.concat(' disabled reservado ');
+				}
+		}
+		
+		for( var i=0;i<disabledDates.length;i++){
+			fechaRangoInicio= new Date(disabledDates[i][0]); 
+			fechaRangoFin= new Date(disabledDates[i][1]);
+		if(fechaRangoInicio<=fechaHoy && fechaRangoFin>=fechaHoy){
+			clases= clases.concat(' disabled reservado ');
+			}
+		
+		 }
+		return {
+        classes: clases
+    }; 
+}
+function available2(date) {
+	var mes =  date.getMonth()+1;
+	var dia =  date.getDate();
+	if(mes<10){
+		mes = '0'.concat(mes);
+	}
+	
+	if(dia<10){
+		dia = '0'.concat(dia);
+	}
+	var dmy =  date.getFullYear() + "-" + mes + "-" + dia;
+	
+	fechaHoy = new Date(dmy)
+	clases =""
+	for( var i=0;i<enabledDates.length;i++){
+		
+		fechaRangoInicio= new Date(enabledDates[i][0]); 
+		fechaRangoFin= new Date(enabledDates[i][1]);
+		if(fechaRangoInicio<fechaHoy && fechaRangoFin>fechaHoy){
+			if(fechaRangoFin<fechaMinima){
+				fechaMinima=fechaRangoFin;	
+			}
+		}
+		
+	}
+	for( var i=0;i<disabledDates.length;i++){
+		fechaIni=new Date(disabledDates[i][0])
+		if(fechaMinima> fechaIni && dateInit<fechaIni){
+			fechaMinima= fechaIni;
+		}
+	
+	}
+	var mes =  fechaMinima.getMonth()+1;
+	var dia =  fechaMinima.getDate()-1;
+	if(mes<10){
+		mes = '0'.concat(mes);
+	}
+	
+	if(dia<10){
+		dia = '0'.concat(dia);
+	}
+	
+	var fin= fechaMinima.getFullYear()+ "-" + mes +"-" + dia;
+	fechaMinima= new Date(fin);
+	
+	$('#datePickerEnd').datepicker({
+		autoclose : true,
+		format : 'dd/mm/yyyy',
+		startDate : dateInit,
+		endDate: fechaMinima,
+	})
+	return {
+         }; 
+	}
+
+	$('#datePickerInit').datepicker({
+	autoclose : true,
+	format : 'dd/mm/yyyy',
+	startDate : hoy,
+	beforeShowDay: available,	
+})			
+	var fechaMinima = new Date('2020-01-01');
+	$('#datePickerInit').on('changeDate', function(e) {
+		// Revalidate the date field
+		dateInit = new Date($('#datePickerInit').datepicker("getDate"));
+		$('#datePickerEnd input').prop('disabled', false);
+		$('#datePickerEnd').datepicker({
+			autoclose : true,
+			format : 'dd/mm/yyyy',
+			startDate: dateInit,
+			beforeShowDay: available2,	
+		})
+	});
+	
+
+	$('input').iCheck({
+		    checkboxClass: 'icheckbox_flat',
+		    radioClass: 'iradio_flat'
+		  });
+		});
+
+	$('.fotosInfo').click(function(){
+		jQuery('.carousel-imagenes').addClass("show");
+	});
+	
+	function closeSlider(){
+		jQuery('.carousel-imagenes').removeClass("show");
+	}
+		
+	 var geocoder;
+	    var map;
+	  
+			var map;
+			var pos = new google.maps.LatLng(37.774807, -3.795573);
+			 
+			var marker = new google.maps.Marker({
+			      position: pos,
+			      map: map,
+			      title:"Esto es un marcador",
+			      animation: google.maps.Animation.DROP
+			  });
+
+			function initMap() {
+				 geocoder = new google.maps.Geocoder();
+				 var mapOptions = {
+				          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
+				          zoom: 11,
+				          mapTypeId: google.maps.MapTypeId.ROADMAP
+				        };
+				        var map = new google.maps.Map(document.getElementById("map"),
+				            mapOptions);
+				 
+       	var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
+       	 if (geocoder) {
+	            geocoder.geocode({
+	              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
+	            }, function(results, status) {
+	              if (status == google.maps.GeocoderStatus.OK) {
+	                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+	                  map.setCenter(results[0].geometry.location);
+
+	                  var infowindow = new google.maps.InfoWindow({
+	                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
+	                    size: new google.maps.Size(150, 50)
+	                  });
+
+	                  var marker = new google.maps.Marker({
+	                    position: results[0].geometry.location,
+	                    map: map,
+	                    title: "<c:out value="${property.street}"/>"
+	                  });
+	                  google.maps.event.addListener(marker, 'click', function() {
+	                    infowindow.open(map, marker);
+	                  });
+
+	                } else {
+	                  alert("No results found");
+	                }
+	              } else {
+	                alert("Geocode was not successful for the following reason: " + status);
+	              }
+	            });
+	          }
+			}
+</script>
+
+<script async defer
+     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
+   </script>

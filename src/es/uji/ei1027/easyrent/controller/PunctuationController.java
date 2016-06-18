@@ -17,6 +17,7 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Invoice;
+import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Punctuation;
 import es.uji.ei1027.easyrent.domain.Reservation;
@@ -40,7 +41,7 @@ public class PunctuationController {
 			model.addAttribute("user", new User()); 
 	        session.setAttribute("nextURL", "user/profile.html");
 	        return "login";
-		} else if(!user.getRole().equals("Tenant") || !user.getUsername().equals(punctuation.getUsername())){
+		} else if(!user.getRole().equals("Tenant")){
 			return "redirect:../../invoice/info/" + tracking_number + ".html";
 		}
 		try{
@@ -49,7 +50,12 @@ public class PunctuationController {
 		} catch(Exception e){
 			;
 		}
-		return "redirect:../../invoice/info/" + tracking_number + ".html";
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("Has puntuado la propiedad " + punctuation.getPropertyId() + " con un " + punctuation.getPunctuation() + ".");
+	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
+		return "redirect:../../user/profile.html";
 	}
 	
 	@RequestMapping(value="/delete/{tracking_number}/{property_id}")
@@ -59,8 +65,8 @@ public class PunctuationController {
 			model.addAttribute("user", new User()); 
 	        session.setAttribute("nextURL", "user/profile.html");
 	        return "login";
-		} else if(!user.getRole().equals("Tenant") || !user.getUsername().equals(punctuation.getUsername())){
-			return "redirect:../../invoice/info/" + tracking_number + ".html";
+		} else if(!user.getRole().equals("Tenant")){
+			return "redirect:../../../invoice/info/" + tracking_number + ".html";
 		}
 		try{
 			punctuation.setUsername(user.getUsername());
@@ -69,7 +75,12 @@ public class PunctuationController {
 		}catch(Exception e){
 			;
 		}
-		return "redirect:../../../invoice/info/" + tracking_number + ".html";
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("Has borrado tu puntuación sobre la propiedad " + punctuation.getPropertyId() + ".");
+	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
+		return "redirect:../../../user/profile.html";
 	}
 	
 }

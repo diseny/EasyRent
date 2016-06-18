@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<c:set var="messagePopUp" scope="request" value='${session.getAttribute("message")}'/>
 
 <t:paginabasica title="EasyRent">
 <jsp:body>
@@ -124,6 +125,31 @@
 			</c:otherwise>
 		</c:choose>
     </main>
+
+	<div class="modal fade" id="myModal" role="dialog">
+  	  <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">${messagePopUp.title}</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>${messagePopUp.message}</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        </div>
+	      </div>
+	    </div>
+	 </div>
 	 	  
 </jsp:body>
 </t:paginabasica>
+
+<script>
+	var message = '${messagePopUp.message}';
+	if (message!=''){
+		$('#myModal').modal('show');
+		console.log(message);
+	}
+</script>

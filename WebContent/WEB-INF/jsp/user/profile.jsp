@@ -3,6 +3,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <c:set var="user" scope="request" value='${session.getAttribute("user")}'/>
+<c:set var="message" scope="request" value='${session.getAttribute("message")}'/>
 
 <t:paginabasica title="Perfil">
 <jsp:body>
@@ -210,7 +211,7 @@
 	          <p>${message.message}</p>
 	        </div>
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 	        </div>
 	      </div>
 	    </div>
@@ -221,7 +222,7 @@
 
 <script>
 	var message = '${message.message}';
-	if (message==''){
+	if (message!=''){
 		$('#myModal').modal('show');
 		console.log(message);
 	}

@@ -74,7 +74,14 @@ public class UserController {
    
    @RequestMapping(value="/update", method=RequestMethod.GET)
    public String update(HttpSession session, Model model){
-	   model.addAttribute("user", session.getAttribute("user"));
+	   User userSession = (User)session.getAttribute("user");
+	   if (userSession == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "user/update.html");
+          return "login";
+       }
+	   model.addAttribute("user", userSession);
 	   return "user/update";
    }
    
@@ -107,16 +114,15 @@ public class UserController {
 	   }catch(Exception e){
 		   message.setTitle("Error");
 		   message.setMessage("No se ha podido actualizar tu perfil. Prueba en otro momento.");
-		   model.addAttribute("message", message);
+		   session.setAttribute("message", message);
 		   session.setAttribute("user", user);
 		   return "redirect:../user/profile.html";
 	   }
 	   message.setTitle("Hecho");
 	   message.setMessage("Tu perfil se ha actualizado correctamente.");
-	   model.addAttribute("message", message);
+	   session.setAttribute("message", message);
 	   session.setAttribute("user", user);
-	   System.out.println(message);
-	   return "redirect:../user/profile.html";
+	   return "redirect:profile.html";
    }
    
    @RequestMapping("/delete") 
@@ -135,8 +141,12 @@ public class UserController {
        }
 	   user.setIsActive(false);
 	   credentialsDao.updateCredentials(user);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu perfil se ha desactivado correctamente. Si deseas recuperar tu cuenta solo tienes que iniciar sesión con tu usuario y contraseña.");
+	   model.addAttribute("message", message);
 	   session.invalidate();
-	   return "redirect:../index.jsp";
+	   return "user/delete";
    }
    
    @RequestMapping("/administratordeletes/{username}") 
@@ -156,6 +166,10 @@ public class UserController {
 	   try{
 		   userDao.administratorUpdateCredentials(user);
 	   }catch(Exception e){;}
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Has desactivado la cuenta del usuario " + userSession.getUsername() + " correctamente.");
+	   session.setAttribute("message", message);
 	   return "redirect:../../credentials/list.html";
    }
    
@@ -176,6 +190,10 @@ public class UserController {
 	   try{
 		   userDao.administratorUpdateCredentials(user);
 	   }catch(Exception e){;}
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Has reactivado la cuenta del usuario " + userSession.getUsername() + " correctamente.");
+	   session.setAttribute("message", message);
 	   return "redirect:../../credentials/list.html";
    }
    
@@ -237,6 +255,17 @@ public class UserController {
 			   res.setPropertyTitle(p.getTitle());
 		   }
 		   model.addAttribute("reservations", reservations);
+	   }
+	   Integer popUpCounter = (Integer)session.getAttribute("counter");
+	   if(popUpCounter!=null){
+		   if(popUpCounter==0){
+			   popUpCounter++;
+		   	   session.setAttribute("counter", popUpCounter);
+		   }
+		   else{
+			   session.removeAttribute("counter");
+			   session.removeAttribute("message");
+		   }
 	   }
 	   return "user/profile";
    }
