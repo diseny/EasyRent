@@ -194,11 +194,11 @@
 				<c:forEach items="${images}" var="image" varStatus="loopImages">	
 					<c:if test="${property.id == image.ID}" >
 						<c:if test="${i!=0}">
-							<div class="item" style=" background-image: url('${image.href}')">	
+							<div class="item" style=" background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}')">	
 							</div>
 						</c:if>
 						<c:if test="${i==0}">
-							<div class="item active slider" style="background-image: url('${image.href}')">
+							<div class="item active slider" style="background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}')">
 							</div>
 						<c:set var="i" value="${1}"></c:set>
 						

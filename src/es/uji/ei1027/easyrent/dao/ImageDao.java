@@ -6,11 +6,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import es.uji.ei1027.easyrent.domain.AddProperty;
 import es.uji.ei1027.easyrent.domain.Image;
 
 @Repository
@@ -36,6 +38,11 @@ public class ImageDao {
 
 	public List<Image> getImages() {
 		 return this.jdbcTemplate.query("SELECT * FROM Image;", new ImageMapper());
+	}
+	
+	public void addImage(AddProperty property) throws PSQLException{
+		this.jdbcTemplate.update("INSERT INTO image(id, caption, href) VALUES(?, ?, ?);", 1, property.getCaption(),property.getHref());
+		
 	}
 	
 }
