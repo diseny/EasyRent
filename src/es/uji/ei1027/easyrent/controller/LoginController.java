@@ -94,9 +94,13 @@ public class LoginController {
 			userSession = createUser(s);
 			userSession.setPassword(user.getPassword());
 			userSession.setRole(user.getRole());
-			userSession.setIsActive(user.getIsActive());
+			userSession.setIsActive(true);
 			session.setAttribute("user", userSession);
 		}
+		try{
+			user.setIsActive(true);
+			userDao.administratorUpdateCredentials(user);
+		} catch(Exception e){;}
 		String url = (String)session.getAttribute("nextURL");
 		if(url!=null){
 			session.removeAttribute("nextURL");
