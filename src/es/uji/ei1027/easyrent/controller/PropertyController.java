@@ -22,8 +22,9 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
-import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
-import es.uji.ei1027.easyrent.domain.AddPeriod;
+
+import es.uji.ei1027.easyrent.dao.UserDao;
+
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
@@ -49,21 +50,21 @@ public class PropertyController {
 	@Autowired
 	private PeriodDao periodDao;
 	
-	
 	@Autowired
 	private ServiceDao serviceDao;
 	
 	@Autowired
 	private ServicePropertyDao servicePropertyDao;
 	
-	@Autowired
-	private ServicesPropertyDao servicesPropertyDao;
 	
 	@Autowired
 	private PunctuationDao punctuationDao;
 	
 	@Autowired
 	private ReservationDao reservationDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
    @Autowired 
    public void setpropertyDao(PropertyDao propertyDao) {
@@ -133,9 +134,21 @@ public class PropertyController {
 	}
 
 	
+   @Autowired 
+   public void setUserDao(UserDao userDao) {
+       this.userDao = userDao;
+   }
+   
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
-		model.addAttribute("properties", propertyDao.getProperties());
+		List<Property> properties = propertyDao.getProperties();
+		List<Property> activeProperties = new LinkedList<Property>();
+		for(Property p: properties){
+			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
+				activeProperties.add(p);
+			}
+		}
+		model.addAttribute("properties", activeProperties);
 		model.addAttribute("property", new Property());
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
@@ -164,8 +177,20 @@ public class PropertyController {
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		List<Service> allServices = serviceDao.getServices();
-		List<Period> periods= periodDao.getPeriods(id);
+		List<Period> periods = periodDao.getPeriods(id);
+		if(periods.size()==0){
+			Period period = new Period();
+			period.setStart(new java.sql.Date(2015-1900,0,1));
+			period.setFinish(new java.sql.Date(new java.util.Date().getYear(),new java.util.Date().getMonth(),new java.util.Date().getDay()-1));
+			periods.add(period);
+		}
 		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
+		List<Reservation> reservasNoRechazadas = new LinkedList<Reservation>();
+		for(Reservation r: reservas){
+			if(!r.getStatus().equals("rejected")){
+				reservasNoRechazadas.add(r);
+			}
+		}
 		for(ServiceProperty sP: servicesProperties){
 			for(Service s: services){
 				if(s.getID() == sP.getServiceId()){
@@ -173,7 +198,7 @@ public class PropertyController {
 				}
 			}
 		}
-		model.addAttribute("reservas",reservas);
+		model.addAttribute("reservas",reservasNoRechazadas);
 		model.addAttribute("periods",periods);
 		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);
@@ -189,6 +214,16 @@ public class PropertyController {
 	
 	@RequestMapping(value="/info/{id}", method = RequestMethod.POST)
 	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id,  HttpSession session) {
+		User userSession = (User)session.getAttribute("user");
+		if (userSession == null) 
+		{ 
+			model.addAttribute("user", new User()); 
+			session.setAttribute("nextURL", "property/info/" + id + ".html");
+			return "login";
+        }
+		else if(!userSession.getRole().equals("Tenant")){
+			return "redirect:../../property/info/" + id + ".html";
+		}
 		boolean available = false;
 		Date start = null;
 		Date finish = null;
@@ -201,11 +236,10 @@ public class PropertyController {
 			if(finish.compareTo(start)>0){
 				propertiesIds = periodDao.getPropertiesIdPeriod(start.toString(), finish.toString());
 			}
-			if(propertiesIds.contains(id)){
+			if(propertiesIds!=null && propertiesIds.contains(id)){
 				available = checkAvailability(reservationDao.getReservationsProperty(id), start, finish);
 			}
 		}
-		available = true;
 		if(!available){
 			List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 			List<Service> services = serviceDao.getServices();
@@ -232,7 +266,6 @@ public class PropertyController {
 			} catch(NullPointerException e) {;}
 			return "property/info";
 		}
-		finish = new Date(2016-1900, 6-1, 30);
 		Reservation reservation = new Reservation();
 		reservation.setTrackingNumber(reservationDao.generateTrackingNumber()+1);
 		User user = (User)session.getAttribute("user");
@@ -391,8 +424,15 @@ public class PropertyController {
 	}
 	
 	private String generalList(Model model, Property property){
+		List<Property> properties = propertyDao.getProperties();
+		List<Property> activeProperties = new LinkedList<Property>();
+		for(Property p: properties){
+			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
+				activeProperties.add(p);
+			}
+		}
 		model.addAttribute("property", property);
-		model.addAttribute("properties", propertyDao.getPropertyFilter(filters));
+		model.addAttribute("properties", activeProperties);
 		List<ServiceProperty> servicesProperties = servicePropertyDao.getServicesProperties();
 		List<Service> services = serviceDao.getServices();
 		for(ServiceProperty sP: servicesProperties){

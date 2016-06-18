@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.User;
+import es.uji.ei1027.easyrent.domain.UserSession;
 
 @Repository
 public class UserDao {
@@ -39,8 +40,26 @@ public class UserDao {
 	    }
 	}
 	
+	private static final class UserMapper implements RowMapper<User> {
+
+	    public User mapRow(ResultSet rs, int rowNum) throws SQLException { 
+	    	User user = new User();
+			user.setUsername(rs.getString("username"));
+			user.setName(rs.getString("name"));
+			user.setSurname(rs.getString("surname"));
+			user.setEmail(rs.getString("email"));
+			user.setPhoneNumber(rs.getString("phone_number"));
+			return user;
+	    }
+	}
+	
 	public List<Credentials> getCredentials() {
 		 return this.jdbcTemplate.query("SELECT * FROM Credentials;", new CredentialsMapper());
+	}
+	
+	public Credentials getCredentials(String username) {
+		String query = "SELECT * FROM Credentials WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new CredentialsMapper());
 	}
 	
 	public Credentials loadUserByUsername(String username, String password){
@@ -72,22 +91,36 @@ public class UserDao {
 	}
 
 	public void updateCredentials(User user) throws PSQLException{
-		this.jdbcTemplate.update("UPDATE Credentials SET pwd = ?, role = ? WHERE username = ?;", user.getPassword(), user.getRole(), user.getUsername());
+		this.jdbcTemplate.update("UPDATE Credentials SET pwd = ?, role = ?, is_active = ? WHERE username = ?;", user.getPassword(), user.getRole(), user.getIsActive(), user.getUsername());
+	}
+	
+	public void administratorUpdateCredentials(Credentials user) throws PSQLException{
+		this.jdbcTemplate.update("UPDATE Credentials SET pwd = ?, role = ?, is_active = ? WHERE username = ?;", user.getPassword(), user.getRole(), user.getIsActive(), user.getUsername());
 	}
 	
 	public void updateAdministrator(User user) throws PSQLException{
 		String []fecha = user.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("UPDATE Administrator SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getIsActive(), user.getUsername());
+		this.jdbcTemplate.update("UPDATE Administrator SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getIsActive(), user.getUsername());
 	}
 	
 	public void updateOwner(User user) throws PSQLException{
 		String []fecha = user.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("UPDATE Owner SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getIsActive(), user.getUsername());
+		this.jdbcTemplate.update("UPDATE Owner SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getUsername());
 	}
 	
 	public void updateTenant(User user) throws PSQLException{
 		String []fecha = user.getRegistrationDate().split("-");
-		this.jdbcTemplate.update("UPDATE Tenant SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ?, is_active = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getIsActive(), user.getUsername());
+		this.jdbcTemplate.update("UPDATE Tenant SET national_id = ?, name = ?, surname = ?, email = ?, postal_address = ?, registration_date = ?, phone_number = ? WHERE username = ?;", user.getNationalId(), user.getName(), user.getSurname(), user.getEmail(), user.getPostalAddress(), new java.sql.Date(Integer.parseInt(fecha[0])-1900,Integer.parseInt(fecha[1])-1,Integer.parseInt(fecha[2])), user.getPhoneNumber(), user.getUsername());
+	}
+	
+	public User getOwner(String username){
+		String query = "SELECT * FROM Owner WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new UserMapper());
+	}
+	
+	public User getTenant(String username){
+		String query = "SELECT * FROM Tenant WHERE username='" + username + "';";
+		return this.jdbcTemplate.queryForObject(query, new UserMapper());
 	}
 	
 }

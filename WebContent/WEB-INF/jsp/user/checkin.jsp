@@ -5,8 +5,7 @@
 <jsp:body>
 	<br><br><br>
 	<h2>Registro</h2>
-	<form:form method="post" modelAttribute="user"
-		action="${pageContext.request.contextPath}/user/checkin.html">
+	<form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/user/checkin.html">
 		<div class="form-group">
 		<p>
 			<form:label path="username">Nombre de usuario:</form:label>
@@ -23,12 +22,18 @@
 			<form:errors path="password" cssClass="error" />
 		</p>
 		<p>
+			<form:label path="repeatedPassword">Repite tu contraseña:</form:label>
+		</p>
+		<p>
+			<form:password class="form-control"  placeholder="Contraseña" path="repeatedPassword" required="required"/>
+			<form:errors path="repeatedPassword" cssClass="error" />
+		</p>
+		<p>
 			<form:label path="role">Rol:</form:label>
 		</p>
 		<p>
 			<form:radiobutton path="role" value="Owner" checked="checked"/> Propietario
 			<form:radiobutton path="role" value="Tenant"/> Inquilino
-			<form:radiobutton path="role" value="Administrator"/> Administrador
 		</p>
 		<p>
 			<form:label path="nationalId">DNI:</form:label>

@@ -20,6 +20,13 @@
 			<form:errors path="password" cssClass="error" />
 		</p>
 		<p>
+			<form:label path="repeatedPassword">Repite tu contraseña:</form:label>
+		</p>
+		<p>
+			<form:password class="form-control"  placeholder="Contraseña" path="repeatedPassword" required="required"/>
+			<form:errors path="repeatedPassword" cssClass="error" />
+		</p>
+		<p>
 			<form:label path="nationalId">DNI:</form:label>
 		</p>
 		<p>

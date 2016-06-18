@@ -41,8 +41,8 @@ public class InvoiceDao {
 		 return this.jdbcTemplate.query("SELECT * FROM Invoice;", new InvoiceMapper());
 	}	 
 		
-	public Invoice getInvoice(int trackingNumber, int invoiceNumber) {
-		return this.jdbcTemplate.queryForObject("SELECT * FROM Invoice WHERE tracking_number='" + trackingNumber + "' AND invoice_number='" + invoiceNumber + "';", new InvoiceMapper());
+	public Invoice getInvoice(int trackingNumber) {
+		return this.jdbcTemplate.queryForObject("SELECT * FROM Invoice WHERE tracking_number='" + trackingNumber + "';", new InvoiceMapper());
 	}
 	
 	public void addInvoice(Invoice invoice) throws PSQLException{

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +19,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 
 import es.uji.ei1027.easyrent.dao.UserDao;
+import es.uji.ei1027.easyrent.domain.Credentials;
 import es.uji.ei1027.easyrent.domain.User;
+
+class CheckinValidator implements Validator { 
+
+	public boolean supports(Class<?> cls) { 
+		return User.class.isAssignableFrom(cls);
+	}
+
+	public void validate(Object obj, Errors errors) {
+		User user = (User)obj;
+		if(!user.getPassword().trim().equals(user.getRepeatedPassword().trim()))
+			errors.rejectValue("repeatedPassword", "incorrect", "Las contraseñas no son iguales, por favor vuelve a intentarlo.");
+	}
+
+}
 
 @Controller
 @RequestMapping("/user")
@@ -39,6 +56,8 @@ public class CheckinController {
 
 	@RequestMapping(value="/checkin", method=RequestMethod.POST)
 	public String checkLogin(@ModelAttribute("user") User user, BindingResult bindingResult, HttpSession session) {
+		CheckinValidator checkinValidator = new CheckinValidator(); 
+		checkinValidator.validate(user, bindingResult);
 		if (bindingResult.hasErrors()) {
 			return "user/checkin";
 		}

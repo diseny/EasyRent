@@ -1,5 +1,7 @@
 package es.uji.ei1027.easyrent.controller;
 
+import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +10,11 @@ import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,9 +23,24 @@ import es.uji.ei1027.easyrent.dao.PropertyDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 import es.uji.ei1027.easyrent.domain.Credentials;
+import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.User;
+
+class UpdateValidator implements Validator { 
+
+	public boolean supports(Class<?> cls) { 
+		return User.class.isAssignableFrom(cls);
+	}
+
+	public void validate(Object obj, Errors errors) {
+		User user = (User)obj;
+		if(!user.getPassword().trim().equals(user.getRepeatedPassword().trim()))
+			errors.rejectValue("repeatedPassword", "incorrect", "Las contraseñas no son iguales, por favor vuelve a intentarlo.");
+	}
+
+}
 
 @Controller 
 @RequestMapping("/user") 
@@ -29,6 +50,7 @@ public class UserController {
 	private PropertyDao propertyDao;
 	private ReservationDao reservationDao;
 	private CredentialsDao credentialsDao;
+	final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 
    @Autowired 
    public void setUserDao(UserDao userDao) {
@@ -50,26 +72,27 @@ public class UserController {
        this.credentialsDao = credentialsDao;
    }
    
-   @RequestMapping("/list.html") 
-   public String listSocis(HttpSession session, Model model) {
-       if (session.getAttribute("user") == null) 
-       { 
-          model.addAttribute("user", new Credentials()); 
-          session.setAttribute("nextURL", "user/list.html");
-          return "login";
-       }
-       model.addAttribute("users", userDao.getCredentials());
-       return "user/list";
-   }
-   
-   @RequestMapping("/update") 
-   public String updateUser(HttpSession session, Model model) {
+   @RequestMapping(value="/update", method=RequestMethod.GET)
+   public String update(HttpSession session, Model model){
 	   model.addAttribute("user", session.getAttribute("user"));
 	   return "user/update";
    }
    
    @RequestMapping(value="/update", method=RequestMethod.POST)
-   public String updateUserPost(@ModelAttribute("user") User user, HttpSession session, Model model) {
+   public String updateUserPost(@ModelAttribute("user") User user, BindingResult bindingResult, HttpSession session, Model model) {
+	   User userSession = (User)session.getAttribute("user");
+	   if (userSession == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "user/profile.html");
+          return "login";
+       }	
+	   UpdateValidator updateValidator = new UpdateValidator(); 
+	   	updateValidator.validate(user, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return "user/update";
+		}
+		PopUpMessage message = new PopUpMessage();
 	   try{
 		   BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
 		   user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
@@ -81,11 +104,19 @@ public class UserController {
 		   } else {
 			   userDao.updateAdministrator(user);
 		   }
-	   } catch(Exception e){
-		   ;
+	   }catch(Exception e){
+		   message.setTitle("Error");
+		   message.setMessage("No se ha podido actualizar tu perfil. Prueba en otro momento.");
+		   model.addAttribute("message", message);
+		   session.setAttribute("user", user);
+		   return "redirect:../user/profile.html";
 	   }
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu perfil se ha actualizado correctamente.");
+	   model.addAttribute("message", message);
 	   session.setAttribute("user", user);
-	   return "user/profile";
+	   System.out.println(message);
+	   return "redirect:../user/profile.html";
    }
    
    @RequestMapping("/delete") 
@@ -96,24 +127,98 @@ public class UserController {
    @RequestMapping(value="/delete", method=RequestMethod.POST) 
    public String confirmDeleteUser(HttpSession session, Model model) {
 	   User user = (User)session.getAttribute("user");
+	   if (user == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "user/profile.html");
+          return "login";
+       }
 	   user.setIsActive(false);
 	   credentialsDao.updateCredentials(user);
 	   session.invalidate();
 	   return "redirect:../index.jsp";
    }
    
+   @RequestMapping("/administratordeletes/{username}") 
+   public String administratorDeleteUser(HttpSession session, Model model, @PathVariable String username) {
+	   User userSession = (User)session.getAttribute("user");
+	   if (userSession == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "credentials/list.html");
+          return "login";
+       }
+	   else if(!userSession.getRole().equals("Administrator")){
+		   return "redirect:../profile.html";
+	   }
+	   Credentials user = credentialsDao.getCredentials(username);
+	   user.setIsActive(false);
+	   try{
+		   userDao.administratorUpdateCredentials(user);
+	   }catch(Exception e){;}
+	   return "redirect:../../credentials/list.html";
+   }
+   
+   @RequestMapping("/administratoractivates/{username}") 
+   public String administratorActivateUser(HttpSession session, Model model, @PathVariable String username) {
+	   User userSession = (User)session.getAttribute("user");
+	   if (userSession == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "credentials/list.html");
+          return "login";
+       }
+	   else if(!userSession.getRole().equals("Administrator")){
+		   return "redirect:../profile.html";
+	   }
+	   Credentials user = credentialsDao.getCredentials(username);
+	   user.setIsActive(true);
+	   try{
+		   userDao.administratorUpdateCredentials(user);
+	   }catch(Exception e){;}
+	   return "redirect:../../credentials/list.html";
+   }
+   
    @RequestMapping("/profile") 
    public String getProfileInfo(HttpSession session, Model model) {
-	   if (session.getAttribute("user") == null) 
+	   User user = (User)session.getAttribute("user");
+	   if (user == null) 
        { 
           model.addAttribute("user", new User()); 
           session.setAttribute("nextURL", "user/profile.html");
           return "login";
        }
-	   User user = (User)session.getAttribute("user");	
 	   model.addAttribute("user", user);
+	   List<Reservation> uncheckedReservations = reservationDao.getReservations();
+	   Date today = new java.sql.Date(new java.util.Date().getTime());
+	   Date applicationTimestamp;
+	   String application[];
+	   for(Reservation r: uncheckedReservations){
+		   if(r.getConfirmationTimestamp()==null){
+			   application = r.getApplicationTimestamp().split("-");
+			   applicationTimestamp = new java.sql.Date(Integer.parseInt(application[0])-1900,Integer.parseInt(application[1])-1,Integer.parseInt(application[2]));
+			   if(((today.getTime()-applicationTimestamp.getTime())/MILLSECS_PER_DAY)>7){
+				   try{
+					   r.setConfirmationTimestamp(new java.sql.Date(new java.util.Date().getTime()).toString());
+					   reservationDao.reject(r);
+				   }catch(Exception e){;}
+			   }
+		   }
+	   }
+	   
 	   if(user.getRole().equals("Owner")){
-		   model.addAttribute("propertiesOwner", propertyDao.getPropertyOwner(user.getUsername()));
+		   List<Reservation> reservations = reservationDao.getReservations();
+		   List<Reservation> reservationsOwner = new LinkedList<Reservation>();
+		   List<Property> propertiesOwner = propertyDao.getPropertyOwner(user.getUsername());
+		   List<Integer> propertiesIds = propertyDao.getIdsPropertyOwner((user.getUsername()));
+		   for(Reservation r: reservations){
+			   if(propertiesIds.contains(r.getIdProperty())){
+				   r.setPropertyTitle(propertyDao.getProperty(r.getIdProperty()).getTitle());
+				   reservationsOwner.add(r);
+			   }
+		   }
+		   model.addAttribute("propertiesOwner", propertiesOwner);
+		   model.addAttribute("reservations", reservationsOwner);
 	   }
 	   else if(user.getRole().equals("Tenant")){
 		   List<Reservation> reservations = reservationDao.getReservationsTenant(user.getUsername());

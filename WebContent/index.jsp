@@ -152,9 +152,12 @@
 	<div class="col-md-2 col-md-offset-1" style="margin-top:3%">
 		<h4 style="color:#fff">Más de <br><br> X usuarios</h4>
 	</div>
+	</div>
 </div>
+	
 
 <script>
+
 var hoy = new Date();
 $('#datePickerInit').datepicker({
 	autoclose : true,
@@ -225,6 +228,7 @@ $('#datePickerInit').on('changeDate', function(e) {
 		document.body.appendChild(formu);
 		formu.submit();
 	}
+	
 </script>
 <datalist id="municipios">
 		<option value="AIN">

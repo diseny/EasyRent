@@ -13,7 +13,6 @@
 				<div class="col-lg-3 col-sm-6">
 		            <div class="card hovercard" style="background-color:#ccffff">
 		                <div class="cardheader">
-		
 		                </div>
 		                <div class="avatar">
 		                    <img alt="" src="${pageContext.request.contextPath}/images/user.png">
@@ -35,6 +34,7 @@
 		            </div>
 		        </div>
 		        <div class="col-lg-9 col-sm-6">
+		        	<h3 style="color:#00BFFF;">Mis propiedades</h3>
 					<div class="row">
 						<div class="table-responsive" style="height:370px;overflow:auto;">
 						<table class="table table-striped navProperty" style="text-align:center;">
@@ -56,6 +56,57 @@
 									<td>${propertyOwner.city}</td>
 									<td>${propertyOwner.dailyPrice}</td>
 									<td><a href="${pageContext.request.contextPath}/property/info/${propertyOwner.id}.html" class="btn btn-info">Ir a la propiedad</a>
+								</tr>
+							</c:forEach> 
+						</table>
+						</div>
+					</div>
+		        </div>
+		        <div class="col-lg-12 col-sm-6">
+		        	<h3 style="color:#00BFFF;">Reservas de mis propiedades</h3>
+		        	<div class="row">
+						<div class="table-responsive" style="height:370px;overflow:auto;">
+						<table class="table table-striped navProperty" style="text-align:center;">
+		        			<tr> 
+								<th>#</th>
+								<th>Propiedad</th>
+								<th>Cliente</th>
+								<th>Fecha de inicio</th>
+								<th>Fecha de final</th>
+								<th>Cantidad total</th>
+								<th>Estado</th>
+								<th></th>
+								<th></th>
+							</tr>
+							<c:forEach items="${reservations}" var="reservation" varStatus="loop">
+								<tr class="fons">
+									<td>${loop.index + 1}</td>
+									<td>${reservation.propertyTitle}</td>
+									<td>${reservation.userNameTenant}</td>
+									<td>${reservation.startDate}</td>
+									<td>${reservation.finishDate}</td>
+									<td>${reservation.totalAmount}</td>
+									<td>${reservation.status}</td>
+									<c:choose>
+										<c:when test='${reservation.status == "pending"}'>
+											<td><a href="${pageContext.request.contextPath}/reservation/accept/${reservation.trackingNumber}.html" class="btn btn-info">Aceptar</a></td>
+											<td><a href="${pageContext.request.contextPath}/reservation/reject/${reservation.trackingNumber}.html" class="btn btn-danger">Rechazar</a></td>
+										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test='${reservation.status == "accepted"}'>
+													<td></td>
+													<td><a href="${pageContext.request.contextPath}/invoice/info/${reservation.trackingNumber}.html" class="btn btn-info">Ver factura</a></td>
+												</c:when>
+												<c:otherwise>
+													<td></td>
+													<td></td>
+												</c:otherwise>
+											</c:choose>
+											<td></td>
+											<td></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:forEach> 
 						</table>
@@ -105,23 +156,37 @@
 								<th>Fin</th>
 								<th>Precio total</th>
 								<th>Estado</th>
-								<th></th>
+								<th>${message.title}</th>
 							</tr>
 							<c:forEach items="${reservations}" var="res" varStatus="loop">
-								<tr class="fons">
-									<td>${loop.index + 1}</td>
-									<c:choose>
-									<c:when test="${user.role == 'Administrator'}">
-										<td>${res.userNameTenant}</td>
+								<c:choose>
+									<c:when test="${res.status == 'rejected'}">
+										<tr class="danger">
 									</c:when>
-									</c:choose>
-									<td>${res.ownerUsername}</td>
-									<td>${res.propertyTitle}</td>
-									<td>${res.startDate}</td>
-									<td>${res.finishDate}</td>
-									<td>${res.totalAmount}</td>
-									<td>${res.status}</td>
-									<td><a href="info/${res.trackingNumber}.html" class="btn btn-info">Ver más</a>
+									<c:otherwise>
+										<tr class="fons">
+									</c:otherwise>
+								</c:choose>
+								<td>${loop.index + 1}</td>
+								<c:choose>
+								<c:when test="${user.role == 'Administrator'}">
+									<td>${res.userNameTenant}</td>
+								</c:when>
+								</c:choose>
+								<td>${res.ownerUsername}</td>
+								<td>${res.propertyTitle}</td>
+								<td>${res.startDate}</td>
+								<td>${res.finishDate}</td>
+								<td>${res.totalAmount}</td>
+								<td>${res.status}</td>
+								<c:choose>
+									<c:when test="${res.status == 'accepted'}">
+										<td><a href="${pageContext.request.contextPath}/invoice/info/${res.trackingNumber}.html" class="btn btn-info">Ver factura</a></td>
+									</c:when>
+									<c:otherwise>
+										<td></td>
+									</c:otherwise>
+								</c:choose>
 								</tr>
 							</c:forEach> 
 						</table>
@@ -133,5 +198,31 @@
 			
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" role="dialog">
+  	  <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">${message.title}</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>${message.message}</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	 </div>
+	
 </jsp:body>
 </t:paginabasica>
+
+<script>
+	var message = '${message.message}';
+	if (message==''){
+		$('#myModal').modal('show');
+		console.log(message);
+	}
+</script>

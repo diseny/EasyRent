@@ -8,6 +8,8 @@ public class Invoice {
 	private int invoiceNumber;
 	private String invoiceDate;
 	private double vat;
+	private double vatIncrease;
+	private double total;
 
 	public int getTrackingNumber() { 
 		return trackingNumber; 
@@ -39,6 +41,22 @@ public class Invoice {
 	
 	public void setVat(double vat) { 
 		this.vat = vat; 
+	}
+	
+	public double getVatIncrease() { 
+		return vatIncrease; 
+	}
+	
+	public void setVatIncrease(double vatIncrease) { 
+		this.vatIncrease = vatIncrease; 
+	}
+	
+	public double getTotal() { 
+		return total; 
+	}
+	
+	public void setTotal(double total) { 
+		this.total = total; 
 	}
 	
 	@Override
