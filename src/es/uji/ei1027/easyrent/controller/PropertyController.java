@@ -22,7 +22,7 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
-
+import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
 
 import es.uji.ei1027.easyrent.domain.Period;
@@ -56,6 +56,8 @@ public class PropertyController {
 	@Autowired
 	private ServicePropertyDao servicePropertyDao;
 	
+	@Autowired 
+	private ServicesPropertyDao servicesPropertyDao;
 	
 	@Autowired
 	private PunctuationDao punctuationDao;
@@ -115,14 +117,12 @@ public class PropertyController {
 	}
    @RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addProperty(@ModelAttribute("property") Property property,@ModelAttribute("addproperty") AddProperty addproperty, BindingResult bindingResult, Model model) {
-	 PropertyValidator propertyValidator = new PropertyValidator();
+	
 		int numProp= propertyDao.getProperties().size();
 		model.addAttribute("numProp", numProp);
-		propertyValidator.validate(property, bindingResult);
-		if (bindingResult.hasErrors())
-			return "property/add";
 		try {
 			propertyDao.addProperty(property);
+		
 			servicesPropertyDao.addServicesProperty(addproperty);
 			periodDao.addPeriod(addproperty);
 		} catch (Exception e) {
