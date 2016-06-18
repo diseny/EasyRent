@@ -22,11 +22,14 @@ import es.uji.ei1027.easyrent.dao.PunctuationDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
+import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
+import es.uji.ei1027.easyrent.domain.AddPeriod;
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
+import es.uji.ei1027.easyrent.domain.AddProperty;
 import es.uji.ei1027.easyrent.domain.User;
 import es.uji.ei1027.easyrent.domain.UserSession;
 
@@ -52,6 +55,9 @@ public class PropertyController {
 	
 	@Autowired
 	private ServicePropertyDao servicePropertyDao;
+	
+	@Autowired
+	private ServicesPropertyDao servicesPropertyDao;
 	
 	@Autowired
 	private PunctuationDao punctuationDao;
@@ -97,15 +103,18 @@ public class PropertyController {
    @RequestMapping(value="/add") 
 	public String addProperty(Model model) {
 	   	Property prop = new Property();
+	  	AddProperty addproperty= new AddProperty();
+		List<Service> allServices = serviceDao.getServices();
 		int numProp= propertyDao.getProperties().size();
+		model.addAttribute("addProperty" ,addproperty);
 		model.addAttribute("property",prop);
 		model.addAttribute("numProp", numProp);
-		
+		model.addAttribute("allServices", allServices);
 		return "property/add";
 	}
    @RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addProperty(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model) {
-	   PropertyValidator propertyValidator = new PropertyValidator();
+	public String addProperty(@ModelAttribute("property") Property property,@ModelAttribute("addproperty") AddProperty addproperty, BindingResult bindingResult, Model model) {
+	 PropertyValidator propertyValidator = new PropertyValidator();
 		int numProp= propertyDao.getProperties().size();
 		model.addAttribute("numProp", numProp);
 		propertyValidator.validate(property, bindingResult);
@@ -113,18 +122,11 @@ public class PropertyController {
 			return "property/add";
 		try {
 			propertyDao.addProperty(property);
+			servicesPropertyDao.addServicesProperty(addproperty);
+			periodDao.addPeriod(addproperty);
 		} catch (Exception e) {
 			if(e.getMessage()==null){
-				return "redirect:list.html";
-			}
-			else{
-				if(e.getMessage().contains("already exists")){
-					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que ya hay una propiedad con el username indicado.");
-				} else if(e.getMessage().contains("not present")){
-					bindingResult.rejectValue("ownerUsername", "obligatori", "Parece que el username no est� registrado.");
-				} 
-				
-				return "property/add";
+				return "redirect:add.html";
 			}
 		}
 		return "redirect:list.html";

@@ -115,10 +115,11 @@
 		<h4>Selecciona servicios:</h4>
 		<c:forEach items="${allServices}" var="service" varStatus="loopServices">
 			<div class="selecter col-md-4">
-			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')"><label >  ${service.name}</label> 
+			<input type="checkbox" name="${service.name}" id="${service.name}" onclick="actualizaPorServicios('${service.name}')">
+			<label >  ${service.name}</label> 
 			</div>
 		</c:forEach>
-		<b r>
+		<br>
 			
 			
 		</div>
