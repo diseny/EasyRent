@@ -80,7 +80,7 @@ public class CheckinController {
 			bindingResult.rejectValue("username", "registered", "El username ya está registrado, por favor pruebe con otro.");
 			return "user/checkin";
 		}
-		return "redirect:/index.jsp";
+		return "user/profile";
 	}
 	
 }

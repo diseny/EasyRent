@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<c:set var="message" scope="request" value='${session.getAttribute("message")}'/>
 
 <t:paginabasica title="Lista de credenciales">
 <jsp:body>
@@ -46,5 +47,31 @@
 			</tr>
 		</c:forEach> 
 	</table>
+	
+	<div class="modal fade" id="myModal" role="dialog">
+  	  <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">${message.title}</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>${message.message}</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	 </div>
+	
 </jsp:body>
 </t:paginabasica>
+
+<script>
+	var message = '${message.message}';
+	if (message!=''){
+		$('#myModal').modal('show');
+		console.log(message);
+	}
+</script>

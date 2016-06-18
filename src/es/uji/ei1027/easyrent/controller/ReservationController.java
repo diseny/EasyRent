@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import es.uji.ei1027.easyrent.dao.InvoiceDao;
 import es.uji.ei1027.easyrent.dao.ReservationDao;
 import es.uji.ei1027.easyrent.domain.Invoice;
+import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.User;
 
@@ -58,6 +59,10 @@ public class ReservationController {
 			invoiceDao.addInvoice(invoice);
 		}catch(Exception e){
 		}
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("Has aceptado la reserva del usuario " + user.getUsername() + " .");
+	    session.setAttribute("message", message);
 		return "redirect:../../user/profile.html";
 	 }
 	
@@ -79,6 +84,10 @@ public class ReservationController {
 			reservationDao.reject(reservation);
 		}catch(Exception e){
 		}
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("Has rechazado la reserva del usuario " + user.getUsername() + " .");
+	    session.setAttribute("message", message);
 		return "redirect:../../user/profile.html";
 	 }
 
