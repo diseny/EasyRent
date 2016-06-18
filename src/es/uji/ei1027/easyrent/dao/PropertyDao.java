@@ -104,11 +104,11 @@ public class PropertyDao {
 	}
 	
 	public void addProperty(Property property) throws PSQLException{
-		this.jdbcTemplate.update("INSERT INTO Property(id, owner_username, title, description, capacity, num_rooms, num_bathrooms, num_beds, square_meters, street, number, floor, city, daily_price, is_active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", property.getId(), property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.isActive());
+		this.jdbcTemplate.update("INSERT INTO Property(id, owner_username, title, description, capacity, num_rooms, num_bathrooms, num_beds, square_meters, street, number, floor, city, daily_price, is_active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", property.getId(), property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive());
 	}
 		
 	public void updateProperty(Property property) {
-		this.jdbcTemplate.update("UPDATE Property SET owner_username = ?, title = ?, description = ?, capacity = ?, num_rooms = ?, num_bathrooms = ?, num_beds = ?, square_meters = ?, street = ?, number = ?, floor = ?, city = ?, daily_price = ?, is_active = ? WHERE id = ?;", property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.isActive(), property.getId());
+		this.jdbcTemplate.update("UPDATE Property SET owner_username = ?, title = ?, description = ?, capacity = ?, num_rooms = ?, num_bathrooms = ?, num_beds = ?, square_meters = ?, street = ?, number = ?, floor = ?, city = ?, daily_price = ?, is_active = ? WHERE id = ?;", property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive(), property.getId());
 	}
 		
 	public void deleteProperty(Property property) {

@@ -133,7 +133,7 @@ public class Property {
 		this.dailyPrice = dailyPrice;
 	}
 
-	public boolean isActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 	
