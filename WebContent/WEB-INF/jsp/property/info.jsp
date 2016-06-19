@@ -11,12 +11,12 @@
 				<c:forEach items="${images}" var="image" varStatus="loopImages">	
 					<c:if test="${property.id == image.ID}" >
 						<c:if test="${i!=0}">
-							<div class="item" style=" background-image: url('${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">	
+							<div class="item" style=" background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">	
 								<img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
 							</div>
 						</c:if>
 						<c:if test="${i==0}">
-							<div class="item active slider" style="background-image: url('${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">
+							<div class="item active slider" style="background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}');height:100%;;background-size: 50%;background-position: 50%; background-repeat: no-repeat;">
 							<img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
 							</div>
 						<c:set var="i" value="${1}"></c:set>
