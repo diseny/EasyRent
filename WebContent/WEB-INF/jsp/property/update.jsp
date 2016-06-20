@@ -1,91 +1,128 @@
-<%@page contentType="text/html; charset=iso-8859-1"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<title>EasyRent - Actualizar propiedad</title>
-</head>
-<body>
-	<h2>${property.id}</h2>
-	<form:form method="post" modelAttribute="property">
-		<table>
-			<tr>
-				<td><form:input path="id" type="hidden" /></td>
-			</tr>
-			<tr>
-				<td><form:input path="ownerUsername" type="hidden" /></td>
-			</tr>
-			<tr>
-				<td><form:label path="title">Título</form:label></td>
-				<td><form:input type="title" path="title" /></td>
-				<td><form:errors path="title"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="description">Description</form:label></td>
-				<td><form:input type="description" path="description" /></td>
-				<td><form:errors path="description"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="capacity">Capacidad</form:label></td>
-				<td><form:input type="capacity" path="capacity" /></td>
-				<td><form:errors path="capacity"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="numRooms">Habitaciones</form:label></td>
-				<td><form:input type="numRooms" path="numRooms" /></td>
-				<td><form:errors path="numRooms"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="numBathrooms">Baños</form:label></td>
-				<td><form:input type="numBathrooms" path="numBathrooms" /></td>
-				<td><form:errors path="numBathrooms"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="numBeds">Camas</form:label></td>
-				<td><form:input type="numBeds" path="numBeds" /></td>
-				<td><form:errors path="numBeds"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="squareMeters">Metros cuadrados</form:label></td>
-				<td><form:input type="squareMeters" path="squareMeters" /></td>
-				<td><form:errors path="squareMeters"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="street">Calle</form:label></td>
-				<td><form:input type="street" path="street" /></td>
-				<td><form:errors path="street"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="number">Número</form:label></td>
-				<td><form:input type="number" path="number" /></td>
-				<td><form:errors path="number"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="floor">Piso</form:label></td>
-				<td><form:input type="floor" path="floor" /></td>
-				<td><form:errors path="floor"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="city">Ciudad</form:label></td>
-				<td><form:input type="city" path="city" /></td>
-				<td><form:errors path="city"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="dailyPrice">Precio/día</form:label></td>
-				<td><form:input type="dailyPrice" path="dailyPrice" /></td>
-				<td><form:errors path="dailyPrice"/></td>
-			</tr>
-			<tr>
-				<td><form:label path="isActive">Está activa</form:label></td>
-				<td><form:checkbox path="isActive" value="isActive" /></td>
-				<td><form:errors path="isActive"/></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="Modifica propiedad" />
-				</td>
-			</tr>
-		</table>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib  uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<c:set var="user" scope="request" value='${session.getAttribute("user")}'/>
+
+<t:paginabasica title="Modificar">
+<jsp:body>
+	<br><br><br>
+	
+	<div class="row">
+	<div class="col-md-12" >
+		<div class="col-md-10 col-md-offset-1">
+		<h1>Modificar Propiedad</h1>
+		<hr>
+	</div>
+			
+	<form:form method="post" modelAttribute="property" id="basic" enctype="multipart/form-data" action="${pageContext.request.contextPath}/property/update/${property.id}.html">
+
+	<div class="col-md-12" style="min-height:230px;">
+		<div class="col-md-10 col-md-offset-1">
+		
+		<h4><li>Detalles bÃ¡sicos</li></h4>
+		<form:input type="hidden" path="id"/>
+		<form:input type="hidden" path="ownerUsername"/>
+		<form:input type="hidden" path="capacity"/>
+		<form:input type="hidden" path="numRooms"/>
+		<form:input type="hidden" path="numBathrooms"/>
+		<form:input type="hidden" path="squareMeters"/>
+		<form:input type="hidden" path="city"/>
+		<form:input type="hidden" path="street"/>
+		<form:input type="hidden" path="number"/>
+		<form:input type="hidden" path="floor"/>
+		<form:input type="hidden" path="isActive"/>
+		
+		<div class="col-md-12">
+			<div class="col-md-6" style="margin-bottom:10px;padding-right: 30px">
+				<form:label path="title">TÃ­tulo</form:label>
+				<form:input class="form-control" type="text" path="title"  placeholder="TÃ­tulo" required="required"/>
+				<form:errors cssClass="error" path="title"/>
+			</div>
+			<div class="col-md-12" style="padding:0">
+				<div class="col-md-12" style="padding-left:0" >
+					<form:label path="numBeds">Camas</form:label>
+				</div>
+				<div class="col-md-6"  style="margin-bottom:10px;padding-left:0">
+					<form:input min="1" class="form-control" type="number" path="numBeds" />
+				</div>
+				<form:errors cssClass="error" path="numBeds"/>
+			</div>
+			<div class="col-md-6" style="padding:0">
+				<div class="col-md-12" style="padding-left:0" >
+					<form:label path="dailyPrice">Precio/dÃ­a</form:label>
+				</div>
+				<div class="col-md-12"  style="margin-bottom:10px;padding-left:0">
+					<form:input min="1" type="number"  class="form-control" path="dailyPrice" />
+				</div>
+				<form:errors cssClass="error" path="dailyPrice"/>
+			</div>
+		</div>
+			<div class="col-md-6" style="margin-bottom:10px;padding-right: 30px">
+				<form:label path="description">Description</form:label>
+				<form:textarea class="form-control"  type="text" path="description" maxlength="300" autocomplete="true" placeholder="DescripciÃ³n(mÃ¡x. 300 carÃ¡cteres)" style="min-height:100px;max-width:100%" required="required"></form:textarea>
+				<form:errors cssClass="error" path="description"/>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+		<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 255, 253, 0.048039);">
+			<div class="col-md-10 col-md-offset-1">
+			<h4><li>Servicios</li></h4>
+			<c:forEach items="${allServices}" var="servicios" varStatus="loopServicios">
+				
+					<div class=" serviciosInfo col-md-4" id="select-${loopServicios.index}">
+						<input type="checkbox" name="${servicios.name}" id="${servicios.ID}" >
+						<label >  ${servicios.name}</label> 
+					</div>
+				
+			</c:forEach>
+			</div>
+		</div> 
+	
+	<form:input type="hidden"  path="piscina" id="prop0"/>
+		<form:input type="hidden"  path="jacuzzi" id="prop1"  />
+		<form:input type="hidden"  path="gimnasio"  id="prop2" />
+		<form:input type="hidden"  path="balcon" id="prop3" />
+		<form:input type="hidden"  path="parque" id="prop4" />
+		<form:input type="hidden"  path="jardin"  id="prop5" />
+		<form:input type="hidden"  path="wifi" id="prop6" />
+		<form:input type="hidden"  path="television"  id="prop7" />
+		<form:input type="hidden"  path="cocina" id="prop8"  />
+	
+		<div class="col-md-12" style="text-align:center" >
+			<input onclick="submitForm()" class="btn btn-success" value="Modifica datos bÃ¡sicos" />
+			<a href="${pageContext.request.contextPath}/property/periods/${property.id}.html" class="btn btn-warning">Administrar perÃ­odos</a>
+			<a href="${pageContext.request.contextPath}/property/photosAdmin/${property.id}.html" class="btn btn-warning">Administrar fotos</a>
+		</div>
 	</form:form>
-</body>
-</html>
+	
+</jsp:body>
+</t:paginabasica>
+
+<script>
+	
+	 function submitForm (){
+	  for(var i =0; i<9;i++){
+			 var id= '#select-'.concat(i).concat(' .icheckbox_flat');
+			if($(id).hasClass('checked')){
+				var inputID= "#prop".concat(i);
+				$(inputID).val(1);
+			}if(!$(id).hasClass('checked')){
+				var inputID= "#prop".concat(i);
+				$(inputID).val(0);
+			}
+		}
+	  $('#basic').submit();
+	}
+	
+	$("select").dropdown();
+	  $('input').iCheck({
+	    checkboxClass: 'icheckbox_flat',
+	    radioClass: 'iradio_flat'
+	  });
+
+  </script>

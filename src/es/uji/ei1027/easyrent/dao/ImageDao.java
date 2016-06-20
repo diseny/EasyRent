@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import es.uji.ei1027.easyrent.domain.AddProperty;
+import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Image;
 
 @Repository
@@ -40,9 +40,18 @@ public class ImageDao {
 		 return this.jdbcTemplate.query("SELECT * FROM Image;", new ImageMapper());
 	}
 	
-	public void addImage(AddProperty property) throws PSQLException{
-		this.jdbcTemplate.update("INSERT INTO image(id, caption, href) VALUES(?, ?, ?);", 1, property.getCaption(),property.getHref());
-		
+	public List<Image> getImagesProperty(int id) {
+		String query = "SELECT * FROM Image WHERE id=" + id + ";"; 
+		return this.jdbcTemplate.query(query, new ImageMapper());
+	}
+	
+	public void addImage(Property property) throws PSQLException{
+		this.jdbcTemplate.update("INSERT INTO image(id, caption, href) VALUES(?, ?, ?);", property.getId(), property.getCaption(),property.getHref());
+	}
+	
+	public void deleteImage(int propertyId, String caption){
+		String query = "DELETE FROM Image WHERE id=" + propertyId + " AND caption='" + caption + "';";
+		this.jdbcTemplate.update(query);
 	}
 	
 }

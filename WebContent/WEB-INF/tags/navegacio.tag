@@ -10,57 +10,58 @@
 <div class="col-md-11">
 <!--  comentario de prueba -->
 <nav class="navbar navbar-default navbar-custom" role="navigation">
-                  <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                     
-                    </div>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                      <ul class="nav navbar-nav navbar-right">
-                      	<li> <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                      
-                       
-            			<li><a href="${pageContext.request.contextPath}/property/list.html">Últimas propiedades</a></li>
-                     
-                      <c:choose>
-							<c:when test='${user.role == "Administrator"}'>
-							<li><a href="${pageContext.request.contextPath}/credentials/list.html">Gestión de credentials</a></li>
-	                      </c:when>
-	                  </c:choose>
-                  		<c:choose>
-							<c:when test='${user == null}'>
-		               			 <button class="btn btn-primary register" onclick="showRegister()">Iniciar sesión</button>
-                      		</c:when>
-                      		<c:otherwise>
-                      		<li>
-                      		<a style="" href="${pageContext.request.contextPath}/logout.html">Cerrar sesión</a> 
-                      		</li>
-                      			<li >
-                      				<a id="nav-profile" href="${pageContext.request.contextPath}/user/profile.html">
-                      				<img src="${pageContext.request.contextPath}/images/user.png"><br><p>${user.username}</p></a>
-                      				
-	                      		</li>
-	                      	</c:otherwise>
-                      	</c:choose>
-                      </ul>
-              	    	<div >
-                	  </div>
-                    
-                  </div><!-- /.container-fluid -->
-                </nav>
-                <div >
-               
-                </div>
+	<div class="container-fluid">
+	 	 <div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+	    	</button>
+		</div>
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <ul class="nav navbar-nav navbar-right">
+	    	<li> <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
+	        
+	<li><a href="${pageContext.request.contextPath}/property/list.html">Últimas propiedades</a></li>
+	   
+	<c:choose>
+		<c:when test='${user.role == "Administrator"}'>
+			<li><a href="${pageContext.request.contextPath}/credentials/list.html">Gestión de credentials</a></li>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test='${user.role == "Owner"}'>
+			<li><a href="${pageContext.request.contextPath}/property/add.html">Añadir propiedad</a></li>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test='${user == null}'>
+			<button class="btn btn-primary register" onclick="showRegister()">Iniciar sesión</button>
+		</c:when>
+   		<c:otherwise>
+    		<li>
+    			<a style="" href="${pageContext.request.contextPath}/logout.html">Cerrar sesión</a> 
+    		</li>
+    		<li>
+   				<a id="nav-profile" href="${pageContext.request.contextPath}/user/profile.html">
+   				<img src="${pageContext.request.contextPath}/images/user.png"><br><p>${user.username}</p></a>
+     		</li>
+     	</c:otherwise>
+	</c:choose>
+	
+	    </ul>
+	 	<div >
+	 </div>
+	  
+	</div>
+	</nav>
+	<div >
+	
+	</div>
+	</div>
+</div>
 
-</div>
-</div>
 <div class="registerPop">
 	<div class="registerForm">
 		<img src="${pageContext.request.contextPath}/images/closeIcon.png" onclick="closeRegister()">

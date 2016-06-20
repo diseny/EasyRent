@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="carousel-imagenes">
 	<!-- Vamos a hacer un slider de prueba , pero tiene que coger las imagenes de la base de datos -->
@@ -177,10 +178,16 @@
 		<li><h6>Tamaño: ${property.squareMeters} m<sup>2</sup></h6></li></ul>
 		
 	</div>
-
-	<div class="col-md-4 fotosInfo" style="height:300px ;width:400px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-		<h1>FOTOS</h1>
-	</div>
+	<c:choose>
+		<c:when test='${fn:length(images) == 0}'>
+			Esta propiedad no tiene fotos.
+		</c:when>
+		<c:otherwise>
+			<div class="col-md-4 fotosInfo" style="height:300px ;width:400px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
+				<h1>FOTOS</h1>
+			</div>
+		</c:otherwise>
+	</c:choose>
 	</div>
 	<div class="col-md-12" style="min-height:250px;background-color:rgba(0, 255, 253, 0.048039);">
 		<div class="col-md-11 col-md-offset-1">

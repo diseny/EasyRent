@@ -47,6 +47,8 @@
 								<th>Ciudad</th>
 								<th>Precio(<img src="${pageContext.request.contextPath}/images/euro.png" style="width:10px;height:10px;">/día)</th>
 								<th></th>
+								<th></th>
+								<th></th>
 							</tr>
 							<c:forEach items="${propertiesOwner}" var="propertyOwner" varStatus="loop">
 								<tr class="fons">
@@ -56,7 +58,17 @@
 									<td>${propertyOwner.street}</td>
 									<td>${propertyOwner.city}</td>
 									<td>${propertyOwner.dailyPrice}</td>
-									<td><a href="${pageContext.request.contextPath}/property/info/${propertyOwner.id}.html" class="btn btn-info">Ir a la propiedad</a>
+									<td><a href="${pageContext.request.contextPath}/property/info/${propertyOwner.id}.html" class="btn btn-info">Info</a>
+									<c:choose>
+										<c:when test='${propertyOwner.isActive == "true"}'>
+											<td><a href="${pageContext.request.contextPath}/property/update/${propertyOwner.id}.html" class="btn btn-info">Modificar</a></td>
+											<td><a href="${pageContext.request.contextPath}/property/delete/${propertyOwner.id}.html" class="btn btn-danger">Desactivar</a></td>
+										</c:when>
+										<c:otherwise>
+											<td></td>
+											<td><a href="${pageContext.request.contextPath}/property/activate/${propertyOwner.id}.html" class="btn btn-info">Reactivar</a></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:forEach> 
 						</table>
