@@ -6,8 +6,8 @@ public class Period {
 
 	private int propertyId;
 	private int periodId;
-	private Date start;
-	private Date finish;
+	private String start;
+	private String finish;
 	
 	public int getPropertyId(){
 		return propertyId;
@@ -25,19 +25,19 @@ public class Period {
 		this.periodId = periodId;
 	}
 
-	public Date getStart(){
+	public String getStart(){
 		return start;
 	}
 
-	public void setStart(Date start){
+	public void setStart(String start){
 		this.start = start;
 	}
 	
-	public Date getFinish(){
+	public String getFinish(){
 		return finish;
 	}
 
-	public void setFinish(Date finish){
+	public void setFinish(String finish){
 		this.finish = finish;
 	}
 	

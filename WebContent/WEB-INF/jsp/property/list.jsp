@@ -220,29 +220,6 @@
    			</div>
   		</div>
    		</c:forEach>
-   		
-			<!--<tr class="fons">
-				<td>${loop.index + 1}</td>
-				<c:forEach items="${images}" var="image" varStatus="loopImages">
-					<c:if test="${property.id == image.ID}" >
-   						<td><img src="${image.href}" alt="Propiedad ${image.ID}" style="width:100px;height:100px;"></td>
-					</c:if>
-				</c:forEach>
-			<td>${property.ownerUsername}</td>
-				<td>${property.title}</td>
-				<td>${property.capacity}</td>
-				<td>${property.numRooms}</td>
-				<td>${property.numBathrooms}</td>
-				<td>${property.numBeds}</td>
-				<td>${property.squareMeters}</td>
-				<td>${property.street}</td>
-				<td>${property.city}</td>
-				<td>${property.dailyPrice}</td>
-				<td><a href="info/${property.id}.html" class="btn btn-info">Ver más</a>
-				
-			</tr>-->
-		
-	
 	</div>
 	</div>
 </div>
@@ -263,7 +240,6 @@
 		      title:"Esto es un marcador",
 		      animation: google.maps.Animation.DROP
 		  });
-
 		function initMap() {
 			 geocoder = new google.maps.Geocoder();
 			 var mapOptions = {
@@ -287,12 +263,10 @@
 					              if (status == google.maps.GeocoderStatus.OK) {
 					                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
 					                  map.setCenter(results[0].geometry.location);
-
 					                  var infowindow = new google.maps.InfoWindow({
 					                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
 					                    size: new google.maps.Size(150, 50)
 					                  });
-
 					                  var marker = new google.maps.Marker({
 					                    position: results[0].geometry.location,
 					                    map: map,
@@ -301,7 +275,6 @@
 					                  google.maps.event.addListener(marker, 'click', function() {
 					                    infowindow.open(map, marker);
 					                  });
-
 					                } else {
 					                  alert("No results found");
 					                }
@@ -314,7 +287,6 @@
 			        	  </c:forEach>
 			       
 		}
-
     </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
@@ -609,6 +581,3 @@
 		 <option value="ZUCAINA">
 		 <option value="MANCOMUNIDAD ESPADAN-MIJARES">
 		</datalist>
-		
-		
-		

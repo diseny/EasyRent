@@ -5,8 +5,7 @@
 <jsp:body>
 	<br><br><br>
 	<h2>Actualización</h2>
-	<form:form method="post" modelAttribute="user"
-		action="${pageContext.request.contextPath}/user/update.html">
+	<form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/user/update.html">
 		<div class="form-group">
 		<form:input path="username" type="hidden" />
 		<form:input path="role" type="hidden" />

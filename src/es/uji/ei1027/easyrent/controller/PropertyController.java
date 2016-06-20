@@ -1,19 +1,11 @@
 package es.uji.ei1027.easyrent.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import apple.laf.JRSUIUtils.Images;
 import es.uji.ei1027.easyrent.dao.ImageDao;
 import es.uji.ei1027.easyrent.dao.PeriodDao;
 import es.uji.ei1027.easyrent.dao.PropertyDao;
@@ -38,16 +31,54 @@ import es.uji.ei1027.easyrent.dao.ServiceDao;
 import es.uji.ei1027.easyrent.dao.ServicePropertyDao;
 import es.uji.ei1027.easyrent.dao.ServicesPropertyDao;
 import es.uji.ei1027.easyrent.dao.UserDao;
-
+import es.uji.ei1027.easyrent.domain.Image;
 import es.uji.ei1027.easyrent.domain.Period;
 import es.uji.ei1027.easyrent.domain.PopUpMessage;
 import es.uji.ei1027.easyrent.domain.Property;
 import es.uji.ei1027.easyrent.domain.Reservation;
 import es.uji.ei1027.easyrent.domain.Service;
 import es.uji.ei1027.easyrent.domain.ServiceProperty;
-import es.uji.ei1027.easyrent.domain.AddProperty;
-import es.uji.ei1027.easyrent.domain.ImageFile;
 import es.uji.ei1027.easyrent.domain.User;
+
+class PropertyValidator implements Validator { 
+
+	public boolean supports(Class<?> cls) { 
+		return Property.class.isAssignableFrom(cls);
+	}
+
+	public void validate(Object obj, Errors errors) {
+		Property property = (Property)obj;
+		if(property.getTitle().equals(""))
+			errors.rejectValue("title", "empty", "La propiedad debe tener un título.");
+		if(property.getDescription().equals(""))
+			errors.rejectValue("description", "empty", "La propiedad debe tener una descrpción.");
+		if(property.getCapacity()<1)
+			errors.rejectValue("capacity", "empty", "Mínimo 1.");
+		if(property.getNumBathrooms()<1)
+			errors.rejectValue("numBathrooms", "empty", "Mínimo 1.");
+		if(property.getNumRooms()<1)
+			errors.rejectValue("numRooms", "empty", "Mínimo 1.");
+		if(property.getNumBeds()<1)
+			errors.rejectValue("numBeds", "empty", "Mínimo 1.");
+		if(property.getSquareMeters()<15)
+			errors.rejectValue("squareMeters", "empty", "Mínimo 15.");
+		if(property.getDailyPrice()<1)
+			errors.rejectValue("dailyPrice", "empty", "Mínimo 1€/día.");
+		if(property.getCity().equals(""))
+			errors.rejectValue("city", "empty", "Debe indicar la ciudad en la que está la propiedad.");
+		if(property.getStreet().equals(""))
+			errors.rejectValue("street", "empty", "Debe indicar la calle en la que está la propiedad.");
+		if(property.getNumber()<1)
+			errors.rejectValue("number", "empty", "Debe indicar el portal.");
+		if(property.getFloor().equals(""))
+			errors.rejectValue("floor", "empty", "Debe indicar el piso.");
+		if(property.getStart().equals(""))
+			errors.rejectValue("start", "empty", "La propiedad debe tener una fecha de inicio.");
+		if(property.getFinish().equals(""))
+			errors.rejectValue("finish", "empty", "La propiedad debe tener una fecha de final.");
+	}
+
+}
 
 @Controller
 @RequestMapping("/property")
@@ -55,6 +86,7 @@ public class PropertyController {
 	
 	private List<String> filters;
 	final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
+	List<String> servicesList = new LinkedList<String>(Arrays.asList("Balcon","Piscina","Wifi","Jacuzzi","Parque","Television","Gimnasio","Jardin","Cocina"));
 	
 	@Autowired
 	private PropertyDao propertyDao;
@@ -121,55 +153,342 @@ public class PropertyController {
        this.reservationDao = reservationDao;
    }
    
-   @RequestMapping(value="/add") 
-	public String addProperty(Model model) {
-	   	Property prop = new Property();
-	  	AddProperty addproperty= new AddProperty();
-		List<Service> allServices = serviceDao.getServices();
-		int numProp= propertyDao.getProperties().size();
-		model.addAttribute("addProperty" ,addproperty);
-		model.addAttribute("property",prop);
-		model.addAttribute("numProp", numProp);
-		model.addAttribute("allServices", allServices);
-		
-	
-		return "property/add";
-	}
-   @RequestMapping(value="/add", method=RequestMethod.POST)
-	public String addProperty(@ModelAttribute("property") Property property,@ModelAttribute("addproperty") AddProperty addproperty, BindingResult bindingResult, Model model) {
-		int numProp= propertyDao.getProperties().size();
-		model.addAttribute("numProp", numProp);
-		try {			
-			CommonsMultipartFile fich=addproperty.getFichero();
-			String name= addproperty.getFichero().getOriginalFilename();
-			propertyDao.addProperty(property);
-			servicesPropertyDao.addServicesProperty(addproperty);
-			periodDao.addPeriod(addproperty);
-			addproperty.setHref(name);
-			imagenDao.addImage(addproperty);
-			File nDirectory = new File("/Users/morenomoreno_/Documents/workspace/EasyRent/WebContent/images/propiedades/"+numProp);
-			nDirectory.mkdirs();
-			FileCopyUtils.copy(fich.getBytes(), new File(nDirectory+"/"+name));
-		} catch (Exception e) {
-			if(e.getMessage()==null){
-				return "redirect:add.html";
-			}
-		}
-		return "redirect:list.html";
-	}
-
-	
    @Autowired 
    public void setUserDao(UserDao userDao) {
        this.userDao = userDao;
    }
+   
+   @RequestMapping(value="/add") 
+	public String addProperty(Model model, HttpSession session) {
+	   User user = (User)session.getAttribute("user");
+	   if (user == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "property/add.html");
+          return "login";
+       } else if(!user.getRole().equals("Owner")){
+    	   return "redirect:../user/profile.html";
+       }
+	   Property prop = new Property();
+		List<Service> allServices = serviceDao.getServices();
+		int numProp = propertyDao.getProperties().size();
+		model.addAttribute("property",prop);
+		model.addAttribute("numProp", numProp);
+		model.addAttribute("allServices", allServices);
+		Integer popUpCounter = (Integer)session.getAttribute("counter");
+	    if(popUpCounter!=null){
+		    if(popUpCounter==0){
+		 	   popUpCounter++;
+		   	   session.setAttribute("counter", popUpCounter);
+		    }
+		    else{
+			    session.removeAttribute("counter");
+			    session.removeAttribute("message");
+		    }
+	    }
+		return "property/add";
+	}
+   
+   @RequestMapping(value="/add", method=RequestMethod.POST)
+	public String addProperty(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model, HttpSession session) {
+	   User user = (User)session.getAttribute("user");
+	   if (user == null) 
+       { 
+          model.addAttribute("user", new User()); 
+          session.setAttribute("nextURL", "property/add.html");
+          return "login";
+       } else if(!user.getRole().equals("Owner")){
+    	   return "redirect:../user/profile.html";
+       } 
+	   PropertyValidator propertyValidator = new PropertyValidator(); 
+	    propertyValidator.validate(property, bindingResult);
+	    boolean hasErrors = false;
+	    boolean contained;
+	    for(ObjectError e: bindingResult.getAllErrors()){
+	    	contained = false;
+	    	for(String service: servicesList){
+	    		if(e.toString().contains(service)){
+	    			contained = true;
+	    			break;
+	    		}
+	    	}
+	    	if(!contained){
+	    		hasErrors = true;
+	    		break;
+	    	}
+	    }
+	    if (hasErrors) {
+			List<Service> allServices = serviceDao.getServices();
+			model.addAttribute("allServices", allServices);
+			return "property/add";
+		}
+	    int numProp = propertyDao.getProperties().size();
+		model.addAttribute("numProp", numProp);
+		try {	
+			CommonsMultipartFile fich = property.getFichero();
+			String name = property.getFichero().getOriginalFilename();
+			property.setIsActive(true);
+			propertyDao.addProperty(property);
+			servicesPropertyDao.addServicesProperty(property);
+			periodDao.addPeriod(property);
+			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERÍA INFORMÁTICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEÑO E IMPLEMENTACIÓN DE SISTEMAS DE INFORMACIÓN/EasyRent/WebContent/images/propiedades/"+numProp);
+			nDirectory.mkdirs();
+			if(!name.equals("")){
+				property.setHref(name);
+				imagenDao.addImage(property);
+				FileCopyUtils.copy(fich.getBytes(), new File(nDirectory+"/"+name));
+			}
+		} catch (Exception e) {
+			if(e.getMessage()==null){
+				PopUpMessage message = new PopUpMessage();
+				message.setTitle("Error");
+				message.setMessage("No se ha podido añadir la propiedad. Inténtalo más tarde.");
+				session.setAttribute("message", message);
+				session.setAttribute("counter", 0);
+				return "redirect:add.html";
+			}
+		}
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+		message.setMessage("Has añadido la propiedad con título " + property.getTitle() + ".");
+		session.setAttribute("message", message);
+		session.setAttribute("counter", 0);
+		return "redirect:../user/profile.html";
+	}
+
+   @RequestMapping(value="/activate/{id}")
+   public String activate(Model model, @PathVariable int id, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   Property property = propertyDao.getProperty(id);
+	   property.setIsActive(true);
+	   propertyDao.updateProperty(property);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu propiedad con título " + property.getTitle() + " vuelve a ser visible.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../../user/profile.html";
+   }
+   
+   @RequestMapping(value="/delete/{id}")
+   public String delete(Model model, @PathVariable int id, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   Property property = propertyDao.getProperty(id);
+	   property.setIsActive(false);
+	   propertyDao.updateProperty(property);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu propiedad con título " + property.getTitle() + " es invisible. Para volver a hacerla visible pulsa Reactivar.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../../user/profile.html";
+   }
+   
+   @RequestMapping(value="/update/{id}")
+   public String update(@PathVariable int id, Model model, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   Property property = propertyDao.getProperty(id);
+	   model.addAttribute("property", property);
+	   List<Service> allServices = serviceDao.getServices();
+	   model.addAttribute("allServices", allServices);
+	   return "property/update";
+   }
+   
+   @RequestMapping(value="/update/{id}", method=RequestMethod.POST)
+   public String updatePost(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model, @PathVariable int id, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   PropertyValidator propertyValidator = new PropertyValidator(); 
+	    propertyValidator.validate(property, bindingResult);
+	    boolean hasErrors = false;
+	    boolean contained;
+	    for(ObjectError e: bindingResult.getAllErrors()){
+	    	contained = false;
+	    	for(String service: servicesList){
+	    		if(e.toString().contains(service)){
+	    			contained = true;
+	    			break;
+	    		}
+	    	}
+	    	if(!contained){
+	    		hasErrors = true;
+	    		break;
+	    	}
+	    }
+	    if (hasErrors) {
+			List<Service> allServices = serviceDao.getServices();
+			model.addAttribute("allServices", allServices);
+			return "property/update/" + id;
+		}
+	   try{
+		   propertyDao.updateProperty(property);
+		   servicesPropertyDao.updateServicesProperty(property);
+	   }catch(Exception e){
+		   PopUpMessage message = new PopUpMessage();
+		   message.setTitle("Error");
+		   message.setMessage("Tu propiedad con título " + property.getTitle() + " no ha podido ser actualizada.");
+		   session.setAttribute("message", message);
+		   session.setAttribute("counter", 0);
+		   return "redirect:../../user/profile.html";
+	   }
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Tu propiedad con título " + property.getTitle() + " ha sido actualizada correctamente.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../../user/profile.html";
+   }
+   
+   @RequestMapping(value="/periods/{id}")
+   public String periods(Model model, @PathVariable int id, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   Property property = propertyDao.getProperty(id);
+	   model.addAttribute("property", property);
+	   model.addAttribute("periods", periodDao.getPeriods(id));
+	   Period period = new Period();
+	   period.setPropertyId(id);
+	   model.addAttribute("period", period);
+	   return "/property/periodlist";
+   }
+   
+   @RequestMapping(value="/deleteperiod/{propertyId}/{periodId}")
+   public String deletePeriod(Model model, @PathVariable int propertyId, @PathVariable int periodId, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../../user/profile.html";
+       }
+	   Period period = periodDao.getPeriod(propertyId, periodId);
+	   periodDao.deletePeriod(propertyId, periodId);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Se ha borrado el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad no se mostrará disponible para estas fechas pero la reservas que ya hay hechas no se pueden eliminar.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../../../user/profile.html";
+   }
+   
+   @RequestMapping(value="/addPeriod", method=RequestMethod.POST)
+   public String addPeriod(Model model, @ModelAttribute("period") Period period, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../user/profile.html";
+       }
+	   period.setPeriodId(periodDao.getPeriods(period.getPropertyId()).size());
+	   periodDao.addPeriod(period);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Se ha añadido el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad se mostrará disponible para estas fechas.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../user/profile.html";
+   }
+   
+   @RequestMapping(value="/photosAdmin/{id}")
+   public String photos(Model model, @PathVariable int id, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   Property property = propertyDao.getProperty(id);
+	   model.addAttribute("property", property);
+	   model.addAttribute("images", imageDao.getImagesProperty(id));
+	   Image image = new Image();
+	   image.setID(id);
+	   model.addAttribute("image", image);
+	   Integer popUpCounter = (Integer)session.getAttribute("counter");
+	   if(popUpCounter!=null){
+		   if(popUpCounter==0){
+			   popUpCounter++;
+		   	   session.setAttribute("counter", popUpCounter);
+		   }
+		   else{
+			   session.removeAttribute("counter");
+			   session.removeAttribute("message");
+		   }
+	   }
+	   return "/property/photosAdmin";
+   }
+   
+   @RequestMapping(value="/deletePhoto/{id}/{caption}")
+   public String deletePhoto(Model model, @PathVariable int id, @PathVariable String caption, HttpSession session){
+	   User user = (User)session.getAttribute("user");
+	   if (user == null || !user.getRole().equals("Owner")){ 
+          model.addAttribute("user", new User()); 
+    	  return "redirect:../../user/profile.html";
+       }
+	   imageDao.deleteImage(id, caption);
+	   Property property = propertyDao.getProperty(id);
+	   model.addAttribute("property", property);
+	   model.addAttribute("images", imageDao.getImagesProperty(id));
+	   Image image = new Image();
+	   image.setID(id);
+	   model.addAttribute("image", image);
+	   PopUpMessage message = new PopUpMessage();
+	   message.setTitle("Hecho");
+	   message.setMessage("Has eliminado la foto.");
+	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
+	   return "redirect:../../photosAdmin/" + id + ".html";
+   }
+   
+   @RequestMapping(value="/uploadPhoto")
+   public String uploadPhoto(Model model, @ModelAttribute("property") Property property, HttpSession session){
+	   try {	
+			CommonsMultipartFile fich = property.getFichero();
+			String name = property.getFichero().getOriginalFilename();
+			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERÍA INFORMÁTICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEÑO E IMPLEMENTACIÓN DE SISTEMAS DE INFORMACIÓN/EasyRent/WebContent/images/propiedades/" + property.getId());
+			nDirectory.mkdirs();
+			if(!name.equals("")){
+				property.setHref(name);
+				imagenDao.addImage(property);
+				FileCopyUtils.copy(fich.getBytes(), new File(nDirectory+"/"+name));
+			}
+		} catch (Exception e) {
+			if(e.getMessage()==null){
+				PopUpMessage message = new PopUpMessage();
+				message.setTitle("Error");
+				message.setMessage("No se ha podido añadir la imagen. Inténtalo más tarde.");
+				session.setAttribute("message", message);
+				session.setAttribute("counter", 0);
+				return "redirect:photosAdmin/" + property.getId() + ".html";
+			}
+		}
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+		message.setMessage("Has añadido la imagen de la propiedad " + property.getTitle() + ".");
+		session.setAttribute("message", message);
+		session.setAttribute("counter", 0);
+		return "redirect:photosAdmin/" + property.getId() + ".html";
+	}
    
 	@RequestMapping(value="/list")
 	public String listProperties(Model model) {
 		List<Property> properties = propertyDao.getProperties();
 		List<Property> activeProperties = new LinkedList<Property>();
 		for(Property p: properties){
-			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
+			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive() && p.getIsActive()){
 				activeProperties.add(p);
 			}
 		}
@@ -205,12 +524,17 @@ public class PropertyController {
 		List<Period> periods = periodDao.getPeriods(id);
 		if(periods.size()==0){
 			Period period = new Period();
-			period.setStart(new java.sql.Date(2015-1900,0,1));
-			period.setFinish(new java.sql.Date(new java.util.Date().getYear(),new java.util.Date().getMonth(),new java.util.Date().getDay()-1));
+			period.setStart("2015-1-1");
+			int year = new java.util.Date().getYear()+1900;
+			int month = new java.util.Date().getMonth()+1;
+			int day = new java.util.Date().getDay()-1;
+			period.setFinish(year + "-" + month + day);
 			periods.add(period);
 		}
 		List<Reservation> reservas = reservationDao.getReservationsProperty(id);
 		List<Reservation> reservasNoRechazadas = new LinkedList<Reservation>();
+		List<Image> images = imageDao.getImages();
+		List<Image> imagesProperty = new LinkedList<Image>();
 		for(Reservation r: reservas){
 			if(!r.getStatus().equals("rejected")){
 				reservasNoRechazadas.add(r);
@@ -223,12 +547,17 @@ public class PropertyController {
 				}
 			}
 		}
+		for(Image i: images){
+			if(i.getID()==id){
+				imagesProperty.add(i);
+			}
+		}
 		model.addAttribute("reservas",reservasNoRechazadas);
 		model.addAttribute("periods",periods);
 		model.addAttribute("allServices", allServices);
 		model.addAttribute("services", servicesProperties);
 		model.addAttribute("property", propertyDao.getProperty(id));
-		model.addAttribute("images", imageDao.getImages());
+		model.addAttribute("images", imagesProperty);
 		model.addAttribute("punctuations", punctuationDao.getPunctuations(id));		
 		try{
 			float average = punctuationDao.getPunctuationAverage(id);
@@ -471,7 +800,7 @@ public class PropertyController {
 	}
 	
 	private String generalList(Model model, Property property){
-		List<Property> properties = propertyDao.getProperties();
+		List<Property> properties = propertyDao.getPropertyFilter(filters);
 		List<Property> activeProperties = new LinkedList<Property>();
 		for(Property p: properties){
 			if(userDao.getCredentials(p.getOwnerUsername()).getIsActive()){
@@ -533,86 +862,5 @@ public class PropertyController {
 			filters.add("daily_price<=" + requirements.getDailyPrice());
 		filters.add("ORDER BY " + field + " " + order);
 	}
-	
-	/*@RequestMapping(value="/uploadFile")
-	public String uploadFileHandler() {
-	
-		return "property/upload";
-	}
-	
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file) {
-		
-		return "property/upload";
-		/*
-		 *
-		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()
-						+ File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				
-				return "You successfully uploaded file=" + name;
-			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
-			}
-		} else {
-			return "You failed to upload " + name
-					+ " because the file was empty.";
-		}
-	}
-
-	
-	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
-	String uploadMultipleFileHandler(@RequestParam("name") String[] names,
-			@RequestParam("file") MultipartFile[] files) {
-
-		if (files.length != names.length)
-			return "Mandatory information missing";
-
-		String message = "";
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
-			String name = names[i];
-			try {
-				byte[] bytes = file.getBytes();
-
-				// Creating the directory to store file
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()
-						+ File.separator + name);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				
-
-				message = message + "You successfully uploaded file=" + name ;
-			} catch (Exception e) {
-				return "You failed to upload " + name + " => " + e.getMessage();
-			}
-		}
-		return message;
-	}*/
 	
 }
