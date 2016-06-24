@@ -115,12 +115,14 @@ public class UserController {
 		   message.setTitle("Error");
 		   message.setMessage("No se ha podido actualizar tu perfil. Prueba en otro momento.");
 		   session.setAttribute("message", message);
+		   session.setAttribute("counter", 0);
 		   session.setAttribute("user", user);
 		   return "redirect:../user/profile.html";
 	   }
 	   message.setTitle("Hecho");
 	   message.setMessage("Tu perfil se ha actualizado correctamente.");
 	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
 	   session.setAttribute("user", user);
 	   return "redirect:profile.html";
    }
@@ -170,6 +172,7 @@ public class UserController {
 	   message.setTitle("Hecho");
 	   message.setMessage("Has desactivado la cuenta del usuario " + userSession.getUsername() + " correctamente.");
 	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
 	   return "redirect:../../credentials/list.html";
    }
    
@@ -194,6 +197,7 @@ public class UserController {
 	   message.setTitle("Hecho");
 	   message.setMessage("Has reactivado la cuenta del usuario " + userSession.getUsername() + " correctamente.");
 	   session.setAttribute("message", message);
+	   session.setAttribute("counter", 0);
 	   return "redirect:../../credentials/list.html";
    }
    

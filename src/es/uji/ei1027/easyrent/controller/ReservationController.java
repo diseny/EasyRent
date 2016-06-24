@@ -45,7 +45,7 @@ public class ReservationController {
 			session.setAttribute("nextURL", "user/profile.html");
 			return "login";
 		}
-		else if(!user.getRole().equals("Owner") || !user.getUsername().equals(reservation.getOwnerUsername())){
+		else if(!user.getRole().equals("Owner")){
 			return "redirect:../../user/profile.html";
 		}
 		try{
@@ -61,8 +61,9 @@ public class ReservationController {
 		}
 		PopUpMessage message = new PopUpMessage();
 		message.setTitle("Hecho");
-	    message.setMessage("Has aceptado la reserva del usuario " + user.getUsername() + " .");
+	    message.setMessage("Has aceptado la reserva del usuario " + reservation.getUserNameTenant() + " .");
 	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
 		return "redirect:../../user/profile.html";
 	 }
 	
@@ -76,7 +77,7 @@ public class ReservationController {
 			session.setAttribute("nextURL", "user/profile.html");
 			return "login";
 		}
-		else if(!user.getRole().equals("Owner") || !user.getUsername().equals(reservation.getOwnerUsername())){
+		else if(!user.getRole().equals("Owner")){
 			return "redirect:../../user/profile.html";
 		}
 		try{
@@ -86,8 +87,9 @@ public class ReservationController {
 		}
 		PopUpMessage message = new PopUpMessage();
 		message.setTitle("Hecho");
-	    message.setMessage("Has rechazado la reserva del usuario " + user.getUsername() + " .");
+	    message.setMessage("Has rechazado la reserva del usuario " + reservation.getUserNameTenant() + " .");
 	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
 		return "redirect:../../user/profile.html";
 	 }
 

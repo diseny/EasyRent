@@ -4,7 +4,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class AddProperty {
 
-	
 	private int propertyId;
 	private int piscina;
 	private int balcon;
@@ -18,12 +17,9 @@ public class AddProperty {
 	private int periodId;
 	private String start;
 	private String finish;
-	
 	private String caption;
 	private String href;
-
 	private CommonsMultipartFile fichero;
-	
 	
 	public CommonsMultipartFile getFichero() { 
 		return fichero; 
