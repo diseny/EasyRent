@@ -38,7 +38,7 @@
 		        	<h3 style="color:#00BFFF;">Mis propiedades</h3>
 					<div class="row">
 						<div class="table-responsive" style="height:370px;overflow:auto;">
-						<table class="table table-striped navProperty" style="text-align:center;">
+						<table class="table navProperty" style="text-align:center;">
 		        			<tr> 
 								<th>#</th>
 								<th>Título</th>
@@ -76,10 +76,10 @@
 					</div>
 		        </div>
 		        <div class="col-lg-12 col-sm-6">
-		        	<h3 style="color:#00BFFF;">Reservas de mis propiedades</h3>
+		        	<h3 style="color:#00BFFF;">Reservas</h3>
 		        	<div class="row">
 						<div class="table-responsive" style="height:370px;overflow:auto;">
-						<table class="table table-striped navProperty" style="text-align:center;">
+						<table class="table navProperty" style="text-align:center;">
 		        			<tr> 
 								<th>#</th>
 								<th>Propiedad</th>
@@ -152,10 +152,11 @@
 		                </div>
 		            </div>
 		        </div>
+		        <h3 style="color:#00BFFF;">Reservas</h3>
 		        <div class="col-lg-9 col-sm-6">
 		            <div class="row">
-						<div class="table-responsive" style="height:370px;overflow:auto;">
-						<table class="table table-striped navProperty" style="text-align:center;">
+						<div class="table" style="height:330px;overflow:auto;">
+						<table class="table navProperty" style="text-align:center;">
 		        			<tr> 
 								<th>#</th>
 								<c:choose>
@@ -169,7 +170,7 @@
 								<th>Fin</th>
 								<th>Precio total</th>
 								<th>Estado</th>
-								<th>${message.title}</th>
+								<th></th>
 							</tr>
 							<c:forEach items="${reservations}" var="res" varStatus="loop">
 								<c:choose>

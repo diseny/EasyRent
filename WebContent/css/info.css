@@ -19,11 +19,9 @@
 	opacity:0.6;
 	cursor:pointer;
 }
-
 .carousel-imagenes{
 	display:none;
 }
-
 .carousel-imagenes.show{
 	display:block;
 	position:fixed;
@@ -116,8 +114,6 @@ position: absolute;
 .serviciosInfo{
 	margin-top:10px;
 }
-
-
 
 .reservado{
 	color:red!important;

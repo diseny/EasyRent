@@ -78,26 +78,26 @@ public class PropertyDao {
 		}
 		if(filters.size()>0){
 			if(dateFilter.equals("")){
-				query = "SELECT * FROM Property WHERE";
+				query = "SELECT * FROM Property WHERE is_active='t' AND ";
 			}
 			else{
-				query = "SELECT * FROM Property WHERE" + dateFilter + " AND";
+				query = "SELECT * FROM Property WHERE is_active='t' AND " + dateFilter + " AND";
 			}
 			if(filters.size()==1){
-				query = query + " " + filters.get(0) + " " + order + ";";
+				query = query + " is_active='t' AND " + filters.get(0) + " " + order + ";";
 			} else {
 				for(int i = 0; i<filters.size()-1; i++){
 					query = query + " " + filters.get(i) + " AND";
 				}
-				query = query + " " + filters.get(filters.size()-1) + " " + order + ";";
+				query = query + " is_active='t' AND " + filters.get(filters.size()-1) + " " + order + ";";
 			}
 		} 
 		else {
 			if(dateFilter.equals("")){
-				query = "SELECT * FROM Property " + order + ";";
+				query = "SELECT * FROM Property WHERE is_active='t' " + order + ";";
 			}
 			else{
-				query = "SELECT * FROM Property WHERE" + dateFilter + " " + order + ";";
+				query = "SELECT * FROM Property WHERE is_active='t' AND " + dateFilter + " " + order + ";";
 			}
 		}
 		return this.jdbcTemplate.query(query, new PropertyMapper());

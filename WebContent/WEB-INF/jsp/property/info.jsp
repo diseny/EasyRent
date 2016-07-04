@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="carousel-imagenes">
-	<!-- Vamos a hacer un slider de prueba , pero tiene que coger las imagenes de la base de datos -->
+
 	<div id="carousel" class="carousel slide prevcarousel" data-ride="carousel">
 		<div class="carousel-inner" >
 		<c:set var="i" value="${0}"></c:set>
@@ -21,14 +21,9 @@
 							<img  id="close-icon" onclick="closeSlider()" src='${pageContext.request.contextPath}/images/closeIcon.png'/>
 							</div>
 						<c:set var="i" value="${1}"></c:set>
-						
-    					 
 						</c:if>
-						
 					</c:if>
-					 
 				</c:forEach>
-		 	
 		</div>
 	<a id="slider-left" class="left carousel-control" href="#carousel" data-slide="prev">
          <i class="material-icons"></i>
@@ -44,87 +39,64 @@
 		    	<c:forEach items="${images}" var="image" varStatus="loopImages">	
 					<c:if test="${property.id == image.ID}" >
 						<div data-target="#carousel" data-slide-to="${loopImages.index }"  class="thumb col-md-2 col-md-offset-2" style="height:100px;background-image: url('${image.href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-							</div>
+						</div>
 					</c:if>
-					 
 				</c:forEach>
-		 	
-		   		
 		 	</div>
-	  <!-- 
-	  Si hay mas de cuatro imagenes: 
-	  <a id="slider-left" class="left carousel-control" href="#thumbcarousel" data-slide="prev">
-                        <i class="material-icons"></i>
-      </a>
-      <a id="slider-right" class="right carousel-control" href="#thumbcarousel" data-slide="next">
-          <i class="material-icons"></i>
-      </a>	 -->		
       	</div>	
     </div>
 </div>
-<!-- AHORA LA PÁGINA -->
+
 <t:paginabasica title="EasyRent">
 <jsp:body>
 </div></div>
 	<br><br><br>
-	<c:choose>
-		<c:when test='${user == null}'>
-  		</c:when>
-  		<c:otherwise>
-	  		<c:choose>
-				<c:when test='${user.role == "Tenant"}'>
-					<div class="row">
-					<form:form id="book" method="post" modelAttribute="property">
-					<div class="menuAlquilar">
-						<div class="col-md-12 " style="height:100px">
-							<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
-							<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
-						</div>
-						<hr>
-						<div class="col-md-12 " style="height:250px">
-							<div class="col-md-4">
-								<label>Personas:</label>
-							</div>
-							<div class="col-md-6 ">
-								<form:input class="form-control" value="1" type="number" min="1" max="${property.capacity}" path="numPeople" placeholder="Nº personas"></form:input>
-							</div>
-							<div class="col-md-11 " style="margin-top:34px">
-							<div class="col-md-4 ">
-								<form:input type="hidden" path="dailyPrice"></form:input>
-								<label>Inicio: </label>
-								</div>
-								<div class="col-md-6 ">
-								<div class="input-group input-append date" id="datePickerInit">
-				            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" ></form:input>
-				                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-				            	</div>
-								</div>
-								</div>
-								<div class="col-md-11 " style="margin-top:35px">
-								<div class="col-md-4 ">
-								<label>Final: </label>
-								</div>
-								<div class="col-md-6">
-								<div class="input-group input-append date" id="datePickerEnd">
-					           	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" ></form:input>
-					               	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-						        </div>
-								</div>
-								</div>
-								<div class="col-md-11 " style="margin-top:35px">
-								</div>
-						</div>
-						<div class="col-md-12" style="height:100px;border-bottom:0">
-							<button type="submit" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
-						</div>
-					</div>
-					</form:form>
-				</c:when>
-				<c:otherwise>
-				</c:otherwise>
-			</c:choose>
-	   	</c:otherwise>
-  	</c:choose>
+	<div class="row">
+	<form:form id="book" method="post" modelAttribute="property">
+	<div class="menuAlquilar">
+		<div class="col-md-12 " style="height:100px">
+			<div class="col-md-3 col-md-offset-1"><h4>Precio: </h4></div>
+			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
+		</div>
+		<hr>
+		<div class="col-md-12 " style="height:250px">
+			<div class="col-md-4">
+				<label>Personas:</label>
+			</div>
+			<div class="col-md-6 ">
+				<form:input class="form-control" value="1" type="number" min="1" max="${property.capacity}" path="numPeople" placeholder="Nº personas"></form:input>
+			</div>
+			<div class="col-md-11 " style="margin-top:34px">
+			<div class="col-md-4 ">
+				<form:input type="hidden" path="dailyPrice"></form:input>
+				<label>Inicio: </label>
+				</div>
+				<div class="col-md-6 ">
+				<div class="input-group input-append date" id="datePickerInit">
+            	    <form:input class="form-control" type="text" path="startDate"  style="width:120px" ></form:input>
+                	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            	</div>
+				</div>
+				</div>
+				<div class="col-md-11 " style="margin-top:35px">
+				<div class="col-md-4 ">
+				<label>Final: </label>
+				</div>
+				<div class="col-md-6">
+				<div class="input-group input-append date" id="datePickerEnd">
+	           	    <form:input class="form-control" type="text" path="finishDate" style="width:120px" disabled="true" ></form:input>
+	               	<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+		        </div>
+				</div>
+				</div>
+				<div class="col-md-11 " style="margin-top:35px">
+				</div>
+		</div>
+		<div class="col-md-12" style="height:100px;border-bottom:0">
+			<button type="submit" style="margin-top: 19px;height: 62px;"class="btn btn-success col-md-10 col-md-offset-1"><h4>ALQUILAR</h4></button>
+		</div>
+	</div>
+	</form:form>
 	
 	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
 		<div class="col-md-10 col-md-offset-1">
@@ -143,25 +115,19 @@
 
 		<div class="col-md-12">
 			<div class="col-md-1" style="text-align:center">
-			<img src="${pageContext.request.contextPath}/images/habitaciones.png" style="height:50px;width:50px">
-			<h4>${property.numRooms}</h4>
-			
+				<img src="${pageContext.request.contextPath}/images/habitaciones.png" style="height:50px;width:50px">
+				<h4>${property.numRooms}</h4>
 			</div>
 			<div class="col-md-1" style="text-align:center">
-			<img src="${pageContext.request.contextPath}/images/personas.png" style="height:50px;width:50px">
-			<h4>${property.capacity}</h4>
-			
+				<img src="${pageContext.request.contextPath}/images/personas.png" style="height:50px;width:50px">
+				<h4>${property.capacity}</h4>
 			</div>
 			<div class="col-md-1" style="text-align:center">
-			<img src="${pageContext.request.contextPath}/images/cama.png" style="height:50px;width:50px">
-			<h4>${property.numBeds}</h4>
-			
+				<img src="${pageContext.request.contextPath}/images/cama.png" style="height:50px;width:50px">
+				<h4>${property.numBeds}</h4>
 			</div>
 			<h3>
-				
-				
-				
-				</h3>
+			</h3>
 		</div>
 		</div>
 		
@@ -184,7 +150,7 @@
 		</c:when>
 		<c:otherwise>
 			<div class="col-md-4 fotosInfo" style="height:300px ;width:400px;background-image: url('${images[0].href}');background-size: cover;background-position: 100%; background-repeat: no-repeat;">
-				<h1>FOTOS</h1>
+				<h1>VER IMÁGENES</h1>
 			</div>
 		</c:otherwise>
 	</c:choose>
@@ -210,12 +176,16 @@
 			</c:forEach>
 			<c:if test="${i!=0}">
 				<div class="serviciosInfo col-md-4">
-					<input type="radio" name="${servicios.name}" id="${servicios.name}" checked><label >  ${servicios.name}</label> 
+					<div class="cirular">
+						<img style="width:50px;height:50px;" alt="${servicios.name}" title="${servicios.name}" src="${pageContext.request.contextPath}/images/${servicios.name}.png"><label>${servicios.name}</label>
+					</div>
 				</div>
 			</c:if>
 			<c:if test="${i==0}">
 				<div class="serviciosInfo col-md-4">
-					<input type="radio" name="${servicios.name}" id="${servicios.name}" disabled ><label >  ${servicios.name}</label> 
+					<div class="cirular">
+						<img style="width:50px;height:50px;opacity:0.1;" alt="${servicios.name}" title="${servicios.name}" src="${pageContext.request.contextPath}/images/${servicios.name}.png"><label>${servicios.name}</label> 
+					</div>
 				</div>
 			</c:if>
 		</c:forEach>

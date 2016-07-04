@@ -50,10 +50,10 @@
 		</div>
 		<div class="col-md-2 sm ">
 			<div class="col-md-12">
-				<form:label path="capacity">Capacidad:</form:label>
+				<form:label path="capacity">Núm. personas:</form:label>
 			</div>
 			<div class="col-md-12">
-				<form:input class="form-control" id="capacity" type="number"  min="0"  path="capacity" placeholder="Capacidad"/>
+				<form:input class="form-control" id="capacity" type="number"  min="0"  path="capacity" placeholder="Núm. personas"/>
 			</div>
 		</div>
 		<div class="col-md-2 sm">
@@ -136,8 +136,8 @@
 	<select class="col-md-8 selecter-options" style="margin-top: 17px;"onchange="post()" id="orderSelect">
 		<option value="${pageContext.request.contextPath}/property/listOrderTitleDown.html" class="selecter-item">Titulo ascendente</option>
 		<option value="${pageContext.request.contextPath}/property/listOrderTitleUp.html" class="selecter-item">Titulo descendente</option>
-		<option value="${pageContext.request.contextPath}/property/listOrderCapacityDown.html" class="selecter-item">Capacidad ascendente</option>
-		<option value="${pageContext.request.contextPath}/property/listOrderCapacityUP.html" class="selecter-item">Capacidad descendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCapacityDown.html" class="selecter-item">Núm. personas ascendente</option>
+		<option value="${pageContext.request.contextPath}/property/listOrderCapacityUP.html" class="selecter-item">Núm. personas descendente</option>
 		<option value="${pageContext.request.contextPath}/property/listOrderRoomsDown.html" class="selecter-item">Habitaciones ascendente</option>
 		<option value="${pageContext.request.contextPath}/property/listOrderRoomsUp.html" class="selecter-item">Habitaciones descendente</option>
 		<option value="${pageContext.request.contextPath}/property/listOrderBathroomsDown.html" class="selecter-item">Baños ascendente</option>
@@ -231,63 +231,54 @@
     var geocoder;
     var map;
   
-		var map;
-		var pos = new google.maps.LatLng(37.774807, -3.795573);
-		 
-		var marker = new google.maps.Marker({
-		      position: pos,
-		      map: map,
-		      title:"Esto es un marcador",
-		      animation: google.maps.Animation.DROP
-		  });
-		function initMap() {
-			 geocoder = new google.maps.Geocoder();
-			 var mapOptions = {
-			          center: new google.maps.LatLng(39.9874581, -0.0655726,14),
-			          zoom: 11,
-			          mapTypeId: google.maps.MapTypeId.ROADMAP
-			        };
-			        var map = new google.maps.Map(document.getElementById("map"),
-			            mapOptions);
-			 
-			        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
-			      
-			      
-			     	
-			     	<c:forEach items="${properties}" var="property" varStatus="loop">
-			        	
-			        	 if (geocoder) {
-					            geocoder.geocode({
-					              'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
-					            }, function(results, status) {
-					              if (status == google.maps.GeocoderStatus.OK) {
-					                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-					                  map.setCenter(results[0].geometry.location);
-					                  var infowindow = new google.maps.InfoWindow({
-					                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
-					                    size: new google.maps.Size(150, 50)
-					                  });
-					                  var marker = new google.maps.Marker({
-					                    position: results[0].geometry.location,
-					                    map: map,
-					                    title: "<c:out value="${property.street}"/>"
-					                  });
-					                  google.maps.event.addListener(marker, 'click', function() {
-					                    infowindow.open(map, marker);
-					                  });
-					                } else {
-					                  alert("No results found");
-					                }
-					              } else {
-					                alert("Geocode was not successful for the following reason: " + status);
-					              }
-					            });
-					          }
-			        	
-			        	  </c:forEach>
-			       
-		}
+	var map;
+	var pos = new google.maps.LatLng(37.774807, -3.795573);
+	 
+	var marker = new google.maps.Marker({
+	      position: pos,
+	      map: map,
+	      title:"Esto es un marcador",
+	      animation: google.maps.Animation.DROP
+	});
+	
+	function initMap() {
+		geocoder = new google.maps.Geocoder();
+		var mapOptions = {
+			center: new google.maps.LatLng(39.9874581, -0.0655726,14),
+		    zoom: 11,
+		    mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var pos = new google.maps.LatLng(39.9874581, -0.0655726,14);
+		     	
+     	<c:forEach items="${properties}" var="property" varStatus="loop">
+        	 if (geocoder) {
+	         	geocoder.geocode({
+	            	'address': "<c:out value="${property.street}"/>".concat(",").concat("<c:out value="${property.city}"/>")
+	            }, function(results, status) {
+		              if (status == google.maps.GeocoderStatus.OK) {
+		                if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+		                  map.setCenter(results[0].geometry.location);
+		                  var infowindow = new google.maps.InfoWindow({
+		                    content: '<b>' + "<c:out value="${property.street}"/>" + '</b>',
+		                    size: new google.maps.Size(150, 50)
+		                  });
+		                  var marker = new google.maps.Marker({
+		                    position: results[0].geometry.location,
+		                    map: map,
+		                    title: "<c:out value="${property.street}"/>"
+		                  });
+		                  google.maps.event.addListener(marker, 'click', function() {
+		                    infowindow.open(map, marker);
+		                  });
+		                }
+		              }
+		            });
+		          }
+		</c:forEach>
+	}
     </script>
+    
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
     </script>

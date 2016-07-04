@@ -45,7 +45,7 @@
 				<div class="col-md-12" style="text-align :left">
 					<div class="col-md-4" style="padding:0">
 						<div class="col-md-12" style="padding:0" >
-							<form:label path="capacity">Capacidad</form:label>
+							<form:label path="capacity">Núm. personas</form:label>
 						</div>
 						<div class="col-md-12"  style="margin-bottom:10px;padding-left:0">
 							<form:input class="form-control" min="1" type="number" path="capacity" required="required"/>
