@@ -55,7 +55,7 @@ public class PunctuationController {
 	    message.setMessage("Has puntuado la propiedad " + punctuation.getPropertyId() + " con un " + punctuation.getPunctuation() + ".");
 	    session.setAttribute("message", message);
 	    session.setAttribute("counter", 0);
-		return "redirect:../../user/profile.html";
+		return "redirect:../../property/info/" + punctuation.getPropertyId() + ".html";
 	}
 	
 	@RequestMapping(value="/delete/{tracking_number}/{property_id}")
@@ -80,7 +80,7 @@ public class PunctuationController {
 	    message.setMessage("Has borrado tu puntuación sobre la propiedad " + punctuation.getPropertyId() + ".");
 	    session.setAttribute("message", message);
 	    session.setAttribute("counter", 0);
-		return "redirect:../../../user/profile.html";
+	    return "redirect:../../../property/info/" + property_id + ".html";
 	}
 	
 }

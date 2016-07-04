@@ -580,6 +580,7 @@ public class PropertyController {
 	@RequestMapping(value="/info/{id}", method = RequestMethod.POST)
 	public String bookProperty(@ModelAttribute("property") Property property, Model model, @PathVariable int id,  HttpSession session) {
 		User userSession = (User)session.getAttribute("user");
+		PopUpMessage message = new PopUpMessage();
 		if (userSession == null) 
 		{ 
 			model.addAttribute("user", new User()); 
@@ -587,9 +588,12 @@ public class PropertyController {
 			return "login";
         }
 		else if(!userSession.getRole().equals("Tenant")){
+			message.setTitle("Error");
+		    message.setMessage("No puedes alquilar una propiedad a no ser que estés registrado como inquilino.");
+		    session.setAttribute("message", message);
+		    session.setAttribute("counter", 0);
 			return "redirect:../../property/info/" + id + ".html";
 		}
-		PopUpMessage message = new PopUpMessage();
 		boolean available = false;
 		Date start = null;
 		Date finish = null;
