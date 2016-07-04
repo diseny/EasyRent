@@ -16,7 +16,7 @@
 		<div class="row">
 		<div class="col-md-4 nm">
 			<label>Ciudad</label>
-		 <input id="city" name="city" class="form-control" type="text" placeholder="Enter a location" autocomplete="on" list="municipios">
+		 <input id="city" name="city" class="form-control" type="text" placeholder="Introduce una ciudad" autocomplete="on" list="municipios">
 		</div>
 		
 		<div class="col-md-3  nm">
@@ -55,9 +55,9 @@
 		</div>
 		</div>
 		<div class="row busquedaAvanzada" >
-		<div class="col-md-3  nm">
+		<div class="col-md-4  nm">
 			<div class="col-md-12">
-				<label>Capacidad</label>
+				<label>Núm. personas</label>
 			</div>		 
 			<div class="col-md-12">
 		  	 <input id="capacity" type="number" min="0"  name="capacity" class="form-control" type="text" placeholder="" autocomplete="on">
@@ -73,7 +73,7 @@
 		</div>
 		
 		
-			<div class="col-md-3 nm">
+			<div class="col-md-2 nm">
 				<div class="col-md-12">
 					<label>Baños</label>
 				</div>
@@ -81,7 +81,7 @@
 		   			<input id="numBathrooms" type="number"  min="0"  name="numBathrooms" class="form-control" type="text" placeholder="" autocomplete="on"> 
 				</div>
 			</div>		
-			<div class="col-md-3 nm">
+			<div class="col-md-2 nm">
 				<div class="col-md-12">
 					<label>Camas</label>
 				</div>
