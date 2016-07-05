@@ -41,17 +41,17 @@
 	text-align:center;
 }
 .sp1 img{
-   height: 69%;
+  	height: 100px;
     width: 80%;
     margin-top: 52px;
 }.sp2 img{
-	    height: 87%;
+	height: 100px;
     width: 110%;
-    margin-top: 18px;
+    margin-top: 52px;
 }.sp3 img {
-	    height: 100%;
-    margin-top: 13px;
-    width: 76%;
+	height: 100px;
+    margin-top: 52px;
+    width: 60%;
 }
 .index .container{
 	width:100%;

@@ -7,6 +7,12 @@
 <t:paginabasica title="EasyRent">
 <jsp:body>
 	<br><br><br>
+	<div class="col-md-12">
+		<a href="#" onclick="goBack()"><img style="width:15px;height:15px;" alt="GoBack" src="${pageContext.request.contextPath}/images/goback.png">Atrás</a>
+	</div>
+	<div class="col-md-12">
+		<a href="${pageContext.request.contextPath}/property/info/${property.id}.html">Ver propiedad</a>
+	</div>
 	<header class="clearfix">
       <div id="logo" style="text-align:center;">
         <img src="${pageContext.request.contextPath}/images/easyrent.jpg">
@@ -151,5 +157,11 @@
 	if (message!=''){
 		$('#myModal').modal('show');
 		console.log(message);
+	}
+</script>
+
+<script>
+	function goBack() {
+		window.history.back()
 	}
 </script>

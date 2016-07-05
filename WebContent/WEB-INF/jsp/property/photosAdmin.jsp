@@ -7,7 +7,9 @@
 
 <t:paginabasica title="Perfil">
 <jsp:body>
-	
+	<div class="col-md-12">
+		<a href="#" onclick="goBack()"><img style="width:15px;height:15px;" alt="GoBack" src="${pageContext.request.contextPath}/images/goback.png">Atrás</a>
+	</div>
 	<h1>Imágenes de la propiedad ${property.title}</h1>
 	<div class="container">
 		<div class="row">
@@ -43,7 +45,7 @@
 			<form:input type="hidden" path="id"/>
 			<form:input type="hidden" path="title"/>
 			<form:input type="file" accept="image/*" path="fichero" onchange="loadFile(event)" />
-			<form:input type="text" class="form-control" path="caption" placeholder="Titulo"/>
+			<form:input type="text" class="form-control" path="caption" placeholder="Titulo de la foto"/>
 			<input type="submit" class="btn btn-success" value="Añade foto"/>
 		</div>
 	</form:form>
@@ -65,5 +67,11 @@
 	if (message!=''){
 		$('#myModal').modal('show');
 		console.log(message);
+	}
+</script>
+
+<script>
+	function goBack() {
+		window.history.back()
 	}
 </script>

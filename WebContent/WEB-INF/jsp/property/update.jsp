@@ -8,7 +8,9 @@
 <t:paginabasica title="Modificar">
 <jsp:body>
 	<br><br><br>
-	
+	<div class="col-md-12">
+		<a href="#" onclick="goBack()"><img style="width:15px;height:15px;" alt="GoBack" src="${pageContext.request.contextPath}/images/goback.png">Atrás</a>
+	</div>
 	<div class="row">
 	<div class="col-md-12" >
 		<div class="col-md-10 col-md-offset-1">
@@ -16,7 +18,7 @@
 		<hr>
 	</div>
 			
-	<form:form method="post" modelAttribute="property" id="basic" enctype="multipart/form-data" action="${pageContext.request.contextPath}/property/update/${property.id}.html">
+	<form:form method="post" modelAttribute="property" id="basic" enctype="multipart/form-data">
 
 	<div class="col-md-12" style="min-height:230px;">
 		<div class="col-md-10 col-md-offset-1">
@@ -73,17 +75,25 @@
 			<div class="col-md-10 col-md-offset-1">
 			<h4><li>Servicios</li></h4>
 			<c:forEach items="${allServices}" var="servicios" varStatus="loopServicios">
-				
-					<div class=" serviciosInfo col-md-4" id="select-${loopServicios.index}">
-						<input type="checkbox" name="${servicios.name}" id="${servicios.ID}" >
-						<label >  ${servicios.name}</label> 
-					</div>
-				
+				<c:choose>
+				    <c:when test="${servicios.propertyHas=='true'}">
+				    	<div class=" serviciosInfo col-md-4" id="select-${loopServicios.index}">
+							<input type="checkbox" name="${servicios.name}" id="${servicios.ID}" checked>
+							<label>${servicios.name}</label> 
+						</div>
+				    </c:when>
+				    <c:otherwise>
+				    	<div class=" serviciosInfo col-md-4" id="select-${loopServicios.index}">
+							<input type="checkbox" name="${servicios.name}" id="${servicios.ID}">
+							<label>${servicios.name}</label> 
+						</div>
+				    </c:otherwise>
+				</c:choose>
 			</c:forEach>
 			</div>
 		</div> 
 	
-	<form:input type="hidden"  path="piscina" id="prop0"/>
+		<form:input type="hidden"  path="piscina" id="prop0"/>
 		<form:input type="hidden"  path="jacuzzi" id="prop1"  />
 		<form:input type="hidden"  path="gimnasio"  id="prop2" />
 		<form:input type="hidden"  path="balcon" id="prop3" />
@@ -126,3 +136,9 @@
 	  });
 
   </script>
+
+<script>
+	function goBack() {
+		window.history.back()
+	}
+</script>

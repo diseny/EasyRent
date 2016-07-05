@@ -97,7 +97,9 @@
 		</div>
 	</div>
 	</form:form>
-	
+	<div class="col-md-12">
+		<a href="#" onclick="goBack()"><img style="width:15px;height:15px;" alt="GoBack" src="${pageContext.request.contextPath}/images/goback.png">Atrás</a>
+	</div>
 	<div class="col-md-12" style="min-height:230px;background-color: rgba(0, 0, 0, 0.098039);">
 		<div class="col-md-10 col-md-offset-1">
 		<h1>${property.title }</h1>
@@ -223,9 +225,7 @@
 		
 	 <div class="col-md-12" style="background-color:rgba(0, 255, 253, 0.048039);">
 	 	<div class="col-md-11 col-md-offset-1"><h4>Aquí está</h4><hr></div>
-		<div class="col-md-7 col-md-offset-1" id="map">
-		
-		</div> 
+		<div class="col-md-7 col-md-offset-1" id="map"></div> 
 	 </div>
 	
 	<div class="modal fade" id="myModal" role="dialog">
@@ -244,7 +244,6 @@
 	      </div>
 	    </div>
 	 </div>
-	  
 </jsp:body>
 </t:paginabasica>
 
@@ -440,11 +439,7 @@ function available2(date) {
 	                    infowindow.open(map, marker);
 	                  });
 
-	                } else {
-	                  alert("No results found");
 	                }
-	              } else {
-	                alert("Geocode was not successful for the following reason: " + status);
 	              }
 	            });
 	          }
@@ -452,5 +447,11 @@ function available2(date) {
 </script>
 
 <script async defer
-     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
-   </script>
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjoiZmMqIjBa3tXXXbTf4Lyu0PDxqHxuQ&callback=initMap">
+</script>
+
+<script>
+	function goBack() {
+		window.history.back()
+	}
+</script>
