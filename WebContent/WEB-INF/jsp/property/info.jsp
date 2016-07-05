@@ -59,8 +59,8 @@
 			<div class="col-md-8" ><h4 style="text-align:right">${property.dailyPrice} €</h4></div>
 		</div>
 		<hr>
-		<div class="col-md-12 " style="height:250px">
-			<div class="col-md-4">
+		<div class="col-md-12 " style="height:250px; margin-top: 7px;">
+			<div class="col-md-4" style="margin-top: 6px;">
 				<label>Personas:</label>
 			</div>
 			<div class="col-md-6 ">
