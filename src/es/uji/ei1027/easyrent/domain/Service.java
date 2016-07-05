@@ -4,6 +4,7 @@ public class Service {
 
 	private int id;
 	private String name;
+	private boolean propertyHas;
 	
 	public int getID(){
 		return id;
@@ -19,6 +20,14 @@ public class Service {
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public boolean getPropertyHas(){
+		return propertyHas;
+	}
+	
+	public void setPropertyHas(boolean propertyHas){
+		this.propertyHas = propertyHas;
 	}
 	
 	@Override

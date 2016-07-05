@@ -116,7 +116,7 @@
 				</div>
 				<div class="col-md-12" style="text-align :left">
 					
-					<div class="col-md-6" style="padding:0">
+					<div class="col-md-5" style="padding:0">
 						<div class="col-md-12" style="padding-left:0" >
 							<form:label path="number">Número</form:label>
 						</div>
@@ -125,9 +125,9 @@
 						</div>
 						<form:errors cssClass="error" path="number"/>
 					</div>
-					<div class="col-md-6" style="padding:0">
+					<div class="col-md-7" style="padding:0">
 						<div class="col-md-12" style="padding-left:0" >
-							<form:label path="floor">Piso</form:label>
+							<form:label path="floor">Piso (si es una casa los pisos)</form:label>
 						</div>
 						<div class="col-md-12"  style="margin-bottom:10px;padding-left:0">
 							<form:input min="1" type="number" class="form-control" path="floor" />
@@ -189,8 +189,11 @@
 		</div>
 		</div>
 		</div>
-		<div class="col-md-10 col-md-offset-1" style="min-height:116px";>
-			<p style="position: absolute;top: 85px;">*En la página de editar la propiedad podrá cambiar está fecha y añadir más</p>
+		<div class="col-md-10 col-md-offset-1">
+			<br>
+			<br>
+			<p>*Los periodos indican en qué fechas está disponible la propiedad.</p>
+			<p>*En la página de editar la propiedad podrá cambiar está fecha y añadir más.</p>
 		</div>
 	</div>
 	<div class="col-md-12" style="min-height:230px">
@@ -210,7 +213,7 @@
 				<form:input type="hidden"  path="television"  id="prop7" />
 				<form:input type="hidden"  path="cocina" id="prop8"  />
 				<form:input type="file" accept="image/*" path="fichero" onchange="loadFile(event)" />
-				<form:input type="text" class="form-control" path="caption" placeholder="Titulo"/>
+				<form:input type="text" class="form-control" path="caption" placeholder="Titulo de la foto"/>
 		</div>
 		<div class="col-md-6"><img style="margin-bottom:30px"id="output"/></div>
 		</div>
@@ -297,24 +300,19 @@
 		$(id).remove();
 	}
 	
-	
-	
-	  function submitForm (){
-		  for(var i =0; i<9;i++){
-				 var id= '#select-'.concat(i).concat(' .icheckbox_flat');
-				if($(id).hasClass('checked')){
-					var inputID= "#prop".concat(i);
-					$(inputID).val(1);
-				}if(!$(id).hasClass('checked')){
-					var inputID= "#prop".concat(i);
-					$(inputID).val(0);
-				}
+	function submitForm (){
+		for(var i =0; i<9;i++){
+			var id= '#select-'.concat(i).concat(' .icheckbox_flat');
+			if($(id).hasClass('checked')){
+				var inputID= "#prop".concat(i);
+				$(inputID).val(1);
+			}if(!$(id).hasClass('checked')){
+				var inputID= "#prop".concat(i);
+				$(inputID).val(0);
 			}
-			
-		  
-		  $('#basic').submit();
-		
-		  }
+		}
+		$('#basic').submit();
+	}
 
 </script>
 

@@ -39,8 +39,13 @@ public class ServicePropertyDao {
 		String query = "SELECT * FROM ServiceProperty;";
 		return this.jdbcTemplate.query(query, new ServicePropertyMapper());
 	}
-	public void addServiceProperty(ServiceProperty service,ServiceProperty service1) throws PSQLException{
 	
+	public List<ServiceProperty> getServicesProperty(int propertyId) {
+		String query = "SELECT * FROM ServiceProperty WHERE property_id=" + propertyId + ";";
+		return this.jdbcTemplate.query(query, new ServicePropertyMapper());
+	}
+	
+	public void addServiceProperty(ServiceProperty service,ServiceProperty service1) throws PSQLException{
 		this.jdbcTemplate.update("INSERT INTO ServiceProperty(property_id,service_id) VALUES(?, ?);", service1.getPropertyId(), service1.getServiceId());
 	}
 }

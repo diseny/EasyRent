@@ -72,9 +72,13 @@ class PropertyValidator implements Validator {
 			errors.rejectValue("number", "empty", "Debe indicar el portal.");
 		if(property.getFloor().equals(""))
 			errors.rejectValue("floor", "empty", "Debe indicar el piso.");
-		if(property.getStart().equals(""))
+		if(property.getStart()==null)
 			errors.rejectValue("start", "empty", "La propiedad debe tener una fecha de inicio.");
-		if(property.getFinish().equals(""))
+		else if(property.getStart().equals(""))
+			errors.rejectValue("start", "empty", "La propiedad debe tener una fecha de inicio.");
+		if(property.getFinish()==null)
+			errors.rejectValue("start", "empty", "La propiedad debe tener una fecha de final.");
+		else if(property.getFinish().equals(""))
 			errors.rejectValue("finish", "empty", "La propiedad debe tener una fecha de final.");
 	}
 
@@ -302,6 +306,18 @@ public class PropertyController {
 	   Property property = propertyDao.getProperty(id);
 	   model.addAttribute("property", property);
 	   List<Service> allServices = serviceDao.getServices();
+	   List<ServiceProperty> servicesProperty = servicePropertyDao.getServicesProperty(id);
+	   List<Integer> ids = new LinkedList<Integer>();
+	   for(ServiceProperty sP: servicesProperty){
+		   ids.add(sP.getServiceId());
+	   }
+	   for(Service s: allServices){
+		   if(ids.contains(s.getID())){
+			   s.setPropertyHas(true);
+		   } else {
+			   s.setPropertyHas(false);
+		   }
+	   }
 	   model.addAttribute("allServices", allServices);
 	   return "property/update";
    }
