@@ -9,6 +9,9 @@
 <jsp:body>
 	<div class="container">
 		<div class="row">
+			<div class="col-md-12">
+				<a href="#" onclick="goBack()"><img style="width:15px;height:15px;" alt="GoBack" src="${pageContext.request.contextPath}/images/goback.png">Atrás</a>
+			</div>
 			<h1>Períodos de la propiedad ${property.title}</h1>
 			<table class="table table-striped navProperty" style="text-align:center;">
 				<th>#</th>
@@ -137,3 +140,9 @@
 		});
 					
 		</script>
+
+<script>
+	function goBack() {
+		window.history.back()
+	}
+</script>
