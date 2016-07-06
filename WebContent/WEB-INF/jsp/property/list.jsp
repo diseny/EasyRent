@@ -191,10 +191,13 @@
 			<div id="carousel${loop.index }" class="carousel slide prevcarousel" data-ride="carousel">
 				<div class="carousel-inner" >	
 				<c:set var="i" value="${0}"></c:set>
+				<c:set var="j" value="${0}"></c:set>
 				<c:forEach items="${images}" var="image" varStatus="loopImages">	
+					
 					<c:if test="${property.id == image.ID}" >
+						
 						<c:if test="${i!=0}">
-							<div class="item" style=" background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}')">	
+							<div class="item" style="background-image: url('${pageContext.request.contextPath}/images/propiedades/${property.id}/${image.href}')">	
 							</div>
 						</c:if>
 						<c:if test="${i==0}">
@@ -204,19 +207,26 @@
 						
     					 
 						</c:if>
-						
+						<c:set var="j" value="${j+1}"></c:set>
 					</c:if>
-					 
+					
 				</c:forEach>
-				
+					
+				<c:if test="${j==0}" >
+				<div class="item active" style="background-image: url('${pageContext.request.contextPath}/images/casaxdefecto.jpg')">	
+				</div>
+					
+				</c:if> 
 				
    				 </div>
+   				 <c:if test="${j>0}" >
    				 <a style="height:30px;width:30px;background-color:#000"id="slider-left" class="left carousel-control" href="#carousel${loop.index }" data-slide="prev">
        				<img id="flechaControl"src="${pageContext.request.contextPath}/images/arrowLeft.gif">
    				 </a>
    				<a style="height:30px;width:30px;background-color:#000" id="slider-right" class="right carousel-control" href="#carousel${loop.index }" data-slide="next">
       			   <img id="flechaControl" src="${pageContext.request.contextPath}/images/arrowRight.gif">
      			</a>
+     			</c:if>
    			</div>
   		</div>
    		</c:forEach>
@@ -245,7 +255,7 @@
 		geocoder = new google.maps.Geocoder();
 		var mapOptions = {
 			center: new google.maps.LatLng(39.9874581, -0.0655726,14),
-		    zoom: 11,
+		    zoom: 9,
 		    mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		var map = new google.maps.Map(document.getElementById("map"), mapOptions);

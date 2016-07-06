@@ -205,7 +205,7 @@ $('#datePickerInit').on('changeDate', function(e) {
 		cap=0;
 		
 		nR=	0;
-		nBR=0;
+		nBR=0;x 
 		nB=0;
 		sM=0;
 		st="";
