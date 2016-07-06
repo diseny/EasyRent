@@ -109,7 +109,10 @@ public class PropertyDao {
 	}
 		
 	public void updateProperty(Property property) {
-		this.jdbcTemplate.update("UPDATE Property SET owner_username = ?, title = ?, description = ?, capacity = ?, num_rooms = ?, num_bathrooms = ?, num_beds = ?, square_meters = ?, street = ?, number = ?, floor = ?, city = ?, daily_price = ?, is_active = ?, validated = ? WHERE id = ?;", property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive(), property.getValidated(), property.getId());
+		String query = "UPDATE property SET owner_username ='"+property.getOwnerUsername() +"' ,title ='"+property.getTitle()+"', description ='"+ property.getDescription()+"', capacity = "+property.getCapacity()+", num_rooms ="+property.getNumRooms()+", num_bathrooms = "+property.getNumBathrooms()+", num_beds ="+property.getNumBeds()+", square_meters = "+property.getSquareMeters()+", street ='"+property.getStreet() +"', number = "+property.getNumber()+", floor ='"+property.getFloor()+"' , city = '"+property.getCity()+"', daily_price = "+property.getDailyPrice()+", is_active ="+property.getIsActive()+", validated ='"+property.getValidated()+"' WHERE id = "+property.getId()+";";
+		System.out.println(query);
+		this.jdbcTemplate.update(query);
+
 	}
 		
 	public void deleteProperty(Property property) {

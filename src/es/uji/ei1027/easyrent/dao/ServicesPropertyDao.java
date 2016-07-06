@@ -60,6 +60,7 @@ public class ServicesPropertyDao {
 	
 	public void updateServicesProperty(Property services) throws PSQLException{
 		int propiedad = services.getId();
+		
 		String query = "DELETE FROM serviceproperty WHERE property_id=" + propiedad + ";";
 		this.jdbcTemplate.update(query);
 		if(services.getPiscina()==1){
