@@ -232,6 +232,13 @@ public class UserController {
 		   List<Reservation> reservations = reservationDao.getReservations();
 		   List<Reservation> reservationsOwner = new LinkedList<Reservation>();
 		   List<Property> propertiesOwner = propertyDao.getPropertyOwner(user.getUsername());
+		   List<Property> propertiesOwnerValidated = new LinkedList<Property>();
+		   for(Property p: propertiesOwner){
+			   System.out.println(p.getValidated());
+			   if(p.getValidated().equals("validated")){
+				   propertiesOwnerValidated.add(p);
+			   }
+		   }
 		   List<Integer> propertiesIds = propertyDao.getIdsPropertyOwner((user.getUsername()));
 		   for(Reservation r: reservations){
 			   if(propertiesIds.contains(r.getIdProperty())){
@@ -239,7 +246,7 @@ public class UserController {
 				   reservationsOwner.add(r);
 			   }
 		   }
-		   model.addAttribute("propertiesOwner", propertiesOwner);
+		   model.addAttribute("propertiesOwner", propertiesOwnerValidated);
 		   model.addAttribute("reservations", reservationsOwner);
 	   }
 	   else if(user.getRole().equals("Tenant")){
