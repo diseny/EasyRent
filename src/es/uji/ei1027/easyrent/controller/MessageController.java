@@ -152,11 +152,28 @@ public class MessageController {
 		List<String> username = new LinkedList<String>();
 		List<Credentials> credentials = credentialsDao.getCredentials();
 		for(Credentials c: credentials){
-			if(!c.getUsername().equals(user.getUsername()))
+			if(!c.getUsername().equals(user.getUsername()) && !c.getUsername().equals("user0"))
 				username.add(c.getUsername());
 		}
 		model.addAttribute("usernames", username);
 		return "message/create";
+	}
+	
+	@RequestMapping(value="/{username}")
+	public String contactAdmin(@PathVariable String username, Model model, HttpSession session){
+		User user = (User)session.getAttribute("user");
+		if(user==null){
+			model.addAttribute("user", new User()); 
+	        session.setAttribute("nextURL", "user/profile.html");
+	        return "login";
+		}
+		Message message = new Message();
+		message.setId(messageDao.generateId()+1);
+		message.setTransmitter(user.getUsername());
+		message.setReceiver(username);
+		message.setAnswered(false);
+		model.addAttribute("message", message);
+		return "message/createAdmin";
 	}
 	
 	@RequestMapping(value="/create", method = RequestMethod.POST)

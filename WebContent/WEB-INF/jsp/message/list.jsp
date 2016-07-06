@@ -12,6 +12,13 @@
 		<div class="row">
 	        <div class="col-lg-12 col-sm-6">
 	        	<br>
+	        	<c:choose>
+					<c:when test='${user.role == "Administrator"}'>
+					</c:when>
+					<c:otherwise>
+						<a href="${pageContext.request.contextPath}/message/user0.html" class="btn" style="float:right;background-color:#00BFFF;"><img style="width:30px;height:30px;" src="${pageContext.request.contextPath}/images/mail.png">Contactar con el administrador</a>
+					</c:otherwise>
+				</c:choose>
 	        	<a href="${pageContext.request.contextPath}/message/create.html" class="btn" style="float:right;background-color:#00BFFF;"><img style="width:30px;height:30px;" src="${pageContext.request.contextPath}/images/mail.png">Redactar nuevo mensaje</a>
 	        	<h3 style="color:#00BFFF;">Recibidos</h3>
 				<div class="row">
