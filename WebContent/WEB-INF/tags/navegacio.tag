@@ -24,11 +24,13 @@
 	    	<li> <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Inicio</a></li>
 	        
 	<li><a href="${pageContext.request.contextPath}/property/list.html">Novedades</a></li>
-	   
+	
 	<c:choose>
 		<c:when test='${user.role == "Administrator"}'>
 			<li><a href="${pageContext.request.contextPath}/credentials/list.html">Gestión de credenciales</a></li>
 			<li><a href="${pageContext.request.contextPath}/user/profile.html">Reservas realizadas</a></li>
+			<li><a href="${pageContext.request.contextPath}/property/validateList.html">Validar propiedades</a></li>
+			<li><a href="${pageContext.request.contextPath}/message/list.html">Bandeja de entrada</a></li>
 		</c:when>
 	</c:choose>
 	<c:choose>
@@ -36,11 +38,13 @@
 			<li><a href="${pageContext.request.contextPath}/property/add.html">Añadir propiedad</a></li>
 			<li><a href="${pageContext.request.contextPath}/user/profile.html">Mis propiedades</a></li>
 			<li><a href="${pageContext.request.contextPath}/user/profile.html">Reservas de mis propiedades</a></li>
+			<li><a href="${pageContext.request.contextPath}/message/list.html">Bandeja de entrada</a></li>
 		</c:when>
 	</c:choose>
 	<c:choose>
 		<c:when test='${user.role == "Tenant"}'>
 			<li><a href="${pageContext.request.contextPath}/user/profile.html">Mis reservas</a></li>
+			<li><a href="${pageContext.request.contextPath}/message/list.html">Bandeja de entrada</a></li>
 		</c:when>
 	</c:choose>
 	<c:choose>
