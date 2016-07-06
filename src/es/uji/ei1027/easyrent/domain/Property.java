@@ -19,6 +19,7 @@ public class Property {
 	private String city;
 	private double dailyPrice;
 	private boolean isActive;
+	private String validated;
 	private String startDate;
 	private String finishDate;
 	private int numPeople;
@@ -156,6 +157,14 @@ public class Property {
 	
 	public void setIsActive(boolean isActive) {	
 		this.isActive = isActive;
+	}
+	
+	public String getValidated() {
+		return validated;
+	}
+	
+	public void setValidated(String validated) {	
+		this.validated = validated;
 	}
 	
 	public String getStartDate() {

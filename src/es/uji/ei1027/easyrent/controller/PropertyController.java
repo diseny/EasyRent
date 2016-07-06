@@ -228,10 +228,11 @@ public class PropertyController {
 		}
 	    int numProp = propertyDao.getProperties().size();
 		model.addAttribute("numProp", numProp);
-		try {	
+		try {
 			CommonsMultipartFile fich = property.getFichero();
 			String name = property.getFichero().getOriginalFilename();
-			property.setIsActive(true);
+			property.setIsActive(false);
+			property.setValidated("pending");
 			propertyDao.addProperty(property);
 			servicesPropertyDao.addServicesProperty(property);
 			periodDao.addPeriod(property);
@@ -254,7 +255,7 @@ public class PropertyController {
 		}
 		PopUpMessage message = new PopUpMessage();
 		message.setTitle("Hecho");
-		message.setMessage("Has añadido la propiedad con título " + property.getTitle() + ".");
+		message.setMessage("Has añadido la propiedad con título " + property.getTitle() + ". Cuando el administrador la valide se mostrará para todos los usuarios.");
 		session.setAttribute("message", message);
 		session.setAttribute("counter", 0);
 		return "redirect:../user/profile.html";
@@ -324,6 +325,7 @@ public class PropertyController {
    
    @RequestMapping(value="/update/{id}", method=RequestMethod.POST)
    public String updatePost(@ModelAttribute("property") Property property, BindingResult bindingResult, Model model, @PathVariable int id, HttpSession session){
+	   System.out.println("Me ejecuto");
 	   User user = (User)session.getAttribute("user");
 	   if (user == null || !user.getRole().equals("Owner")){ 
           model.addAttribute("user", new User()); 
@@ -524,6 +526,66 @@ public class PropertyController {
 		model.addAttribute("services", servicesProperties);
 		model.addAttribute("images", imageDao.getImages());
 		return "property/list";
+	}
+	
+	@RequestMapping(value="/validateList")
+	public String listValidateProperties(Model model, HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if (user == null || !user.getRole().equals("Administrator")){ 
+			model.addAttribute("user", new User()); 
+	    	return "redirect:../user/profile.html";
+	    }
+		List<Property> properties = propertyDao.getProperties();
+		model.addAttribute("properties", properties);
+		Integer popUpCounter = (Integer)session.getAttribute("counter");
+		if(popUpCounter!=null){
+			if(popUpCounter==0){
+				popUpCounter++;
+			   	session.setAttribute("counter", popUpCounter);
+			}
+			else{
+				session.removeAttribute("counter");
+				session.removeAttribute("message");
+			}
+		}
+		return "property/validateList";
+	}
+	
+	@RequestMapping(value="/reject/{id}")
+	public String rejectProperty(Model model, HttpSession session, @PathVariable int id) {
+		User user = (User)session.getAttribute("user");
+		if (user == null || !user.getRole().equals("Administrator")){ 
+			model.addAttribute("user", new User()); 
+	    	return "redirect:../../user/profile.html";
+	    }
+		Property property = propertyDao.getProperty(id);
+		property.setValidated("rejected");
+		propertyDao.updateProperty(property);
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("No has permitido que se registre la propiedad.");
+	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
+		return "redirect:../validateList.html";
+	}
+	
+	@RequestMapping(value="/validate/{id}")
+	public String valdiateProperty(Model model, HttpSession session, @PathVariable int id) {
+		User user = (User)session.getAttribute("user");
+		if (user == null || !user.getRole().equals("Administrator")){ 
+			model.addAttribute("user", new User()); 
+	    	return "redirect:../../user/profile.html";
+	    }
+		Property property = propertyDao.getProperty(id);
+		property.setIsActive(true);
+		property.setValidated("validated");
+		propertyDao.updateProperty(property);
+		PopUpMessage message = new PopUpMessage();
+		message.setTitle("Hecho");
+	    message.setMessage("Has validado la propiedad.");
+	    session.setAttribute("message", message);
+	    session.setAttribute("counter", 0);
+	    return "redirect:../validateList.html";
 	}
 	
 	@RequestMapping(value="/list", method=RequestMethod.POST)

@@ -213,7 +213,7 @@
 				</c:forEach>
 					
 				<c:if test="${j==0}" >
-				<div class="item active" style="background-image: url('${pageContext.request.contextPath}/images/casaxdefecto.jpg')">	
+				<div class="item active" style="background-image: url('${pageContext.request.contextPath}/images/casaxdefecto.jpg');width:237px;height:200px;">	
 				</div>
 					
 				</c:if> 

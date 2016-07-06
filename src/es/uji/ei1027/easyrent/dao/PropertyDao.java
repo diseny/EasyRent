@@ -45,6 +45,7 @@ public class PropertyDao {
 	    	property.setCity(rs.getString("city"));
 	    	property.setDailyPrice(rs.getInt("daily_price"));
 	    	property.setIsActive(rs.getBoolean("is_active"));
+	    	property.setValidated(rs.getString("validated"));
 	    	return property;
 	    }
 	}
@@ -104,11 +105,11 @@ public class PropertyDao {
 	}
 	
 	public void addProperty(Property property) throws PSQLException{
-		this.jdbcTemplate.update("INSERT INTO Property(id, owner_username, title, description, capacity, num_rooms, num_bathrooms, num_beds, square_meters, street, number, floor, city, daily_price, is_active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", property.getId(), property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive());
+		this.jdbcTemplate.update("INSERT INTO Property(id, owner_username, title, description, capacity, num_rooms, num_bathrooms, num_beds, square_meters, street, number, floor, city, daily_price, is_active, validated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", property.getId(), property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive(), property.getValidated());
 	}
 		
 	public void updateProperty(Property property) {
-		this.jdbcTemplate.update("UPDATE Property SET owner_username = ?, title = ?, description = ?, capacity = ?, num_rooms = ?, num_bathrooms = ?, num_beds = ?, square_meters = ?, street = ?, number = ?, floor = ?, city = ?, daily_price = ?, is_active = ? WHERE id = ?;", property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive(), property.getId());
+		this.jdbcTemplate.update("UPDATE Property SET owner_username = ?, title = ?, description = ?, capacity = ?, num_rooms = ?, num_bathrooms = ?, num_beds = ?, square_meters = ?, street = ?, number = ?, floor = ?, city = ?, daily_price = ?, is_active = ?, validated = ? WHERE id = ?;", property.getOwnerUsername(), property.getTitle(), property.getDescription(), property.getCapacity(), property.getNumRooms(), property.getNumBathrooms(), property.getNumBeds(), property.getSquareMeters(), property.getStreet(), property.getNumber(), property.getFloor(), property.getCity(), property.getDailyPrice(), property.getIsActive(), property.getValidated(), property.getId());
 	}
 		
 	public void deleteProperty(Property property) {
