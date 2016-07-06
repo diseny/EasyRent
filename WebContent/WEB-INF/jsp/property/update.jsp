@@ -18,7 +18,7 @@
 			<hr>
 		</div>
 			
-	<form:form method="post" modelAttribute="property" id="update" enctype="multipart/form-data">
+	<form:form method="post" modelAttribute="property" id="update" >
 		<div class="col-md-12" style="min-height:230px;">
 			<div class="col-md-10 col-md-offset-1">
 			
@@ -34,7 +34,7 @@
 			<form:input type="hidden" path="number"/>
 			<form:input type="hidden" path="floor"/>
 			<form:input type="hidden" path="isActive"/>
-			
+			<form:input type="hidden" path="validated" value="validated"/>
 			<div class="col-md-12">
 				<div class="col-md-6" style="margin-bottom:10px;padding-right: 30px">
 					<form:label path="title">Título</form:label>
@@ -101,7 +101,7 @@
 			<form:input type="hidden"  path="cocina" id="prop8"  />
 
 			<div class="col-md-12" style="text-align:center" >
-				<input onclick="submitForm()" class="btn btn-success" value="Modifica datos básicos" />
+				<button type="submit" onclick="submitForm()" class="btn btn-success" value="Modifica datos básicos" >Modifica datos básicos</button>
 				<a href="${pageContext.request.contextPath}/property/periods/${property.id}.html" class="btn btn-warning">Administrar períodos</a>
 				<a href="${pageContext.request.contextPath}/property/photosAdmin/${property.id}.html" class="btn btn-warning">Administrar fotos</a>
 			</div>
