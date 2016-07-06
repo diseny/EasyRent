@@ -108,7 +108,7 @@
 										<c:otherwise>
 											<c:choose>
 												<c:when test='${reservation.status == "accepted"}'>
-													<td></td>
+													<td><a href="${pageContext.request.contextPath}/message/${reservation.userNameTenant}.html" class="btn btn-info">Contactar</a></td>
 													<td><a href="${pageContext.request.contextPath}/invoice/info/${reservation.trackingNumber}.html" class="btn btn-info">Ver factura</a></td>
 												</c:when>
 												<c:otherwise>
@@ -171,6 +171,7 @@
 								<th>Precio total</th>
 								<th>Estado</th>
 								<th></th>
+								<th></th>
 							</tr>
 							<c:forEach items="${reservations}" var="res" varStatus="loop">
 								<c:choose>
@@ -195,9 +196,18 @@
 								<td>${res.status}</td>
 								<c:choose>
 									<c:when test="${res.status == 'accepted'}">
+										<c:choose>
+											<c:when test="${user.role == 'Tenant'}">
+												<td><a href="${pageContext.request.contextPath}/message/${res.ownerUsername}.html" class="btn btn-info">Contactar</a></td>
+											</c:when>
+											<c:otherwise>
+												<td></td>
+											</c:otherwise>
+										</c:choose>
 										<td><a href="${pageContext.request.contextPath}/invoice/info/${res.trackingNumber}.html" class="btn btn-info">Ver factura</a></td>
 									</c:when>
 									<c:otherwise>
+										<td></td>
 										<td></td>
 									</c:otherwise>
 								</c:choose>
