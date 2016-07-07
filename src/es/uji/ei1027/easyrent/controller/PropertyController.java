@@ -1,6 +1,7 @@
 package es.uji.ei1027.easyrent.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -49,25 +50,25 @@ class PropertyValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		Property property = (Property)obj;
 		if(property.getTitle().equals(""))
-			errors.rejectValue("title", "empty", "La propiedad debe tener un título.");
+			errors.rejectValue("title", "empty", "La propiedad debe tener un tï¿½tulo.");
 		if(property.getDescription().equals(""))
-			errors.rejectValue("description", "empty", "La propiedad debe tener una descrpción.");
+			errors.rejectValue("description", "empty", "La propiedad debe tener una descrpciï¿½n.");
 		if(property.getCapacity()<1)
-			errors.rejectValue("capacity", "empty", "Mínimo 1.");
+			errors.rejectValue("capacity", "empty", "Mï¿½nimo 1.");
 		if(property.getNumBathrooms()<1)
-			errors.rejectValue("numBathrooms", "empty", "Mínimo 1.");
+			errors.rejectValue("numBathrooms", "empty", "Mï¿½nimo 1.");
 		if(property.getNumRooms()<1)
-			errors.rejectValue("numRooms", "empty", "Mínimo 1.");
+			errors.rejectValue("numRooms", "empty", "Mï¿½nimo 1.");
 		if(property.getNumBeds()<1)
-			errors.rejectValue("numBeds", "empty", "Mínimo 1.");
+			errors.rejectValue("numBeds", "empty", "Mï¿½nimo 1.");
 		if(property.getSquareMeters()<15)
-			errors.rejectValue("squareMeters", "empty", "Mínimo 15.");
+			errors.rejectValue("squareMeters", "empty", "Mï¿½nimo 15.");
 		if(property.getDailyPrice()<1)
-			errors.rejectValue("dailyPrice", "empty", "Mínimo 1€/día.");
+			errors.rejectValue("dailyPrice", "empty", "Mï¿½nimo 1ï¿½/dï¿½a.");
 		if(property.getCity().equals(""))
-			errors.rejectValue("city", "empty", "Debe indicar la ciudad en la que está la propiedad.");
+			errors.rejectValue("city", "empty", "Debe indicar la ciudad en la que estï¿½ la propiedad.");
 		if(property.getStreet().equals(""))
-			errors.rejectValue("street", "empty", "Debe indicar la calle en la que está la propiedad.");
+			errors.rejectValue("street", "empty", "Debe indicar la calle en la que estï¿½ la propiedad.");
 		if(property.getNumber()<1)
 			errors.rejectValue("number", "empty", "Debe indicar el portal.");
 		if(property.getFloor().equals(""))
@@ -236,7 +237,7 @@ public class PropertyController {
 			propertyDao.addProperty(property);
 			servicesPropertyDao.addServicesProperty(property);
 			periodDao.addPeriod(property);
-			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERÍA INFORMÁTICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEÑO E IMPLEMENTACIÓN DE SISTEMAS DE INFORMACIÓN/EasyRent/WebContent/images/propiedades/"+numProp);
+			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERï¿½A INFORMï¿½TICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEï¿½O E IMPLEMENTACIï¿½N DE SISTEMAS DE INFORMACIï¿½N/EasyRent/WebContent/images/propiedades/"+numProp);
 			nDirectory.mkdirs();
 			if(!name.equals("")){
 				property.setHref(name);
@@ -247,7 +248,7 @@ public class PropertyController {
 			if(e.getMessage()==null){
 				PopUpMessage message = new PopUpMessage();
 				message.setTitle("Error");
-				message.setMessage("No se ha podido añadir la propiedad. Inténtalo más tarde.");
+				message.setMessage("No se ha podido aï¿½adir la propiedad. Intï¿½ntalo mï¿½s tarde.");
 				session.setAttribute("message", message);
 				session.setAttribute("counter", 0);
 				return "redirect:add.html";
@@ -255,7 +256,7 @@ public class PropertyController {
 		}
 		PopUpMessage message = new PopUpMessage();
 		message.setTitle("Hecho");
-		message.setMessage("Has añadido la propiedad con título " + property.getTitle() + ". Cuando el administrador la valide se mostrará para todos los usuarios.");
+		message.setMessage("Has aï¿½adido la propiedad con tï¿½tulo " + property.getTitle() + ". Cuando el administrador la valide se mostrarï¿½ para todos los usuarios.");
 		session.setAttribute("message", message);
 		session.setAttribute("counter", 0);
 		return "redirect:../user/profile.html";
@@ -273,7 +274,7 @@ public class PropertyController {
 	   propertyDao.updateProperty(property);
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Tu propiedad con título " + property.getTitle() + " vuelve a ser visible.");
+	   message.setMessage("Tu propiedad con tï¿½tulo " + property.getTitle() + " vuelve a ser visible.");
 	   session.setAttribute("message", message);
 	   session.setAttribute("counter", 0);
 	   return "redirect:../../user/profile.html";
@@ -291,7 +292,7 @@ public class PropertyController {
 	   propertyDao.updateProperty(property);
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Tu propiedad con título " + property.getTitle() + " es invisible. Para volver a hacerla visible pulsa Reactivar.");
+	   message.setMessage("Tu propiedad con tï¿½tulo " + property.getTitle() + " es invisible. Para volver a hacerla visible pulsa Reactivar.");
 	   session.setAttribute("message", message);
 	   session.setAttribute("counter", 0);
 	   return "redirect:../../user/profile.html";
@@ -299,6 +300,7 @@ public class PropertyController {
    
    @RequestMapping(value="/update/{id}")
    public String update(@PathVariable int id, Model model, HttpSession session){
+
 	   User user = (User)session.getAttribute("user");
 	   if (user == null || !user.getRole().equals("Owner")){ 
           model.addAttribute("user", new User()); 
@@ -348,25 +350,21 @@ public class PropertyController {
 	    		break;
 	    	}
 	    }
-	    if (hasErrors) {
-			List<Service> allServices = serviceDao.getServices();
-			model.addAttribute("allServices", allServices);
-			return "property/update/" + id;
-		}
+	  
 	   try{
 		   propertyDao.updateProperty(property);
 		   servicesPropertyDao.updateServicesProperty(property);
 	   }catch(Exception e){
 		   PopUpMessage message = new PopUpMessage();
 		   message.setTitle("Error");
-		   message.setMessage("Tu propiedad con título " + property.getTitle() + " no ha podido ser actualizada.");
+		   message.setMessage("Tu propiedad con tï¿½tulo " + property.getTitle() + " no ha podido ser actualizada.");
 		   session.setAttribute("message", message);
 		   session.setAttribute("counter", 0);
 		   return "redirect:../../user/profile.html";
 	   }
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Tu propiedad con título " + property.getTitle() + " ha sido actualizada correctamente.");
+	   message.setMessage("Tu propiedad con tï¿½tulo " + property.getTitle() + " ha sido actualizada correctamente.");
 	   session.setAttribute("message", message);
 	   session.setAttribute("counter", 0);
 	   return "redirect:../../user/profile.html";
@@ -399,7 +397,7 @@ public class PropertyController {
 	   periodDao.deletePeriod(propertyId, periodId);
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Se ha borrado el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad no se mostrará disponible para estas fechas pero la reservas que ya hay hechas no se pueden eliminar.");
+	   message.setMessage("Se ha borrado el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad no se mostrarï¿½ disponible para estas fechas pero la reservas que ya hay hechas no se pueden eliminar.");
 	   session.setAttribute("message", message);
 	   session.setAttribute("counter", 0);
 	   return "redirect:../../../user/profile.html";
@@ -416,7 +414,7 @@ public class PropertyController {
 	   periodDao.addPeriod(period);
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Se ha añadido el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad se mostrará disponible para estas fechas.");
+	   message.setMessage("Se ha aï¿½adido el periodo que va de " + period.getStart() + " a " + period.getFinish() + ". Tu propiedad se mostrarï¿½ disponible para estas fechas.");
 	   session.setAttribute("message", message);
 	   session.setAttribute("counter", 0);
 	   return "redirect:../user/profile.html";
@@ -476,7 +474,8 @@ public class PropertyController {
 	   try {	
 			CommonsMultipartFile fich = property.getFichero();
 			String name = property.getFichero().getOriginalFilename();
-			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERÍA INFORMÁTICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEÑO E IMPLEMENTACIÓN DE SISTEMAS DE INFORMACIÓN/EasyRent/WebContent/images/propiedades/" + property.getId());
+				 
+			File nDirectory = new File("C:/Users/Francisco/Desktop/INGENIERï¿½A INFORMï¿½TICA/3 - TERCERO/SEGUNDO SEMESTRE/DISEï¿½O E IMPLEMENTACIï¿½N DE SISTEMAS DE INFORMACIï¿½N/EasyRent/WebContent/images/propiedades/" + property.getId());
 			nDirectory.mkdirs();
 			if(!name.equals("")){
 				property.setHref(name);
@@ -487,7 +486,7 @@ public class PropertyController {
 			if(e.getMessage()==null){
 				PopUpMessage message = new PopUpMessage();
 				message.setTitle("Error");
-				message.setMessage("No se ha podido añadir la imagen. Inténtalo más tarde.");
+				message.setMessage("No se ha podido aï¿½adir la imagen. Intï¿½ntalo mï¿½s tarde.");
 				session.setAttribute("message", message);
 				session.setAttribute("counter", 0);
 				return "redirect:photosAdmin/" + property.getId() + ".html";
@@ -495,7 +494,7 @@ public class PropertyController {
 		}
 		PopUpMessage message = new PopUpMessage();
 		message.setTitle("Hecho");
-		message.setMessage("Has añadido la imagen de la propiedad " + property.getTitle() + ".");
+		message.setMessage("Has aï¿½adido la imagen de la propiedad " + property.getTitle() + ".");
 		session.setAttribute("message", message);
 		session.setAttribute("counter", 0);
 		return "redirect:photosAdmin/" + property.getId() + ".html";
@@ -667,7 +666,7 @@ public class PropertyController {
         }
 		else if(!userSession.getRole().equals("Tenant")){
 			message.setTitle("Error");
-		    message.setMessage("No puedes alquilar una propiedad a no ser que estés registrado como inquilino.");
+		    message.setMessage("No puedes alquilar una propiedad a no ser que estï¿½s registrado como inquilino.");
 		    session.setAttribute("message", message);
 		    session.setAttribute("counter", 0);
 			return "redirect:../../property/info/" + id + ".html";
@@ -713,7 +712,7 @@ public class PropertyController {
 				model.addAttribute("average", Math.round(average));
 			} catch(NullPointerException e) {;}
 			message.setTitle("Hecho");
-		    message.setMessage("Las fechas de la reserva no son válidas. Prueba con otras de las que permite el calendario.");
+		    message.setMessage("Las fechas de la reserva no son vï¿½lidas. Prueba con otras de las que permite el calendario.");
 		    session.setAttribute("message", message);
 		    session.setAttribute("counter", 0);
 			return "property/info";
@@ -741,7 +740,7 @@ public class PropertyController {
 		    return "property/info";
 		}
 		message.setTitle("Hecho");
-	    message.setMessage("Tu reserva de " + reservation.getStartDate() + " a " + reservation.getStartDate() + " se ha registrado. Se mostrará como pendiente en tu perfil hasta que el dueño la acepte o la rechace. Si en 7 días no ha contestado se considerará como rechazada.");
+	    message.setMessage("Tu reserva de " + reservation.getStartDate() + " a " + reservation.getStartDate() + " se ha registrado. Se mostrarï¿½ como pendiente en tu perfil hasta que el dueï¿½o la acepte o la rechace. Si en 7 dï¿½as no ha contestado se considerarï¿½ como rechazada.");
 	    session.setAttribute("message", message);
 	    session.setAttribute("counter", 0);
 		return "redirect:../../user/profile.html";

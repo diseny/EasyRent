@@ -37,7 +37,7 @@ class UpdateValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		User user = (User)obj;
 		if(!user.getPassword().trim().equals(user.getRepeatedPassword().trim()))
-			errors.rejectValue("repeatedPassword", "incorrect", "Las contraseñas no son iguales, por favor vuelve a intentarlo.");
+			errors.rejectValue("repeatedPassword", "incorrect", "Las contraseï¿½as no son iguales, por favor vuelve a intentarlo.");
 	}
 
 }
@@ -145,7 +145,7 @@ public class UserController {
 	   credentialsDao.updateCredentials(user);
 	   PopUpMessage message = new PopUpMessage();
 	   message.setTitle("Hecho");
-	   message.setMessage("Tu perfil se ha desactivado correctamente. Si deseas recuperar tu cuenta solo tienes que iniciar sesión con tu usuario y contraseña.");
+	   message.setMessage("Tu perfil se ha desactivado correctamente. Si deseas recuperar tu cuenta solo tienes que iniciar sesiï¿½n con tu usuario y contraseï¿½a.");
 	   model.addAttribute("message", message);
 	   session.invalidate();
 	   return "user/delete";
